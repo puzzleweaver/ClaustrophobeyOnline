@@ -15,6 +15,7 @@ public class Player implements Serializable {
 	public int PID;
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();
+	public boolean preference;
 	
 	public Player(int ix, int iy, int PID) {
 		moveTo(-1, ix, iy);
@@ -31,7 +32,13 @@ public class Player implements Serializable {
 	}
 	
 	public void update(InputData d) {
-		if(d.dx == 0 && d.dy == 0) return;
+		if(d.dx == d.dy) 
+			if(d.dx == 0) return;
+			else {
+				d.dx = preference?d.dx:0;
+				d.dy = preference?0:d.dy;
+			}
+		preference = !preference;
 		ArrayList<Integer> fx = new ArrayList<Integer>(), fy = new ArrayList<Integer>();
 		int nsX = 0, nsY = 0, pred;
 		for(int i = 0; i < x.size(); i++) {
