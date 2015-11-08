@@ -38,16 +38,15 @@ public class GameMenu implements Menu {
 	}
 
 	public void render(Graphics g) {
+		g.setColor(new Color(190, 160, 0));
+		g.fillRect(0, 0, w*8, h*8);
 		int k = 400/w;
 		for(int i = 0; i < w; i++) {
 			for(int j = 0; j < h; j++) {
-				g.setColor(state[i][j].type == 0 ? Color.white:(state[i][j].type == 1 ? Color.black:Color.red));
+				g.setColor(state[i][j].type == 0 ? new Color(250, 200, 0):(state[i][j].type == 1 ? new Color(190, 160, 0):Color.green));
 				g.fillRect(i*k-sX+200, j*k-sY+200, k, k);
 			}
 		}
-		g.setColor(Color.green);
-		g.drawLine(200, 100, 200, 300);
-		g.drawLine(100, 200, 300, 200);
 	}
 	
 	public boolean freeAt(int x, int y) {

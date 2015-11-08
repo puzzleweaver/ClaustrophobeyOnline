@@ -2,8 +2,6 @@ package main.game;
 
 import org.lwjgl.input.Keyboard;
 
-import main.Main;
-
 public class InputData {
 
 	public int dx, dy;
