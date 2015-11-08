@@ -47,7 +47,6 @@ public class Main extends GameSocket {
 	}
 	
 	public void readData(DatagramPacket packet) {
-		System.out.println(packet);
 		try {
 			if(data.processData((InputData) Serializer.deserialize(packet.getData()), packet.getAddress(), packet.getPort())) {
 				sendData(Serializer.serialize(data), packet.getAddress(), packet.getPort());

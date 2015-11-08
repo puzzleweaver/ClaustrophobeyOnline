@@ -10,12 +10,12 @@ public abstract class GameSocket extends Thread {
 	
 	public static InetAddress serverIP;
 	
-	public static final int PORT = 6789;
+	public static final int PORT = 7890;
 	
 	public GameSocket() {
 		try {
-//			serverIP = InetAddress.getByName("192.168.1.115"); // riley
-			serverIP = InetAddress.getByName("192.168.1.109");
+			serverIP = InetAddress.getByName("192.168.1.115"); // riley
+//			serverIP = InetAddress.getByName("192.168.1.109"); //austin
 		} catch (Exception e) {}
 	}
 	
