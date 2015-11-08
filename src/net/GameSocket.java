@@ -14,7 +14,8 @@ public abstract class GameSocket extends Thread {
 	
 	public GameSocket() {
 		try {
-			serverIP = InetAddress.getByName("192.168.1.115"); // riley
+			serverIP = InetAddress.getByName("71.46.93.12"); //riley public
+//			serverIP = InetAddress.getByName("192.168.1.115"); // riley
 //			serverIP = InetAddress.getByName("192.168.1.109"); //austin
 		} catch (Exception e) {}
 	}
