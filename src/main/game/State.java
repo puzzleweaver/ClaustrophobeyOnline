@@ -9,7 +9,7 @@ public class State implements Serializable {
 	private static final long serialVersionUID = -8759406448009482535L;
 	
 	public int type;
-	public int t;
+	public int t = 127;
 	
 	public State(int type) {
 		this.type = type;

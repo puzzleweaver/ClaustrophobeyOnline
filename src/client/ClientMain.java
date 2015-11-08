@@ -1,11 +1,5 @@
 package client;
 
-import net.GameClient;
-import net.GameSocket;
-import net.InputData;
-import net.Serializer;
-import net.ServerData;
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -13,6 +7,13 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+
+import main.game.State;
+import net.GameClient;
+import net.GameSocket;
+import net.InputData;
+import net.Serializer;
+import net.ServerData;
 
 public class ClientMain extends BasicGame {
 	
@@ -41,15 +42,21 @@ public class ClientMain extends BasicGame {
 		}
 	}
 	
+	public Color get(State s) {
+		if(s.type == 0) return new Color((int) (128+s.t)-(int)Math.min(0, 125), (int)Math.min(0+s.t*0*0.1, 128), 0);
+		else if(s.type == 1) return new Color((int) (63+s.t/10)-(int)Math.min(0, 70), (int)Math.min(0+s.t*0*0.1, 70), 0);
+		else return new Color(0, (int)Math.min(0+s.t*0*0.1, 128), (int) (128+s.t)-(int)Math.min(0, 125));
+	}
+	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		ServerData data = ClientMain.data;
 		if(gameClient.loaded) {
 			g.setColor(new Color(190, 160, 0));
 			g.fillRect(0, 0, data.w*8, data.h*8);
 			int k = 400/data.w;
 			for(int i = 0; i < data.w; i++) {
 				for(int j = 0; j < data.h; j++) {
-					g.setColor(data.state[i][j].type == 0 ? new Color(250, 200, 0):(data.state[i][j].type == 1 ? new Color(190, 160, 0):
-						(data.state[i][j].type == data.index + 2 ? Color.green : Color.blue)));
+					g.setColor(get(data.state[i][j]));
 					g.fillRect(i*k-data.indieData.get(data.index).sX+200, j*k-data.indieData.get(data.index).sY+200, k, k);
 				}
 			}

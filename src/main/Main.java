@@ -47,6 +47,7 @@ public class Main extends GameSocket {
 	}
 	
 	public void readData(DatagramPacket packet) {
+		System.out.println(packet);
 		try {
 			if(data.processData((InputData) Serializer.deserialize(packet.getData()), packet.getAddress(), packet.getPort())) {
 				sendData(Serializer.serialize(data), packet.getAddress(), packet.getPort());
@@ -79,6 +80,11 @@ public class Main extends GameSocket {
 		public void update(GameContainer gc, int delta) throws SlickException {
 			//menu.update();
 			data.update((double) delta / 1000.0);
+			for(int i = 0; i < data.w; i++) {
+				for(int j = 0; j < data.h; j++) {
+					data.state[i][j].update();
+				}
+			}
 		}
 		
 	}

@@ -47,6 +47,7 @@ public class ServerData implements Serializable {
 		}
 		//exit if the user exits
 		if(data.exited) {
+			indieData.get(index).player.destroy();
 			indieData.remove(index);
 			return false;
 		}

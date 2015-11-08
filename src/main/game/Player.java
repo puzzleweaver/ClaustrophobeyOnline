@@ -32,13 +32,12 @@ public class Player implements Serializable {
 	}
 	
 	public void update(InputData d) {
-		if(d.dx == d.dy) 
-			if(d.dx == 0) return;
-			else {
-				d.dx = preference?d.dx:0;
-				d.dy = preference?0:d.dy;
-			}
-		preference = !preference;
+		if(d.dx == 0 && d.dy == 0) return;
+		if(d.dx != 0 && d.dy != 0) {
+			preference = !preference;
+			d.dx = preference?d.dx:0;
+			d.dy = preference?0:d.dy;
+		}
 		ArrayList<Integer> fx = new ArrayList<Integer>(), fy = new ArrayList<Integer>();
 		int nsX = 0, nsY = 0, pred;
 		for(int i = 0; i < x.size(); i++) {
@@ -56,7 +55,6 @@ public class Player implements Serializable {
 		IndividualData data = Main.data.indieData.get(PID-2);
 		data.sX = (data.sX+8*nsX/x.size())/2;
 		data.sY = (data.sY+8*nsY/x.size())/2;
-		System.out.println(fx.size());
 		if(fx.size() == 0) return;
 		int id = getFurthestID(d.dx, d.dy), rid = Main.r.nextInt(fx.size());
 		moveTo(id, fx.get(rid), fy.get(rid));
@@ -85,6 +83,12 @@ public class Player implements Serializable {
 			}
 		}
 		return minID;
+	}
+	
+	public void destroy() {
+		for(int i = 0; i < x.size(); i++) {
+			Main.data.state[x.get(i)][y.get(i)].type = 0;
+		}
 	}
 	
 }
