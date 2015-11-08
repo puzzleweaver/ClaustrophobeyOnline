@@ -52,7 +52,7 @@ public class Player implements Serializable {
 				fy.add(y.get(i)+(d.dy == 0 ? pred:d.dy));
 			}
 		}
-		IndividualData data = Main.data.indieData.get(PID-2);
+		IndividualData data = Main.data.indieData.get(-PID-1);
 		data.sX = (data.sX+8*nsX/x.size())/2;
 		data.sY = (data.sY+8*nsY/x.size())/2;
 		if(fx.size() == 0) return;

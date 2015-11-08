@@ -17,8 +17,8 @@ public class IndividualData implements Serializable {
 	public int sX, sY;
 	
 	public IndividualData(int index) {
-		//identifying a blob by index + 2 because 1 is wall, i think
-		player = new Player(25, 25, index + 2);
+		//identifying a blob by -1-index because static (non-player states) are >= 0
+		player = new Player(25, 25, -1-index);
 	}
 	
 	public void update(double dt) {

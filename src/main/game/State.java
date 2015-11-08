@@ -9,14 +9,16 @@ public class State implements Serializable {
 	private static final long serialVersionUID = -8759406448009482535L;
 	
 	public int type;
-	public int t = 127;
+	public double t = Math.random();
 	
 	public State(int type) {
 		this.type = type;
 	}
 	
 	public void update() {
-		t += Main.r.nextInt(3)-1;
+		if(type == 0) t = (99.0*t+Math.random())*0.01;
+		else if(type == 1) t = (49.0*t+Math.random())*0.02;
+		else t = (9.0*t+Math.random())*0.1;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package client;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -43,9 +45,14 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public Color get(State s) {
-		if(s.type == 0) return new Color((int) (128+s.t)-(int)Math.min(0, 125), (int)Math.min(0+s.t*0*0.1, 128), 0);
-		else if(s.type == 1) return new Color((int) (63+s.t/10)-(int)Math.min(0, 70), (int)Math.min(0+s.t*0*0.1, 70), 0);
-		else return new Color(0, (int)Math.min(0+s.t*0*0.1, 128), (int) (128+s.t)-(int)Math.min(0, 125));
+		int id = s.type;
+		if(id == 0) return new Color((int) (128*s.t+128), 0, 0);
+		else if(id == 1) return new Color((int) (-128*s.t+128), 0, 0);
+		else if(id < 0)
+			return new Color((int) (s.t*(Math.cos(id)*127+128)),
+				(int) (s.t*(Math.cos(id+2.09439510239)*127+128)),
+				(int) (s.t*(Math.cos(id+4.18879020479)*127+128)));
+		return null;
 	}
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
