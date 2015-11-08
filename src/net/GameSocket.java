@@ -10,7 +10,7 @@ public abstract class GameSocket extends Thread {
 	
 	public static InetAddress serverIP;
 	
-	public static final int PORT = 6789;
+	public static final int PORT = 7890;
 	
 	public GameSocket() {
 		try {
