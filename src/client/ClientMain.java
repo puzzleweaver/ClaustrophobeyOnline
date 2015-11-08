@@ -78,4 +78,9 @@ public class ClientMain extends BasicGame {
 		}
 	}
 	
+	public boolean closeRequested() {
+		clientData.exited = true;
+		return false;
+	}
+	
 }
