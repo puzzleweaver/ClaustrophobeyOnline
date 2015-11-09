@@ -18,6 +18,7 @@ public class Serializer {
     public static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
         ByteArrayInputStream b = new ByteArrayInputStream(bytes);
         ObjectInputStream o = new ObjectInputStream(b);
+        //if you get an EOFException here, add to the size of the byte array in GameSocket
         return o.readObject();
     }
     

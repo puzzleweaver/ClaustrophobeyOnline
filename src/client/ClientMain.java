@@ -1,6 +1,11 @@
 package client;
 
-import java.util.ArrayList;
+import main.game.State;
+import net.GameClient;
+import net.GameSocket;
+import net.InputData;
+import net.Serializer;
+import net.ServerData;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
@@ -9,13 +14,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-
-import main.game.State;
-import net.GameClient;
-import net.GameSocket;
-import net.InputData;
-import net.Serializer;
-import net.ServerData;
 
 public class ClientMain extends BasicGame {
 	
