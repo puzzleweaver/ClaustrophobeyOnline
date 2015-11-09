@@ -65,7 +65,7 @@ public class ServerData implements Serializable {
 		d.state = new State[(int)dsW][(int)dsH];
 		for(int i = 0; i < dsW; i++) {
 			for(int j = 0; j < dsH; j++) {
-				d.state[i][j] = getState((id.sX-id.clientData.w/2)/pw+i, (id.sY-id.clientData.h/2)/pw+j);
+				d.state[i][j] = getState((id.sX-id.clientData.w/2)/pw+i /* ><> */, (id.sY-id.clientData.h/2)/pw+j);
 			}
 		}
 		return d;

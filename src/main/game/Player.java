@@ -53,8 +53,8 @@ public class Player implements Serializable {
 			}
 		}
 		IndividualData data = Main.data.indieData.get(-PID-1);
-		data.sX = (data.sX+8*nsX/x.size())/2;
-		data.sY = (data.sY+8*nsY/x.size())/2;
+		data.sX = (data.sX+data.clientData.pixW*nsX/x.size())/2;
+		data.sY = (data.sY+data.clientData.pixW*nsY/x.size())/2;
 		if(fx.size() == 0) return;
 		int id = getFurthestID(d.dx, d.dy), rid = Main.r.nextInt(fx.size());
 		moveTo(id, fx.get(rid), fy.get(rid));

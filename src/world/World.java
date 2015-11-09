@@ -42,15 +42,16 @@ public class World {
 				world[i][j] = STATE_WALL;
 			}
 		}
+		world = startDendrite(world, 0.25*w, 0.25*h);
 		world = startDendrite(world, 0.5*w, 0.5*h);
+		world = startDendrite(world, 0.75*w, 0.75*h);
 		return world;
 	}
 
 	private static int[][] startDendrite(int[][] world, double x, double y) {
 		double r0 = 5, t0 = (Main.r.nextDouble()*2.0-1.0)*6.28;
-		world = dendrite(world, x, y, r0, t0, 5);
-		world = dendrite(world, x, y, r0, t0+2.09, 5);
-		world = dendrite(world, x, y, r0, t0+4.18, 5);
+		world = dendrite(world, x, y, r0, t0, 3);
+		world = dendrite(world, x, y, r0, t0+3.14, 5);
 //		world = dendrite(world, 250, 500, 5, -Math.PI*0.5, 5);
 		return world;
 	}
@@ -64,12 +65,12 @@ public class World {
 			x += Math.cos(t)*r*0.5;
 			y += Math.sin(t)*r*0.5;
 			if(recurs >= 0)  {
-				if(Main.r.nextDouble() < 0.005) {
+				if(Main.r.nextDouble() < 0.0025) {
 					double diff = Main.r.nextDouble()*0.5;
 					world = dendrite(world, x, y, r, t+diff, recurs-1);
 					world = dendrite(world, x, y, r, t-diff, recurs-1);
 					break;
-				}else if(Main.r.nextDouble() < 0.01) {
+				}else if(Main.r.nextDouble() < 0.005) {
 					world = dendrite(world, x, y, r, t+Main.r.nextDouble()-Math.PI*0.5, recurs-1);
 				}
 			}

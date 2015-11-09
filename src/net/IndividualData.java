@@ -15,7 +15,7 @@ public class IndividualData implements Serializable {
 	public InputData clientData;
 	public Player player;
 	
-	public int sX, sY, w, h, pixW;
+	public int sX, sY;
 	
 	public IndividualData(int index) {
 		//identifying a blob by -1-index because static (non-player states) are >= 0
