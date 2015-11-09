@@ -49,7 +49,7 @@ public class Main extends GameSocket {
 	public void readData(DatagramPacket packet) {
 		try {
 			if(data.processData((InputData) Serializer.deserialize(packet.getData()), packet.getAddress(), packet.getPort())) {
-				sendData(Serializer.serialize(data), packet.getAddress(), packet.getPort());
+				sendData(Serializer.serialize(data.getOutputData()), packet.getAddress(), packet.getPort());
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
