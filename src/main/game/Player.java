@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import main.Main;
 import net.IndividualData;
 import net.InputData;
-import net.ServerData;
+import world.World;
 
 public class Player implements Serializable {
 	
@@ -62,8 +62,8 @@ public class Player implements Serializable {
 	
 	public void moveTo(int id, int nx, int ny) {
 		Main.data.state[nx][ny].type = PID;
-		if(Main.r.nextInt(10)!=0 && id != -1) {
-			Main.data.state[x.get(id)][y.get(id)].type = ServerData.STATE_SPACE;
+		if(id != -1) {
+			Main.data.state[x.get(id)][y.get(id)].type = World.STATE_SPACE;
 			x.set(id, nx);
 			y.set(id, ny);
 		} else {
@@ -87,7 +87,7 @@ public class Player implements Serializable {
 	
 	public void destroy() {
 		for(int i = 0; i < x.size(); i++) {
-			Main.data.state[x.get(i)][y.get(i)].type = 0;
+			Main.data.state[x.get(i)][y.get(i)].type = World.STATE_SPACE;
 		}
 	}
 	

@@ -3,6 +3,7 @@ package net;
 import java.io.Serializable;
 import java.net.InetAddress;
 
+import main.Main;
 import main.game.Player;
 
 public class IndividualData implements Serializable {
@@ -14,11 +15,11 @@ public class IndividualData implements Serializable {
 	public InputData clientData;
 	public Player player;
 	
-	public int sX, sY;
+	public int sX, sY, w, h, pixW;
 	
 	public IndividualData(int index) {
 		//identifying a blob by -1-index because static (non-player states) are >= 0
-		player = new Player(25, 25, -1-index);
+		player = new Player(Main.data.w/2, Main.data.h/2, -1-index);
 	}
 	
 	public void update(double dt) {

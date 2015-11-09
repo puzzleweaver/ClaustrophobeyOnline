@@ -14,10 +14,11 @@ public abstract class GameSocket extends Thread {
 	
 	public GameSocket() {
 		try {
-//			serverIP = InetAddress.getByName("192.168.1.115"); // riley
-			serverIP = InetAddress.getByName("192.168.1.109"); //austin
+//			serverIP = InetAddress.getByName("71.46.93.12"); // riley
+//			serverIP = InetAddress.getByName("50.90.116.229"); // austin
+			serverIP = InetAddress.getByName("localhost"); // ccomment
 		} catch (Exception e) {}
-	}
+	}	
 	
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
 		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);

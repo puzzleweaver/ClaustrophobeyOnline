@@ -16,9 +16,10 @@ public class State implements Serializable {
 	}
 	
 	public void update() {
-		if(type == 0) t = (99.0*t+Math.random())*0.01;
-		else if(type == 1) t = (49.0*t+Math.random())*0.02;
-		else t = (9.0*t+Math.random())*0.1;
+		if(type == 0) t += 0.01*Math.random()-0.005;
+		else if(type == 1) t += 0.02*Math.random()-0.01;
+		else t = t += 0.04*Math.random()-0.02;
+		t = Math.max(Math.min(t, 1), 0);
 	}
 	
 }

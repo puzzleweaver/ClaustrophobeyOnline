@@ -20,7 +20,7 @@ public class GameClient extends GameSocket {
 	
 	public void readData(DatagramPacket packet) {
 		try {
-			ClientMain.data = (ServerData) Serializer.deserialize(packet.getData());
+			ClientMain.data = (OutputData) Serializer.deserialize(packet.getData());
 			loaded = true;
 		}catch(Exception e) {
 			e.printStackTrace();
