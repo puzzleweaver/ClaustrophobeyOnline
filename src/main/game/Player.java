@@ -15,15 +15,8 @@ public class Player {
 	public boolean preference;
 	
 	public Player(int ix, int iy, int PID) {
-		moveTo(-1, ix, iy);
-		moveTo(-1, ix, iy+1);
-		moveTo(-1, ix-1, iy);
-		moveTo(-1, ix+1, iy);
-		moveTo(-1, ix, iy-1);
-		moveTo(-1, ix+1, iy+1);
-		moveTo(-1, ix-1, iy+1);
-		moveTo(-1, ix+1, iy-1);
-		moveTo(-1, ix, iy-1);
+		for(int i = 0; i < 100; i++)
+			moveTo(-1, ix, iy);
 		this.PID = PID;
 		Main.data.state[ix][iy].type = PID;
 	}

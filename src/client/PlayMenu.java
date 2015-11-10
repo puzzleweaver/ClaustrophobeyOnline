@@ -8,6 +8,8 @@ import net.InputData;
 import net.OutputData;
 import net.Serializer;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -21,6 +23,10 @@ public class PlayMenu implements Menu {
 	
 	public static OutputData data = new OutputData();
 	public static InputData clientData = new InputData();
+	
+	public static final ArrayList<Double> R = new ArrayList<Double>(),
+			G = new ArrayList<Double>(),
+			B = new ArrayList<Double>();
 	
 	public static int pixW = 8;
 	
@@ -36,10 +42,17 @@ public class PlayMenu implements Menu {
 		if(id == World.STATE_SPACE) return new Color((int) (190+65*s.t), 0, 0);
 		else if(id == World.STATE_WALL) return new Color((int) (65*s.t+64), 0, 0);
 		else if(id < 0) {
+			if(-id-1 >= R.size()) {
+				do {
+					R.add(Math.cos(R.size())*127+128);
+					G.add(Math.cos(G.size()+2.09439510239)*127+128);
+					B.add(Math.cos(B.size()+4.18879020479)*127+128);
+				} while(-id-1 >= R.size());
+			}
 			double col = (3.0+s.t)*0.25;
-			return new Color((int) (col*(Math.cos(id)*127+128)),
-				(int) (col*(Math.cos(id+2.09439510239)*127+128)),
-				(int) (col*(Math.cos(id+4.18879020479)*127+128)));
+			return new Color((int) (col*R.get(-id-1)),
+				(int) (col*G.get(-id-1)),
+				(int) (col*B.get(-id-1)));
 		}
 		return null;
 	}
