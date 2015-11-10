@@ -4,20 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import main.Main;
-import net.ServerData;
 
 public class World {
 
 	public static final int STATE_SPACE = 1, STATE_WALL = 0;
+	public static int border = 1;
+	public static double turnAngle = 0.7 /*0<x<pi*/, branchAngle = 1 /*0<x<pi/2*/, taper = 0.998 /*0.5<x<0.995*/;
+	public static double branchProb = 0.005 /*0<x<0.025*/, splitProb = 0.0025/*0<x<0.025*/, nodeProb = 0.01 /**/;
 	
 	// world test - saves what is generated to an image
 	public static void main(String[] args) {
-		int w = 500, h = 500;
-		int[][] world = generateWorld(w, h);
+		int[][] world = generateWorld();
+		int w = world.length, h = world[0].length;
 		System.out.println("Generation Completed, Drawing Image");
 		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics g = img.getGraphics();
@@ -35,58 +38,78 @@ public class World {
 		}
 	}
 	
-	public static int[][] generateWorld(int w, int h) {
-		int[][] world = new int[w][h];
-		for(int i = 0; i < w; i++) {
-			for(int j = 0; j < h; j++) {
+	public static int[][] generateWorld() {
+		ArrayList<Circ> c = new ArrayList<Circ>();
+		startDendrite(c, 0, 0);
+		double maxX = Double.MIN_VALUE, minX = Double.MAX_VALUE, maxY = Double.MIN_VALUE, minY = Double.MAX_VALUE;
+		Circ circ;
+		for(int i = 0; i < c.size(); i++) {
+			circ = c.get(i);
+			if(circ.x-circ.r < minX) minX = circ.x-circ.r;
+			if(circ.x+circ.r > maxX) maxX = circ.x+circ.r;
+			if(circ.y-circ.r < minY) minY = circ.y-circ.r;
+			if(circ.y+circ.r > maxY) maxY = circ.y+circ.r;
+		}
+		int[][] world = new int[(int) (maxX-minX+border*2)][(int) (maxY-minY+border*2)];
+		for(int i = 0; i < world.length; i++) {
+			for(int j = 0; j < world[0].length; j++) {
 				world[i][j] = STATE_WALL;
 			}
 		}
-		world = startDendrite(world, 0.25*w, 0.25*h);
-		world = startDendrite(world, 0.5*w, 0.5*h);
-		world = startDendrite(world, 0.75*w, 0.75*h);
+		for(int i = 0; i < c.size(); i++) {
+			circ(world, c.get(i).x-minX+border, c.get(i).y-minY+border, c.get(i).r);
+		}
 		return world;
 	}
 
-	private static int[][] startDendrite(int[][] world, double x, double y) {
+	private static void startDendrite(ArrayList<Circ> c, double x, double y) {
 		double r0 = 5, t0 = (Main.r.nextDouble()*2.0-1.0)*6.28;
-		world = dendrite(world, x, y, r0, t0, 3);
-		world = dendrite(world, x, y, r0, t0+3.14, 5);
-//		world = dendrite(world, 250, 500, 5, -Math.PI*0.5, 5);
-		return world;
+		int branches = 5;
+		for(int i = 0; i < branches; i++) {
+			dendrite(c, x, y, r0, t0+6.282*i/branches, 5);
+		}
 	}
 	
-	private static int[][] dendrite(int[][] world, double x, double y, double r0, double t0, int recurs) {
-		double t = t0;
-		if(x < 0 || y < 0 || x > world.length || y > world[0].length) return world;
-		for(double r = r0; r > 1; r *= 0.995) {
-			world = circ(world, x, y, r);
-			t += Main.r.nextDouble()-0.5;
+	private static void dendrite(ArrayList<Circ> c, double x, double y, double r0, double t0, int recurs) {
+		double t = t0, nodeT = 0;
+		for(double r = r0; r > 1; r *= taper) {
+			if(nodeT <= 0 && recurs >= 0) {
+				nodeT = 0;
+				if(Main.r.nextDouble() < splitProb) {
+					double diff = Main.r.nextDouble()*branchAngle;
+					dendrite(c, x, y, r, t+diff, recurs);
+					dendrite(c, x, y, r, t-diff, recurs);
+					break;
+				}if(Main.r.nextDouble() < branchProb) {
+					dendrite(c, x, y, r, t+3.1415926*(Main.r.nextDouble()-0.5), recurs-1);
+				}
+			}else if(nodeT > 0) {
+				nodeT -= 0.2;
+			}
+			if(Main.r.nextDouble() < nodeProb) nodeT = 2;
+			c.add(new Circ(x, y, r*(1.0+2.0*nodeT*nodeT*(nodeT*nodeT-4*nodeT+4))));
+			t += (Main.r.nextDouble()-0.5)*turnAngle;
 			x += Math.cos(t)*r*0.5;
 			y += Math.sin(t)*r*0.5;
-			if(recurs >= 0)  {
-				if(Main.r.nextDouble() < 0.0025) {
-					double diff = Main.r.nextDouble()*0.5;
-					world = dendrite(world, x, y, r, t+diff, recurs-1);
-					world = dendrite(world, x, y, r, t-diff, recurs-1);
-					break;
-				}else if(Main.r.nextDouble() < 0.005) {
-					world = dendrite(world, x, y, r, t+Main.r.nextDouble()-Math.PI*0.5, recurs-1);
-				}
-			}
 		}
-		return world;
 	}
 	
-	private static int[][] circ(int[][] world, double x, double y, double r) {
+	private static void circ(int[][] world, double x, double y, double r) {
 		for(int i = (int) Math.max(0, x-r); i < (int) Math.min(world.length, x+r); i++) {
 			for(int j = (int) Math.max(0, y-r); j < (int) Math.min(world[0].length-1, y+r); j++) {
-				if(world[i][j] == STATE_WALL)
-					if((x-i)*(x-i)+(y-j)*(y-j) < r*r)
-						world[i][j] = STATE_SPACE;
+				if((x-i)*(x-i)+(y-j)*(y-j) < r*r)
+					world[i][j] = STATE_SPACE;
 			}
 		}
-		return world;
+	}
+	
+	public static class Circ {
+		public double x, y, r;
+		public Circ(double x, double y, double r) {
+			this.x = x;
+			this.y = y;
+			this.r = r;
+		}
 	}
 	
 }

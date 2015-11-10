@@ -20,7 +20,7 @@ public class ServerData implements Serializable {
 	public State[][] state = new State[w][h];
 	
 	public ServerData() {
-		int[][] world = World.generateWorld(w, h);
+		int[][] world = World.generateWorld();
 		for(int i = 0; i < w; i++) {
 			for(int j = 0; j < h; j++) {
 				state[i][j] = new State(world[i][j]);
