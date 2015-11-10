@@ -78,11 +78,6 @@ public class Main extends GameSocket {
 		public void update(GameContainer gc, int delta) throws SlickException {
 			//menu.update();
 			data.update((double) delta / 1000.0);
-			for(int i = 0; i < data.w; i++) {
-				for(int j = 0; j < data.h; j++) {
-					data.state[i][j].update();
-				}
-			}
 		}
 		
 	}

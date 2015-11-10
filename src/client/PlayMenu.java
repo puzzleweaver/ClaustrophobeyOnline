@@ -46,10 +46,11 @@ public class PlayMenu implements Menu {
 	
 	public void render(GameContainer gc, Graphics g) {
 		if(gameClient.loaded) {
-			for(int i = 0; i < data.state.length; i++) {
-				for(int j = 0; j < data.state[0].length; j++) {
-					g.setColor(get(data.state[i][j]));
-					g.fillRect(i*pixW-data.sX%pixW, j*pixW-data.sY%pixW, pixW, pixW);
+			OutputData d = data;
+			for(int i = 0; i < d.state.length; i++) {
+				for(int j = 0; j < d.state[0].length; j++) {
+					g.setColor(get(d.state[i][j]));
+					g.fillRect(i*pixW-d.sX%pixW, j*pixW-d.sY%pixW, pixW, pixW);
 				}
 			}
 		}

@@ -5,6 +5,7 @@ import java.net.InetAddress;
 
 import main.Main;
 import main.game.Player;
+import world.World;
 
 public class IndividualData implements Serializable {
 	
@@ -19,7 +20,12 @@ public class IndividualData implements Serializable {
 	
 	public IndividualData(int index) {
 		//identifying a blob by -1-index because static (non-player states) are >= 0
-		player = new Player(Main.data.w/2, Main.data.h/2, -1-index);
+		int x, y;
+		do {
+			x = Main.r.nextInt(Main.data.w);
+			y = Main.r.nextInt(Main.data.h);
+		}while(Main.data.state[x][y].type != World.STATE_SPACE);
+		player = new Player(x, y, -1-index);
 	}
 	
 	public void update(double dt) {

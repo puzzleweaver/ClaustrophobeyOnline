@@ -15,12 +15,13 @@ public class ServerData implements Serializable {
 	
 	public int index;
 	
-	public int w = 400, h = 400;
-	// message too long error!! NEED TO FIX!!
-	public State[][] state = new State[w][h];
+	public int w, h;
+	public State[][] state;
 	
 	public ServerData() {
 		int[][] world = World.generateWorld();
+		w = world.length; h = world[0].length;
+		state = new State[w][h];
 		for(int i = 0; i < w; i++) {
 			for(int j = 0; j < h; j++) {
 				state[i][j] = new State(world[i][j]);
