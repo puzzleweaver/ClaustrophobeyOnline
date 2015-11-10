@@ -17,7 +17,6 @@ import org.newdawn.slick.SlickException;
 
 public class Main extends GameSocket {
 	
-	public static Menu menu;
 	public static Random r = new Random();
 	
 	public static ServerData data = new ServerData();

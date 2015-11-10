@@ -1,6 +1,5 @@
 package main.game;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import main.Main;
@@ -8,9 +7,7 @@ import net.IndividualData;
 import net.InputData;
 import world.World;
 
-public class Player implements Serializable {
-	
-	private static final long serialVersionUID = 9044037818641178416L;
+public class Player {
 	
 	public int PID;
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
