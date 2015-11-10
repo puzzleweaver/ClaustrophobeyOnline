@@ -14,8 +14,12 @@ public class World {
 
 	public static final int STATE_SPACE = 1, STATE_WALL = 0;
 	public static int border = 1;
-	public static double turnAngle = 0.7 /*0<x<pi*/, branchAngle = 1 /*0<x<pi/2*/, taper = 0.998 /*0.5<x<0.995*/;
-	public static double branchProb = 0.005 /*0<x<0.025*/, splitProb = 0.0025/*0<x<0.025*/, nodeProb = 0.01 /**/;
+	public static double turnAngle = 0.2 /*0<x<pi*/,
+			branchAngle = 0.45 /*0<x<pi/2*/, 
+			taper = 0.998 /*0.5<x<0.995*/,
+			branchProb = 0.0025 /*0<x<0.025*/,
+			splitProb = 0.0025/*0<x<0.025*/,
+			nodeProb = 0.01 /*0<x<0.06*/;
 	
 	// world test - saves what is generated to an image
 	public static void main(String[] args) {
@@ -26,7 +30,7 @@ public class World {
 		Graphics g = img.getGraphics();
 		for(int i = 0; i < w; i++) {
 			for(int j = 0; j < h; j++) {
-				g.setColor(world[i][j] == STATE_SPACE ? Color.red:Color.green);
+				g.setColor(world[i][j] == STATE_SPACE ? Color.red:new Color(128, 0, 0));
 				g.fillRect(i, j, 1, 1);
 			}
 		}

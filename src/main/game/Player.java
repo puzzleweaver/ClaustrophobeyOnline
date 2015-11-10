@@ -28,6 +28,11 @@ public class Player {
 			d.dx = preference?d.dx:0;
 			d.dy = preference?0:d.dy;
 		}
+		for(int i = 0; i < 3; i++)
+			move(d);
+	}
+	
+	public void move(InputData d) {
 		ArrayList<Integer> fx = new ArrayList<Integer>(), fy = new ArrayList<Integer>();
 		int nsX = 0, nsY = 0, pred;
 		for(int i = 0; i < x.size(); i++) {
