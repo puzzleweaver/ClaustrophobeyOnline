@@ -9,16 +9,16 @@ import world.World;
 
 public class Player {
 	
-	public int PID;
+	public short PID;
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();
 	public boolean preference;
 	
-	public Player(int ix, int iy, int PID) {
+	public Player(int ix, int iy, short PID) {
 		for(int i = 0; i < 100; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
-		Main.data.state[ix][iy].type = PID;
+		Main.data.state[ix][iy] = PID;
 	}
 	
 	public void update(InputData d) {
@@ -56,9 +56,9 @@ public class Player {
 	}
 	
 	public void moveTo(int id, int nx, int ny) {
-		Main.data.state[nx][ny].type = PID;
+		Main.data.state[nx][ny] = PID;
 		if(id != -1) {
-			Main.data.state[x.get(id)][y.get(id)].type = World.STATE_SPACE;
+			Main.data.state[x.get(id)][y.get(id)] = World.STATE_SPACE;
 			x.set(id, nx);
 			y.set(id, ny);
 		} else {
@@ -82,7 +82,7 @@ public class Player {
 	
 	public void destroy() {
 		for(int i = 0; i < x.size(); i++) {
-			Main.data.state[x.get(i)][y.get(i)].type = World.STATE_SPACE;
+			Main.data.state[x.get(i)][y.get(i)] = World.STATE_SPACE;
 		}
 	}
 	

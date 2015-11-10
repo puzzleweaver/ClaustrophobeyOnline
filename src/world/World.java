@@ -12,18 +12,18 @@ import main.Main;
 
 public class World {
 
-	public static final int STATE_SPACE = 1, STATE_WALL = 0;
-	public static int border = 1;
+	public static final short STATE_SPACE = 1, STATE_WALL = 0;
+	public static int border = 10;
 	public static double turnAngle = 0.2 /*0<x<pi*/,
-			branchAngle = 0.45 /*0<x<pi/2*/, 
-			taper = 0.998 /*0.5<x<0.995*/,
+			branchAngle = 0.4 /*0<x<pi/2*/, 
+			taper = 0.998 /*0.5<x<0.999*/,
 			branchProb = 0.0025 /*0<x<0.025*/,
-			splitProb = 0.0025/*0<x<0.025*/,
+			splitProb = 0.0035/*0<x<0.025*/,
 			nodeProb = 0.01 /*0<x<0.06*/;
 	
 	// world test - saves what is generated to an image
 	public static void main(String[] args) {
-		int[][] world = generateWorld();
+		short[][] world = generateWorld();
 		int w = world.length, h = world[0].length;
 		System.out.println("Generation Completed, Drawing Image");
 		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_4BYTE_ABGR);
@@ -42,7 +42,7 @@ public class World {
 		}
 	}
 	
-	public static int[][] generateWorld() {
+	public static short[][] generateWorld() {
 		ArrayList<Circ> c = new ArrayList<Circ>();
 		startDendrite(c, 0, 0);
 		double maxX = Double.MIN_VALUE, minX = Double.MAX_VALUE, maxY = Double.MIN_VALUE, minY = Double.MAX_VALUE;
@@ -54,7 +54,7 @@ public class World {
 			if(circ.y-circ.r < minY) minY = circ.y-circ.r;
 			if(circ.y+circ.r > maxY) maxY = circ.y+circ.r;
 		}
-		int[][] world = new int[(int) (maxX-minX+border*2)][(int) (maxY-minY+border*2)];
+		short[][] world = new short[(int) (maxX-minX+border*2)][(int) (maxY-minY+border*2)];
 		for(int i = 0; i < world.length; i++) {
 			for(int j = 0; j < world[0].length; j++) {
 				world[i][j] = STATE_WALL;
@@ -98,7 +98,7 @@ public class World {
 		}
 	}
 	
-	private static void circ(int[][] world, double x, double y, double r) {
+	private static void circ(short[][] world, double x, double y, double r) {
 		for(int i = (int) Math.max(0, x-r); i < (int) Math.min(world.length, x+r); i++) {
 			for(int j = (int) Math.max(0, y-r); j < (int) Math.min(world[0].length-1, y+r); j++) {
 				if((x-i)*(x-i)+(y-j)*(y-j) < r*r)

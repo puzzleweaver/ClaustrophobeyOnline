@@ -16,17 +16,11 @@ public class ServerData implements Serializable {
 	public int index;
 	
 	public int w, h;
-	public State[][] state;
+	public short[][] state;
 	
 	public ServerData() {
-		int[][] world = World.generateWorld();
-		w = world.length; h = world[0].length;
-		state = new State[w][h];
-		for(int i = 0; i < w; i++) {
-			for(int j = 0; j < h; j++) {
-				state[i][j] = new State(world[i][j]);
-			}
-		}
+		state = World.generateWorld();
+		w = state.length; h = state[0].length;
 	}
 	
 	public boolean processData(InputData data, InetAddress address, int port) {
@@ -60,19 +54,21 @@ public class ServerData implements Serializable {
 	public OutputData getOutputData() {
 		IndividualData id = indieData.get(index);
 		OutputData d = new OutputData();
-		d.sX = id.sX;
-		d.sY = id.sY;
-		int pw = id.clientData.pixW, dsW = id.clientData.w/pw+1, dsH = id.clientData.h/pw+1;
-		d.state = new State[(int)dsW][(int)dsH];
-		for(int i = 0; i < dsW; i++) {
-			for(int j = 0; j < dsH; j++) {
-				d.state[i][j] = getState((id.sX-id.clientData.w/2)/pw+i /* ><> */, (id.sY-id.clientData.h/2)/pw+j);
+		d.sX = id.sX-id.clientData.w/2;
+		d.sY = id.sY-id.clientData.h/2;
+		int pw = id.clientData.pixW;
+		int i0 = (id.sX-id.clientData.w/2)/pw-1, j0 = (id.sY-id.clientData.h/2)/pw-1;
+		int ie = (id.sX+id.clientData.w/2)/pw+1, je = (id.sY+id.clientData.h/2)/pw+1;
+		d.state = new short[ie-i0][je-j0];
+		for(int i = i0; i < ie; i++) {
+			for(int j = j0; j < je; j++) {
+				d.state[i-i0][j-j0] = getState(i /* ><> */, j);
 			}
 		}
 		return d;
 	}
 	
-	private State getState(double x, double y) {
+	private short getState(double x, double y) {
 		return state[(int) Math.max(Math.min(x, state.length-1),0)][(int) Math.max(Math.min(y, state[0].length-1),0)];
 	}
 	
@@ -85,7 +81,7 @@ public class ServerData implements Serializable {
 	public boolean freeAt(int x, int y) {
 		if(x < 0 || y < 0 || x >= w || y >= h)
 			return false;
-		return state[x][y].type == World.STATE_SPACE;
+		return state[x][y] == World.STATE_SPACE;
 	}
 	
 }

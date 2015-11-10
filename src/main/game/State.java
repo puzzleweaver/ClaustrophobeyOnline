@@ -6,10 +6,9 @@ public class State implements Serializable {
 	
 	private static final long serialVersionUID = -8759406448009482535L;
 	
-	public int type;
-	public double t = Math.random();
+	public short type;
 	
-	public State(int type) {
+	public State(short type) {
 		this.type = type;
 	}
 	

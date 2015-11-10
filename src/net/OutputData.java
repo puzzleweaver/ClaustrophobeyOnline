@@ -8,7 +8,7 @@ public class OutputData implements Serializable {
 
 	private static final long serialVersionUID = 26822778913446936L;
 
-	public State[][] state;
+	public short[][] state;
 	public int sX, sY;
 	
 }
