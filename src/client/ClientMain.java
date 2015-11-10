@@ -22,7 +22,7 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
-		menu = new PlayMenu();
+		menu = new MainMenu();
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new ClientMain());
