@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
-import main.game.State;
 import world.World;
 
 public class ServerData implements Serializable {

@@ -1,13 +1,5 @@
 package client;
 
-import main.Menu;
-import main.game.State;
-import net.GameClient;
-import net.GameSocket;
-import net.InputData;
-import net.OutputData;
-import net.Serializer;
-
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
@@ -15,6 +7,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import main.Menu;
+import net.GameClient;
+import net.GameSocket;
+import net.InputData;
+import net.OutputData;
+import net.Serializer;
 import world.World;
 
 public class PlayMenu implements Menu {
@@ -24,7 +22,9 @@ public class PlayMenu implements Menu {
 	public static OutputData data = new OutputData();
 	public static InputData clientData = new InputData();
 	
-	public double rf[][] = new double[100][100];
+	private int pw;
+	private int rfw = ClientMain.WIDTH, rfh = ClientMain.HEIGHT;
+	private double rf[][] = new double[rfw][rfh];
 	
 	public static final ArrayList<Double> R = new ArrayList<Double>(),
 			G = new ArrayList<Double>(),
@@ -35,17 +35,18 @@ public class PlayMenu implements Menu {
 		gameClient.start();
 		clientData.w = ClientMain.WIDTH;
 		clientData.h = ClientMain.HEIGHT;
-		for(int i = 0; i < 100; i++) {
-			for(int j = 0; j < 100; j++) {
-				rf[i][j] = 1;//Math.random();
+		for(int i = 0; i < rfw; i++) {
+			for(int j = 0; j < rfh; j++) {
+				rf[i][j] = Math.random()*0.25+0.75;
 			}
 		}
+		pw = ClientMain.pixW;
 	}
 	
 	public Color get(short s, double t) {
-		if(s == World.STATE_SPACE) return new Color((int) (190+65*t), 0, 0);
+		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
 		else if(s == World.STATE_WALL) return new Color((int) (65*t+64), 0, 0);
-		else if(s < 0) {
+		else {
 			if(-s-1 >= R.size()) {
 				do {
 					R.add(Math.cos(R.size())*127+128);
@@ -53,12 +54,10 @@ public class PlayMenu implements Menu {
 					B.add(Math.cos(B.size()+4.18879020479)*127+128);
 				} while(-s-1 >= R.size());
 			}
-			double col = (3.0+t)*0.25;
-			return new Color((int) (col*R.get(-s-1)),
-				(int) (col*G.get(-s-1)),
-				(int) (col*B.get(-s-1)));
+			return new Color((int) (t*R.get(-s-1)),
+				(int) (t*G.get(-s-1)),
+				(int) (t*B.get(-s-1)));
 		}
-		return null;
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
@@ -66,11 +65,20 @@ public class PlayMenu implements Menu {
 			OutputData d = data;
 			for(int i = 0; i < d.state.length; i++) {
 				for(int j = 0; j < d.state[0].length; j++) {
-					g.setColor(get(d.state[i][j], 1));//rf[(i+d.sX/ClientMain.pixW)%rf.length][(j+d.sY/ClientMain.pixW)%rf[0].length]));
-					g.fillRect(i*ClientMain.pixW-d.sX%ClientMain.pixW, j*ClientMain.pixW-d.sY%ClientMain.pixW, ClientMain.pixW, ClientMain.pixW);
+					g.setColor(get(d.state[i][j], getRf(i, j, d)));
+					g.fillRect(i*pw-d.sX%pw, j*pw-d.sY%pw, pw, pw);
 				}
 			}
 		}
+	}
+	
+	public double getRf(int i, int j, OutputData d) {
+		int x = ((i+d.sX/pw)%rfw+rfw)%rfw,
+				y = ((j+d.sY/pw)%rfh+rfh)%rfh;
+		if(rf[x][y] < 0) rf[x][y] += Math.random()*0.1-0.05;
+		else rf[x][y] += Math.random()*0.025-0.0125;
+		rf[x][y] = Math.max(Math.min(rf[x][y], 1), 0.75);
+		return rf[x][y];
 	}
 	
 	public void update(GameContainer gc) {

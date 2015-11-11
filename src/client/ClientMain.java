@@ -12,8 +12,8 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
-	public static final int WIDTH = 800, HEIGHT = 800;
-	public static final int pixW = 12;
+	public static final int WIDTH = 700, HEIGHT = 700;
+	public static final int pixW = 4;
 	
 	public static boolean exited = false;
 	

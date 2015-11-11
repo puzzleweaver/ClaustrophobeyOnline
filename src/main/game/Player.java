@@ -30,14 +30,20 @@ public class Player {
 		}
 		for(int i = 0; i < 3; i++)
 			move(d);
+		IndividualData data = Main.data.indieData.get(-PID-1);
+		int nsX = 0, nsY = 0;
+		for(int i = 0; i < x.size(); i++) {
+			nsX += x.get(i);
+			nsY += y.get(i);
+		}
+		data.sX =  (int) ((3.0*data.sX+data.clientData.pixW*nsX/x.size())*0.25);
+		data.sY = (int) ((3.0*data.sY+data.clientData.pixW*nsY/x.size())*0.25);
 	}
 	
 	public void move(InputData d) {
 		ArrayList<Integer> fx = new ArrayList<Integer>(), fy = new ArrayList<Integer>();
-		int nsX = 0, nsY = 0, pred;
+		int pred;
 		for(int i = 0; i < x.size(); i++) {
-			nsX += x.get(i);
-			nsY += y.get(i);
 			pred = Main.r.nextInt(3)-1;
 			if(Main.data.freeAt(x.get(i)+d.dx, y.get(i)+d.dy)) {
 				fx.add(x.get(i)+d.dx);
@@ -47,9 +53,6 @@ public class Player {
 				fy.add(y.get(i)+(d.dy == 0 ? pred:d.dy));
 			}
 		}
-		IndividualData data = Main.data.indieData.get(-PID-1);
-		data.sX = (data.sX+data.clientData.pixW*nsX/x.size())/2;
-		data.sY = (data.sY+data.clientData.pixW*nsY/x.size())/2;
 		if(fx.size() == 0) return;
 		int id = getFurthestID(d.dx, d.dy), rid = Main.r.nextInt(fx.size());
 		moveTo(id, fx.get(rid), fy.get(rid));
