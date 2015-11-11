@@ -12,8 +12,8 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
-	public static final int WIDTH = 700, HEIGHT = 700;
-	public static final int pixW = 4;
+	public static final int WIDTH = 1920, HEIGHT = 1080;
+	public static final int pixW = 10;
 	
 	public static boolean exited = false;
 	
@@ -22,11 +22,11 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
-		menu = new MainMenu();
+		menu = new PlayMenu();
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new ClientMain());
-			app.setDisplayMode(WIDTH, HEIGHT, false);
+			app.setDisplayMode(WIDTH, HEIGHT, true);
 			app.setMinimumLogicUpdateInterval(15);
 			app.setAlwaysRender(true);
 			app.setVSync(true);

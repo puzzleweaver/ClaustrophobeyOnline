@@ -12,6 +12,8 @@ import main.Main;
 
 public class World {
 
+	public static int nodes;
+	
 	public static final short STATE_SPACE = 1, STATE_WALL = 0;
 	public static int border = 10;
 	public static double turnAngle = 0.2 /*0<x<pi*/,
@@ -19,7 +21,8 @@ public class World {
 			taper = 0.998 /*0.5<x<0.999*/,
 			branchProb = 0.0025 /*0<x<0.025*/,
 			splitProb = 0.0035/*0<x<0.025*/,
-			nodeProb = 0.01 /*0<x<0.06*/;
+			nodeProb = 0.0025 /*0<x<0.06*/,
+			branches = 4;
 	
 	// world test - saves what is generated to an image
 	public static void main(String[] args) {
@@ -40,6 +43,7 @@ public class World {
 		} catch(Exception e) {
 			System.out.println("ERRRORRSR");
 		}
+		System.out.println(nodes);
 	}
 	
 	public static short[][] generateWorld() {
@@ -68,7 +72,6 @@ public class World {
 
 	private static void startDendrite(ArrayList<Circ> c, double x, double y) {
 		double r0 = 5, t0 = (Main.r.nextDouble()*2.0-1.0)*6.28;
-		int branches = 5;
 		for(int i = 0; i < branches; i++) {
 			dendrite(c, x, y, r0, t0+6.282*i/branches, 5);
 		}
@@ -90,7 +93,10 @@ public class World {
 			}else if(nodeT > 0) {
 				nodeT -= 0.2;
 			}
-			if(Main.r.nextDouble() < nodeProb) nodeT = 2;
+			if(Main.r.nextDouble() < nodeProb) {
+				nodes++;
+				nodeT = 2;
+			}
 			c.add(new Circ(x, y, r*(1.0+2.0*nodeT*nodeT*(nodeT*nodeT-4*nodeT+4))));
 			t += (Main.r.nextDouble()-0.5)*turnAngle;
 			x += Math.cos(t)*r*0.5;

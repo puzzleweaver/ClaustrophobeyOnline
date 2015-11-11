@@ -15,7 +15,7 @@ public class Player {
 	public boolean preference;
 	
 	public Player(int ix, int iy, short PID) {
-		for(int i = 0; i < 100; i++)
+		for(int i = 0; i < 500; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
 		Main.data.state[ix][iy] = PID;
@@ -23,12 +23,7 @@ public class Player {
 	
 	public void update(InputData d) {
 		if(d.dx == 0 && d.dy == 0) return;
-		if(d.dx != 0 && d.dy != 0) {
-			preference = !preference;
-			d.dx = preference?d.dx:0;
-			d.dy = preference?0:d.dy;
-		}
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < 6; i++)
 			move(d);
 		IndividualData data = Main.data.indieData.get(-PID-1);
 		int nsX = 0, nsY = 0;
@@ -41,20 +36,26 @@ public class Player {
 	}
 	
 	public void move(InputData d) {
+		preference = !preference;
+		int dx = d.dx, dy = d.dy;
+		if(d.dx != 0 && d.dy != 0) {
+			dx = preference?dx:0;
+			dy = preference?0:dy;
+		}
 		ArrayList<Integer> fx = new ArrayList<Integer>(), fy = new ArrayList<Integer>();
 		int pred;
 		for(int i = 0; i < x.size(); i++) {
 			pred = Main.r.nextInt(3)-1;
-			if(Main.data.freeAt(x.get(i)+d.dx, y.get(i)+d.dy)) {
-				fx.add(x.get(i)+d.dx);
-				fy.add(y.get(i)+d.dy);
-			}else if(Main.r.nextInt(3)==0 && Main.data.freeAt(x.get(i)+(d.dx == 0 ? pred:d.dx), y.get(i)+(d.dy == 0 ? pred:d.dy))) {
-				fx.add(x.get(i)+(d.dx == 0 ? pred:d.dx));
-				fy.add(y.get(i)+(d.dy == 0 ? pred:d.dy));
+			if(Main.data.freeAt(x.get(i)+dx, y.get(i)+dy)) {
+				fx.add(x.get(i)+dx);
+				fy.add(y.get(i)+dy);
+			}else if(Main.r.nextInt(3)==0 && Main.data.freeAt(x.get(i)+(dx == 0 ? pred:dx), y.get(i)+(dy == 0 ? pred:dy))) {
+				fx.add(x.get(i)+(dx == 0 ? pred:dx));
+				fy.add(y.get(i)+(dy == 0 ? pred:dy));
 			}
 		}
 		if(fx.size() == 0) return;
-		int id = getFurthestID(d.dx, d.dy), rid = Main.r.nextInt(fx.size());
+		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size());
 		moveTo(id, fx.get(rid), fy.get(rid));
 	}
 	
@@ -72,12 +73,14 @@ public class Player {
 	
 	public int getFurthestID(double dx, double dy) {
 		int minID = 0;
+		boolean taken = false;
 		double minDot = Double.MAX_VALUE, dot;
 		for(int i = 0; i < x.size(); i++) {
 			dot = x.get(i)*dx+y.get(i)*dy;
-			if(dot < minDot) {
+			if(dot < minDot && (taken || Math.random() < 0.1)) {
 				minDot = dot;
 				minID = i;
+				taken = true;
 			}
 		}
 		return minID;

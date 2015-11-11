@@ -33,7 +33,7 @@ public abstract class GameSocket extends Thread {
 	
 	public void run() {
 		while(true) {
-			byte[] data = new byte[65536];
+			byte[] data = new byte[64000];
 			DatagramPacket packet = new DatagramPacket(data, data.length);
 			try {
 				socket.receive(packet);
