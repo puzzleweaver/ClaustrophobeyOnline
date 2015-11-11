@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.Toolkit;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -12,7 +14,8 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
-	public static final int WIDTH = 1920, HEIGHT = 1080;
+	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final int pixW = 10;
 	
 	public static boolean exited = false;
