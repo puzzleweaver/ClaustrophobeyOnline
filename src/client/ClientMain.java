@@ -25,7 +25,7 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
-		menu = new PlayMenu();
+		menu = new MainMenu();
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new ClientMain());
@@ -39,7 +39,9 @@ public class ClientMain extends BasicGame {
 		}
 	}
 	
-	public void init(GameContainer gc) throws SlickException {}
+	public void init(GameContainer gc) throws SlickException {
+		menu.init(gc);
+	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
 	}

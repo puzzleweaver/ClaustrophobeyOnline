@@ -15,7 +15,7 @@ public class Player {
 	public boolean preference;
 	
 	public Player(int ix, int iy, short PID) {
-		for(int i = 0; i < 500; i++)
+		for(int i = 0; i < 100; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
 		Main.data.state[ix][iy] = PID;

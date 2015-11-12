@@ -2,17 +2,18 @@ package client;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-
 import main.Menu;
 import net.GameClient;
 import net.GameSocket;
 import net.InputData;
 import net.OutputData;
 import net.Serializer;
+
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import world.World;
 
 public class PlayMenu implements Menu {
@@ -30,7 +31,7 @@ public class PlayMenu implements Menu {
 			G = new ArrayList<Double>(),
 			B = new ArrayList<Double>();
 	
-	public PlayMenu() {
+	public void init(GameContainer gc) {
 		gameClient = new GameClient();
 		gameClient.start();
 		clientData.w = ClientMain.WIDTH;
