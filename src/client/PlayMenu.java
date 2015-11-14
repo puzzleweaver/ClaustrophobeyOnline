@@ -83,8 +83,6 @@ public class PlayMenu implements Menu {
 	}
 	
 	public void update(GameContainer gc) {
-		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-			ClientMain.exited = true;
 		clientData.exited = ClientMain.exited;
 		clientData.dx = (Keyboard.isKeyDown(Keyboard.KEY_RIGHT) ? 1 : 0) - (Keyboard.isKeyDown(Keyboard.KEY_LEFT) ? 1 : 0);
 		clientData.dy = (Keyboard.isKeyDown(Keyboard.KEY_DOWN) ? 1 : 0) - (Keyboard.isKeyDown(Keyboard.KEY_UP) ? 1 : 0);

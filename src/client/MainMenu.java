@@ -15,7 +15,7 @@ import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
 public class MainMenu implements Menu {
-	
+
 	private static TrueTypeFont fippsTTF;
 	
 	public void init(GameContainer gc) {
@@ -43,10 +43,8 @@ public class MainMenu implements Menu {
 	}
 	
 	public void update(GameContainer gc) {
-		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
-			ClientMain.exited = true;
 		if(Mouse.isButtonDown(0) && isPlayButtonHovered()) {
-			ClientMain.menu = new PlayMenu();
+			ClientMain.menu = new ServerManagerMenu();
 			ClientMain.menu.init(gc);
 		}
 	}

@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Toolkit;
 
+import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -47,6 +48,8 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public void update(GameContainer gc, int delta) throws SlickException {
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
+			exited = true;
 		menu.update(gc);
 		if(exited)
 			gc.exit();
