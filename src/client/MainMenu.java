@@ -11,6 +11,7 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
@@ -43,7 +44,7 @@ public class MainMenu implements Menu {
 	}
 	
 	public void update(GameContainer gc) {
-		if(Mouse.isButtonDown(0) && isPlayButtonHovered()) {
+		if(Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON) && isPlayButtonHovered()) {
 			ClientMain.menu = new ServerManagerMenu();
 			ClientMain.menu.init(gc);
 		}
