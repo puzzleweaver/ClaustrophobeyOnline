@@ -41,6 +41,7 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public void init(GameContainer gc) throws SlickException {
+		MenuBackground.init();
 		menu.init(gc);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
