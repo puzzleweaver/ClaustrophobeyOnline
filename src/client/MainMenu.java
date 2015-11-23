@@ -1,19 +1,15 @@
 package client;
 
 import java.awt.Font;
-import java.io.InputStream;
 
-import main.Main;
 import main.Menu;
 
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
-import org.newdawn.slick.util.ResourceLoader;
 
 public class MainMenu implements Menu {
 
@@ -36,14 +32,13 @@ public class MainMenu implements Menu {
 		g.setFont(fipps);
 		g.drawString("Claustrophobey", ClientMain.WIDTH/2 - fipps.getWidth("Claustrophobey")/2, ClientMain.HEIGHT/4);
 		//play button
-		g.setColor(isPlayButtonHovered() ? Color.white : Color.blue.darker());
+		g.setColor(isPlayButtonHovered() ? Color.green : Color.green.darker());
 		g.drawString("Play", ClientMain.WIDTH/2 - fipps.getWidth("Play")/2, ClientMain.HEIGHT/2);
 	}
 	
 	public void update(GameContainer gc) {
 		if(Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON) && isPlayButtonHovered()) {
-			ClientMain.menu = new ServerManagerMenu();
-			ClientMain.menu.init(gc);
+			ClientMain.menu = ClientMain.serverManagerMenu;
 		}
 	}
 	

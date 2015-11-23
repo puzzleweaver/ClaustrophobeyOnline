@@ -19,6 +19,8 @@ public class ClientMain extends BasicGame {
 			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final int pixW = 10;
 	
+	public static Menu mainMenu, serverManagerMenu, playMenu;
+	
 	public static boolean exited = false;
 	
 	public ClientMain() {
@@ -26,7 +28,10 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
-		menu = new MainMenu();
+		mainMenu = new MainMenu();
+		serverManagerMenu = new ServerManagerMenu();
+		playMenu = new PlayMenu();
+		menu = mainMenu;
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new ClientMain());
@@ -42,7 +47,8 @@ public class ClientMain extends BasicGame {
 	
 	public void init(GameContainer gc) throws SlickException {
 		MenuBackground.init();
-		menu.init(gc);
+		mainMenu.init(gc);
+		serverManagerMenu.init(gc);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
