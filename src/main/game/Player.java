@@ -86,10 +86,4 @@ public class Player {
 		return minID;
 	}
 	
-	public void destroy() {
-		for(int i = 0; i < x.size(); i++) {
-			Main.data.state[x.get(i)][y.get(i)] = World.STATE_SPACE;
-		}
-	}
-	
 }
