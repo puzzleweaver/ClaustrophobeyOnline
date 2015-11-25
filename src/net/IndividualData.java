@@ -25,7 +25,7 @@ public class IndividualData implements Serializable {
 			x = Main.r.nextInt(Main.data.w);
 			y = Main.r.nextInt(Main.data.h);
 		}while(Main.data.state[x][y] != World.STATE_SPACE);
-		player = new Player(x, y, (short) (-1-index));
+		player = new Player(x, y, (short) (index));
 	}
 	
 	public void update(double dt) {

@@ -14,7 +14,7 @@ public class World {
 
 	public static int nodes;
 	
-	public static final short STATE_SPACE = 1, STATE_WALL = 0;
+	public static final short STATE_SPACE = -16384, STATE_WALL = 0;
 	public static int border = 10;
 	public static double turnAngle = 0.2 /*0<x<pi*/,
 			branchAngle = 0.4 /*0<x<pi/2*/, 

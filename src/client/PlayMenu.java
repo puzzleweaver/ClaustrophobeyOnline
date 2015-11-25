@@ -46,19 +46,19 @@ public class PlayMenu implements Menu {
 	
 	public Color get(short s, double t) {
 		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
-		else if(s == World.STATE_WALL) return new Color((int) (65*t+64), 0, 0);
-		else {
-			if(-s-1 >= R.size()) {
-				do {
-					R.add(Math.cos(R.size())*127+128);
-					G.add(Math.cos(G.size()+2.09439510239)*127+128);
-					B.add(Math.cos(B.size()+4.18879020479)*127+128);
-				} while(-s-1 >= R.size());
-			}
-			return new Color((int) (t*R.get(-s-1)),
-				(int) (t*G.get(-s-1)),
-				(int) (t*B.get(-s-1)));
+		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
+		t *= s < -8192 ? 0.5 : (s < 0 ? 1.0 : (s < 8192 ? 0.2 : 0.0));
+		s = (short) (((s+8192)%8192 + 8192)%8192);
+		if(s >= R.size()) {
+			do {
+				R.add(Math.cos(R.size())*127+128);
+				G.add(Math.cos(G.size()+2.09439510239)*127+128);
+				B.add(Math.cos(B.size()+4.18879020479)*127+128);
+			} while(s >= R.size());
 		}
+		return new Color((int) (t*R.get(s)),
+			(int) (t*G.get(s)),
+			(int) (t*B.get(s)));
 	}
 	
 	public void render(GameContainer gc, Graphics g) {

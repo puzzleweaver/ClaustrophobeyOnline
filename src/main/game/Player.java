@@ -15,7 +15,7 @@ public class Player {
 	public boolean preference;
 	
 	public Player(int ix, int iy, short PID) {
-		for(int i = 0; i < 100; i++)
+		for(int i = 0; i < 100 /* initial mass */; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
 		Main.data.state[ix][iy] = PID;
@@ -25,7 +25,7 @@ public class Player {
 		if(d.dx == 0 && d.dy == 0) return;
 		for(int i = 0; i < 6; i++)
 			move(d);
-		IndividualData data = Main.data.indieData.get(-PID-1);
+		IndividualData data = Main.data.indieData.get(PID-1);
 		int nsX = 0, nsY = 0;
 		for(int i = 0; i < x.size(); i++) {
 			nsX += x.get(i);
@@ -60,9 +60,9 @@ public class Player {
 	}
 	
 	public void moveTo(int id, int nx, int ny) {
-		Main.data.state[nx][ny] = PID;
+		Main.data.state[nx][ny] = (short) (PID-8192);
 		if(id != -1) {
-			Main.data.state[x.get(id)][y.get(id)] = World.STATE_SPACE;
+			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 			x.set(id, nx);
 			y.set(id, ny);
 		} else {

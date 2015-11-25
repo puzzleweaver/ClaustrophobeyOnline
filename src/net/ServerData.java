@@ -35,7 +35,7 @@ public class ServerData implements Serializable {
 		//create space for new data if this is a new client
 		if(index == -1) {
 			index = indieData.size();
-			IndividualData iData = new IndividualData(index);
+			IndividualData iData = new IndividualData(index+1);
 			iData.address = address;
 			iData.port = port;
 			iData.clientData = data;
@@ -80,7 +80,7 @@ public class ServerData implements Serializable {
 	public boolean freeAt(int x, int y) {
 		if(x < 0 || y < 0 || x >= w || y >= h)
 			return false;
-		return state[x][y] == World.STATE_SPACE;
+		return state[x][y] < -8192;
 	}
 	
 }
