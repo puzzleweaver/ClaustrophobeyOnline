@@ -28,6 +28,8 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
+		Sounds.load();
+		Sounds.music.loop();
 		mainMenu = new MainMenu();
 		serverManagerMenu = new ServerManagerMenu();
 		playMenu = new PlayMenu();

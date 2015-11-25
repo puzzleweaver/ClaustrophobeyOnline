@@ -42,10 +42,10 @@ public class ServerData implements Serializable {
 			indieData.add(iData);
 		}
 		//exit if the user exits
-		if(data.exited) {
-			indieData.remove(index);
-			return false;
-		}
+//		if(data.exited) {
+//			indieData.remove(index);
+//			return false;
+//		}
 		return true;
 	}
 	
