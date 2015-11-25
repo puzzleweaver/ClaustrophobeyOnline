@@ -1,6 +1,5 @@
 package client;
 
-import java.awt.Font;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -14,13 +13,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.TextField;
 
 public class ServerManagerMenu implements Menu {
-	
-	private static TrueTypeFont fipps;
-	private static TrueTypeFont fippsSmall;
 	
 	private Image image;
 	private Graphics g2;
@@ -45,14 +40,9 @@ public class ServerManagerMenu implements Menu {
 		serverIPList.add("192.168.1.115");
 		serverIPList.add("71.46.93.12");
 		serverIPList.add("50.90.116.229");
-		Font font;
-		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
 		try {
-			font = new Font("Arial", Font.BOLD, 10);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
-			fipps = new TrueTypeFont(font.deriveFont(48f), false);
-			fippsSmall = new TrueTypeFont(font.deriveFont(36f), false);
-			nameTextField = new TextField(gc, fippsSmall, gc.getWidth()/2 + fipps.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, 48);
-			ipTextField = new TextField(gc, fippsSmall, gc.getWidth()/2 + fipps.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, 48);
+			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, 48);
+			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, 48);
 			image = new Image(gc.getWidth(), gc.getHeight()/2);
 			g2 = image.getGraphics();
 		} catch (Exception e) {
@@ -64,32 +54,32 @@ public class ServerManagerMenu implements Menu {
 		MenuBackground.render(gc, g);
 		if(enterIP) {
 			//labels for name and ip
-			g.setFont(fipps);
+			g.setFont(ClientMain.font);
 			g.setColor(Color.black);
-			g.drawString("Name: ", gc.getWidth()/2 - fipps.getWidth("Name: ")/2 - nameTextField.getWidth()/2, gc.getHeight()/2-24);
-			g.drawString("IP: ", gc.getWidth()/2 - fipps.getWidth("IP: ")/2 - ipTextField.getWidth()/2, gc.getHeight()/2+24);
+			g.drawString("Name: ", gc.getWidth()/2 - ClientMain.font.getWidth("Name: ")/2 - nameTextField.getWidth()/2, gc.getHeight()/2-24);
+			g.drawString("IP: ", gc.getWidth()/2 - ClientMain.font.getWidth("IP: ")/2 - ipTextField.getWidth()/2, gc.getHeight()/2+24);
 			//text fields
 			nameTextField.render(gc, g);
 			ipTextField.render(gc, g);
 			//ok button
 			g.setColor(isOkButtonHovered() ? Color.green : Color.green.darker());
-			g.drawString("OK", gc.getWidth()/2 - fipps.getWidth("OK")/2, gc.getHeight()/2+72);
+			g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+72);
 		}else {
 			//title
-			g.setFont(fipps);
+			g.setFont(ClientMain.font);
 			g.setColor(Color.black);
-			g.drawString("Select Server", gc.getWidth()/2 - fipps.getWidth("Select Server")/2, gc.getHeight()/8);
+			g.drawString("Select Server", gc.getWidth()/2 - ClientMain.font.getWidth("Select Server")/2, gc.getHeight()/8);
 			//back button
 			g.setColor(isBackButtonHovered() ? Color.green : Color.green.darker());
-			g.drawString("Back", gc.getWidth()/4 - fipps.getWidth("Back")/2,  gc.getHeight()/8);
+			g.drawString("Back", gc.getWidth()/4 - ClientMain.font.getWidth("Back")/2,  gc.getHeight()/8);
 			//server list
 			g2.clear();
 //			g2.setColor(Color.black);
 //			g2.fillRect(0, 0, image.getWidth(), image.getHeight());
-			g2.setFont(fippsSmall);
+			g2.setFont(ClientMain.fontSmall);
 			for(int i = 0; i < serverNameList.size(); i++) {
 				g2.setColor(isServerHovered(i) || selectedServer == i ? Color.green : Color.green.darker());
-				g2.drawString(serverNameList.get(i), image.getWidth()/2 - fippsSmall.getWidth(serverNameList.get(i))/2, sy + i*46);
+				g2.drawString(serverNameList.get(i), image.getWidth()/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2, sy + i*46);
 			}
 //			g2.setColor(Color.green);
 //			g2.setLineWidth(4);
@@ -97,13 +87,13 @@ public class ServerManagerMenu implements Menu {
 			g.drawImage(image, 0, gc.getHeight()/4);
 			//add server button
 			g.setColor(isAddButtonHovered() ? Color.green : Color.green.darker());
-			g.drawString("Add Server", gc.getWidth()/2 - fipps.getWidth("Add Server")/2, 7*gc.getHeight()/8);
+			g.drawString("Add Server", gc.getWidth()/2 - ClientMain.font.getWidth("Add Server")/2, 7*gc.getHeight()/8);
 			//other buttons
 			if(selectedServer >= 0) {
 				g.setColor(isPlayButtonHovered() ? Color.green : Color.green.darker());
-				g.drawString("Play", gc.getWidth()/4 - fipps.getWidth("Play")/2, 7*gc.getHeight()/8);
+				g.drawString("Play", gc.getWidth()/4 - ClientMain.font.getWidth("Play")/2, 7*gc.getHeight()/8);
 				g.setColor(isRemoveButtonHovered() ? Color.green : Color.green.darker());
-				g.drawString("Remove", 3*gc.getWidth()/4 - fipps.getWidth("Remove")/2, 7*gc.getHeight()/8);
+				g.drawString("Remove", 3*gc.getWidth()/4 - ClientMain.font.getWidth("Remove")/2, 7*gc.getHeight()/8);
 			}
 		}
 	}
@@ -165,47 +155,47 @@ public class ServerManagerMenu implements Menu {
 	private boolean isAddButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - fipps.getWidth("Add Server")/2;
+		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Add Server")/2;
 		int by = 7*ClientMain.HEIGHT/8;
-		return mx > bx && mx < bx+fipps.getWidth("Add Server") && my > by && my < by+fipps.getHeight("Add Server");
+		return mx > bx && mx < bx+ClientMain.font.getWidth("Add Server") && my > by && my < by+ClientMain.font.getHeight("Add Server");
 	}
 	private boolean isServerHovered(int i) {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - fippsSmall.getWidth(serverNameList.get(i))/2;
+		int bx = ClientMain.WIDTH/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2;
 		int by = ClientMain.HEIGHT/4 + sy + i*46;
 		return my > ClientMain.HEIGHT/4 && my < 3*ClientMain.HEIGHT/4 &&
-				mx > bx && mx < bx+fippsSmall.getWidth(serverNameList.get(i)) && my > by && my < by+fippsSmall.getHeight(serverNameList.get(i));
+				mx > bx && mx < bx+ClientMain.fontSmall.getWidth(serverNameList.get(i)) && my > by && my < by+ClientMain.fontSmall.getHeight(serverNameList.get(i));
 	}
 	private boolean isBackButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/4 - fipps.getWidth("Back")/2;
+		int bx = ClientMain.WIDTH/4 - ClientMain.font.getWidth("Back")/2;
 		int by = ClientMain.HEIGHT/8;
-		return mx > bx && mx < bx+fipps.getWidth("Back") && my > by && my < by+fipps.getHeight("Back");
+		return mx > bx && mx < bx+ClientMain.font.getWidth("Back") && my > by && my < by+ClientMain.font.getHeight("Back");
 	}
 	
 	private boolean isOkButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - fipps.getWidth("OK")/2;
+		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("OK")/2;
 		int by = ClientMain.HEIGHT/2+72;
-		return mx > bx && mx < bx+fipps.getWidth("OK") && my > by && my < by+fipps.getHeight("OK");
+		return mx > bx && mx < bx+ClientMain.font.getWidth("OK") && my > by && my < by+ClientMain.font.getHeight("OK");
 	}
 	
 	private boolean isPlayButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/4 - fipps.getWidth("Play")/2;
+		int bx = ClientMain.WIDTH/4 - ClientMain.font.getWidth("Play")/2;
 		int by = 7*ClientMain.HEIGHT/8;
-		return mx > bx && mx < bx+fipps.getWidth("Play") && my > by && my < by+fipps.getHeight("Play");
+		return mx > bx && mx < bx+ClientMain.font.getWidth("Play") && my > by && my < by+ClientMain.font.getHeight("Play");
 	}
 	private boolean isRemoveButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = 3*ClientMain.WIDTH/4 - fipps.getWidth("Remove")/2;
+		int bx = 3*ClientMain.WIDTH/4 - ClientMain.font.getWidth("Remove")/2;
 		int by = 7*ClientMain.HEIGHT/8;
-		return mx > bx && mx < bx+fipps.getWidth("Remove") && my > by && my < by+fipps.getHeight("Remove");
+		return mx > bx && mx < bx+ClientMain.font.getWidth("Remove") && my > by && my < by+ClientMain.font.getHeight("Remove");
 	}
 	
 }

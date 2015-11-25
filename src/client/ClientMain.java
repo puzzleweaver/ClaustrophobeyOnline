@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Font;
 import java.awt.Toolkit;
 
 import org.lwjgl.input.Keyboard;
@@ -8,6 +9,7 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 
 import main.Menu;
 
@@ -19,9 +21,11 @@ public class ClientMain extends BasicGame {
 			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final int pixW = 10;
 	
-	public static Menu mainMenu, serverManagerMenu, playMenu;
+	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
 	
 	public static boolean exited = false;
+	
+	public static TrueTypeFont font, fontSmall;
 	
 	public ClientMain() {
 		super("GISOLKUQ");
@@ -30,9 +34,11 @@ public class ClientMain extends BasicGame {
 	public static void main(String[] args) {
 		Sounds.load();
 		Sounds.music.loop();
+		Sounds.music.setVolume(0.5f);
 		mainMenu = new MainMenu();
 		serverManagerMenu = new ServerManagerMenu();
 		playMenu = new PlayMenu();
+		settingsMenu = new SettingsMenu();
 		menu = mainMenu;
 		AppGameContainer app;
 		try {
@@ -48,9 +54,15 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public void init(GameContainer gc) throws SlickException {
+		Font awtfont;
+		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
+		awtfont = new Font("Arial", Font.BOLD, 10);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
+		font = new TrueTypeFont(awtfont.deriveFont(48f), false);
+		fontSmall = new TrueTypeFont(awtfont.deriveFont(36f), false);
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
+		settingsMenu.init(gc);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
