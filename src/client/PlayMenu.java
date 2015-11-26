@@ -71,6 +71,19 @@ public class PlayMenu implements Menu {
 				}
 			}
 		}
+		//draw pie chart
+		int sum = 0;
+		int lastSum = 0;
+		int total = 0;
+		int size = pw*10;
+		for(int i = 0; i < data.territory.size(); i++)
+			total += data.territory.get(i);
+		for(int i = 0; i < data.territory.size(); i++) {
+			sum += data.territory.get(i);
+			g.setColor(new Color((int) (double) R.get(i), (int) (double) G.get(i), (int) (double) B.get(i)));
+			g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
+			lastSum = sum;
+		}
 	}
 	
 	public double getRf(int i, int j, OutputData d) {
