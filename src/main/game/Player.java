@@ -23,6 +23,9 @@ public class Player {
 	
 	public void update(InputData d) {
 		if(d.dx == 0 && d.dy == 0) return;
+		if(d.defend && d.dx == 0 ^ d.dy == 0) {
+			//create wall
+		}
 		for(int i = 0; i < 6; i++)
 			move(d);
 		IndividualData data = Main.data.indieData.get(PID-1);

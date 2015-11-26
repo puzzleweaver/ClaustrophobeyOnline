@@ -34,7 +34,7 @@ public class ClientMain extends BasicGame {
 	public static void main(String[] args) {
 		Sounds.load();
 		Sounds.music.loop();
-		Sounds.music.setVolume(0.5f);
+		Sounds.music.setVolume(0.0f);
 		mainMenu = new MainMenu();
 		serverManagerMenu = new ServerManagerMenu();
 		playMenu = new PlayMenu();

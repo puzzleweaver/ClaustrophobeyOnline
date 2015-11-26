@@ -89,6 +89,8 @@ public class PlayMenu implements Menu {
 		clientData.dy = (Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S) ? 1 : 0) -
 				(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W) ? 1 : 0);
 		clientData.pixW = ClientMain.pixW;
+		clientData.attack = Keyboard.isKeyDown(Keyboard.KEY_Z);
+		clientData.defend = Keyboard.isKeyDown(Keyboard.KEY_X);
 		try {
 			gameClient.sendData(Serializer.serialize(clientData), GameSocket.serverIP, GameSocket.PORT);
 		} catch(Exception e) {
