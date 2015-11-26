@@ -47,6 +47,17 @@ public class World {
 	}
 	
 	public static short[][] generateWorld() {
+		int r = 200;
+		short[][] world = new short[2*r][2*r];
+		for(int i = -r; i < r; i++) {
+			for(int j = -r; j < r; j++) {
+				world[i+r][j+r] = Math.hypot(i, j)-r < 0 ? World.STATE_SPACE:World.STATE_WALL;
+			}
+		}
+		return world;
+	}
+	
+	public static short[][] generateTestWorld() {
 		ArrayList<Circ> c = new ArrayList<Circ>();
 		startDendrite(c, 0, 0);
 		double maxX = Double.MIN_VALUE, minX = Double.MAX_VALUE, maxY = Double.MIN_VALUE, minY = Double.MAX_VALUE;

@@ -15,7 +15,7 @@ public class Player {
 	public boolean preference;
 	
 	public Player(int ix, int iy, short PID) {
-		for(int i = 0; i < 100 /* initial mass */; i++)
+		for(int i = 0; i < 20 /* initial mass */; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
 		Main.data.state[ix][iy] = PID;
@@ -26,7 +26,8 @@ public class Player {
 		if(d.defend && d.dx == 0 ^ d.dy == 0) {
 			//create wall
 		}
-		for(int i = 0; i < 6; i++)
+		double l = Math.sqrt(x.size());
+		for(int i = 0; i < l; i++)
 			move(d);
 		IndividualData data = Main.data.indieData.get(PID-1);
 		int nsX = 0, nsY = 0;
@@ -59,7 +60,7 @@ public class Player {
 		}
 		if(fx.size() == 0) return;
 		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size());
-		moveTo(id, fx.get(rid), fy.get(rid));
+		moveTo(Math.random() < 0.01 ? -1:id, fx.get(rid), fy.get(rid));
 	}
 	
 	public void moveTo(int id, int nx, int ny) {
