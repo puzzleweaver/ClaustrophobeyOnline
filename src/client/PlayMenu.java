@@ -67,7 +67,7 @@ public class PlayMenu implements Menu {
 			for(int i = 0; i < d.state.length; i++) {
 				for(int j = 0; j < d.state[0].length; j++) {
 					g.setColor(get(d.state[i][j], getRf(i, j, d)));
-					g.fillRect(i*pw-d.sX%pw, j*pw-d.sY%pw, pw, pw);
+					g.fillRect((i-1)*pw-d.sX%pw, (j-1)*pw-d.sY%pw, pw, pw);
 				}
 			}
 		}
