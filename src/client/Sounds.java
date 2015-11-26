@@ -9,7 +9,7 @@ public class Sounds {
 	
 	public static void load() {
 		try {
-			music = new Music("res/music.ogg");
+			music = new Music("res/music2.ogg");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
