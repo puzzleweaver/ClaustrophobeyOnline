@@ -15,6 +15,7 @@ public class IndividualData implements Serializable {
 	public int port;
 	public InputData clientData;
 	public Player player;
+	public int terr;
 	
 	public int sX, sY;
 	

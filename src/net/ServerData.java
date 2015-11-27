@@ -66,7 +66,7 @@ public class ServerData implements Serializable {
 		d.state = new short[ie-i0][je-j0];
 		d.territory = new int[indieData.size()];
 		for(int i = 0; i < indieData.size(); i++) {
-			d.territory[i] = (int) Math.floor(Math.random()*100);
+			d.territory[i] = indieData.get(i).terr;
 		}
 		for(int i = i0; i < ie; i++) {
 			for(int j = j0; j < je; j++) {

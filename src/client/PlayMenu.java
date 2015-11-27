@@ -78,15 +78,15 @@ public class PlayMenu implements Menu {
 			for(int i = 0; i < data.territory.length; i++)
 				total += data.territory[i];
 			for(int i = 0; i < data.territory.length; i++) {
-				if(i >= R.size()) {
+				if(i+1 >= R.size()) {
 					do {
 						R.add(Math.cos(R.size())*127+128);
 						G.add(Math.cos(G.size()+2.09439510239)*127+128);
 						B.add(Math.cos(B.size()+4.18879020479)*127+128);
-					} while(i >= R.size());
+					} while(i+1 >= R.size());
 				}
 				sum += data.territory[i];
-				g.setColor(new Color((int) (double) R.get(i), (int) (double) G.get(i), (int) (double) B.get(i)));
+				g.setColor(new Color((int) (double) R.get(i+1), (int) (double) G.get(i+1), (int) (double) B.get(i+1)));
 				g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
 				lastSum = sum;
 			}
