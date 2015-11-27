@@ -24,7 +24,7 @@ public class ServerData implements Serializable {
 	public short[][] state;
 	
 	public ServerData() {
-		state = World.generateWorld();
+		state = World.generateTestWorld();
 		w = state.length; h = state[0].length;
 	}
 	

@@ -1,6 +1,7 @@
 package net;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class OutputData implements Serializable {
 
@@ -9,5 +10,7 @@ public class OutputData implements Serializable {
 	public short[][] state;
 	public int sX, sY;
 	public int[] nodeX, nodeY, nodeR;
+	
+	public ArrayList<Integer> territory = new ArrayList<>();
 	
 }
