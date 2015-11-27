@@ -19,7 +19,7 @@ public class IndividualData implements Serializable {
 	public int sX, sY;
 	
 	public IndividualData(int index) {
-		//identifying a blob by -1-index because static (non-player states) are >= 0
+		//PIDs can be {x | 0 < x < 8192}
 		int x, y;
 		do {
 			x = Main.r.nextInt(Main.data.w);

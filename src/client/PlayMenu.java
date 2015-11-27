@@ -47,7 +47,7 @@ public class PlayMenu implements Menu {
 	public Color get(short s, double t) {
 		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
 		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
-		t *= s < -8192 ? 0.5 : (s < 0 ? 1.0 : (s < 8192 ? 0.2 : 0.0));
+		t *= s < -8192 ? 0.3 : (s < 0 ? 1.0 : (s < 8192 ? 0.2 : 0.0));
 		s = (short) (((s+8192)%8192 + 8192)%8192);
 		if(s >= R.size()) {
 			do {
@@ -56,7 +56,8 @@ public class PlayMenu implements Menu {
 				B.add(Math.cos(B.size()+4.18879020479)*127+128);
 			} while(s >= R.size());
 		}
-		return new Color((int) (t*R.get(s)),
+		t *= 0.5;
+		return new Color((int) (t*R.get(s)+(140+65*t)*0.5),
 			(int) (t*G.get(s)),
 			(int) (t*B.get(s)));
 	}
@@ -76,9 +77,13 @@ public class PlayMenu implements Menu {
 	public double getRf(int i, int j, OutputData d) {
 		int x = ((i+d.sX/pw)%rfw+rfw)%rfw,
 				y = ((j+d.sY/pw)%rfh+rfh)%rfh;
-		if(rf[x][y] < 0) rf[x][y] += Math.random()*0.1-0.05;
-		else rf[x][y] += Math.random()*0.025-0.0125;
-		rf[x][y] = Math.max(Math.min(rf[x][y], 1), 0.75);
+		if(d.state[i][j] < -8192 /* conquered */) rf[x][y] += Math.random()*0.1-0.05;
+		else if(d.state[i][j] < 0 /* normal */) rf[x][y] = 1;
+		else if(d.state[i][j] < 8192 /* defense */) rf[x][y] = 1;
+		else {
+			rf[x][y] += Math.random()*0.025-0.0125;
+			rf[x][y] = Math.max(Math.min(rf[x][y], 1), 0.75);
+		}
 		return rf[x][y];
 	}
 	

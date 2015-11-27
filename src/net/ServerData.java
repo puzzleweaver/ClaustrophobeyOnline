@@ -83,6 +83,10 @@ public class ServerData implements Serializable {
 	}
 	
 	public boolean freeAt(int x, int y) {
+		// conquered: {id | -16384 <= id < -8192}
+		// normal: {id | -8192 <= id < 0}
+		// defensive: {id | 0 <= id < 8192}
+		// offensive: {id | 8192 <= id < 16384}
 		if(x < 0 || y < 0 || x >= w || y >= h)
 			return false;
 		return state[x][y] < -8192;

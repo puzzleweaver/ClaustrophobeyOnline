@@ -59,21 +59,10 @@ public class Main extends GameSocket {
 	private static class ServerScreen extends BasicGame {
 		
 		public ServerScreen() {
-			super("YA TOOCHECLOONK");
+			super("CLASTERFOOBRY");
 		}
 		
 		public void render(GameContainer gc, Graphics g) throws SlickException {
-			//GameMenu render method pasted here
-			
-//			g.setColor(new Color(190, 160, 0));
-//			g.fillRect(0, 0, w*8, h*8);
-//			int k = 400/w;
-//			for(int i = 0; i < w; i++) {
-//				for(int j = 0; j < h; j++) {
-//					g.setColor(state[i][j].type == 0 ? new Color(250, 200, 0):(state[i][j].type == 1 ? new Color(190, 160, 0):Color.green));
-//					g.fillRect(i*k-sX+200, j*k-sY+200, k, k);
-//				}
-//			}
 		}
 		public void init(GameContainer gc) throws SlickException {}
 		public void update(GameContainer gc, int delta) throws SlickException {

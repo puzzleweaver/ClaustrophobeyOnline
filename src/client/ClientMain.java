@@ -28,7 +28,7 @@ public class ClientMain extends BasicGame {
 	public static TrueTypeFont font, fontSmall;
 	
 	public ClientMain() {
-		super("GISOLKUQ");
+		super("CLOOSTERFOOBEY");
 	}
 	
 	public static void main(String[] args) {
