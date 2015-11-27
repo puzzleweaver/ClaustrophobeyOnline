@@ -26,7 +26,7 @@ public class Player {
 		if(d.defend && d.dx == 0 ^ d.dy == 0) {
 			//create wall
 		}
-		double l = Math.sqrt(x.size());
+		double l = Math.max(1, 0.4*Math.sqrt(x.size()));
 		for(int i = 0; i < l; i++)
 			move(d);
 		IndividualData data = Main.data.indieData.get(PID-1);

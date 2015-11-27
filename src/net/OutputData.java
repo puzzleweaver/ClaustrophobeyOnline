@@ -9,8 +9,6 @@ public class OutputData implements Serializable {
 
 	public short[][] state;
 	public int sX, sY;
-	public int[] nodeX, nodeY, nodeR;
-	
-	public ArrayList<Integer> territory = new ArrayList<>();
+	public int[] territory;
 	
 }

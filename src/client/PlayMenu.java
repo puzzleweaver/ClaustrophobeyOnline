@@ -56,8 +56,7 @@ public class PlayMenu implements Menu {
 				B.add(Math.cos(B.size()+4.18879020479)*127+128);
 			} while(s >= R.size());
 		}
-		t *= 0.5;
-		return new Color((int) (t*R.get(s)+(140+65*t)*0.5),
+		return new Color((int) (t*R.get(s)),
 			(int) (t*G.get(s)),
 			(int) (t*B.get(s)));
 	}
@@ -71,19 +70,26 @@ public class PlayMenu implements Menu {
 					g.fillRect((i-1)*pw-d.sX%pw, (j-1)*pw-d.sY%pw, pw, pw);
 				}
 			}
-		}
-		//draw pie chart
-		int sum = 0;
-		int lastSum = 0;
-		int total = 0;
-		int size = pw*10;
-		for(int i = 0; i < data.territory.size(); i++)
-			total += data.territory.get(i);
-		for(int i = 0; i < data.territory.size(); i++) {
-			sum += data.territory.get(i);
-			g.setColor(new Color((int) (double) R.get(i), (int) (double) G.get(i), (int) (double) B.get(i)));
-			g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
-			lastSum = sum;
+			//draw pie chart
+			int sum = 0;
+			int lastSum = 0;
+			int total = 0;
+			int size = pw*10;
+			for(int i = 0; i < data.territory.length; i++)
+				total += data.territory[i];
+			for(int i = 0; i < data.territory.length; i++) {
+				if(i >= R.size()) {
+					do {
+						R.add(Math.cos(R.size())*127+128);
+						G.add(Math.cos(G.size()+2.09439510239)*127+128);
+						B.add(Math.cos(B.size()+4.18879020479)*127+128);
+					} while(i >= R.size());
+				}
+				sum += data.territory[i];
+				g.setColor(new Color((int) (double) R.get(i), (int) (double) G.get(i), (int) (double) B.get(i)));
+				g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
+				lastSum = sum;
+			}
 		}
 	}
 	

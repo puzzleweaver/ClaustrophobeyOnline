@@ -35,11 +35,13 @@ public class ServerManagerMenu implements Menu {
 		serverNameList.add("Riley Local");
 		serverNameList.add("Riley Public");
 		serverNameList.add("Austin Public");
+		serverNameList.add("Austin Local?");
 		
 		serverIPList.add("localhost");
 		serverIPList.add("192.168.1.115");
 		serverIPList.add("71.46.93.12");
-		serverIPList.add("50.90.116.229");
+		serverIPList.add("172.78.67.129");
+		serverIPList.add("192.168.1.109");
 		try {
 			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, 48);
 			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, 48);

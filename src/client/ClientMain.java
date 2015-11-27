@@ -17,8 +17,10 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
-	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+//	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), FS = true;
+	public static final int WIDTH = 800, HEIGHT = 800;
+	public static final boolean FS = false;
 	public static final int pixW = 10;
 	
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
@@ -43,7 +45,7 @@ public class ClientMain extends BasicGame {
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new ClientMain());
-			app.setDisplayMode(WIDTH, HEIGHT, true);
+			app.setDisplayMode(WIDTH, HEIGHT, FS);
 			app.setMinimumLogicUpdateInterval(15);
 			app.setAlwaysRender(true);
 			app.setVSync(true);
