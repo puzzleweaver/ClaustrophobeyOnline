@@ -2,7 +2,6 @@ package main;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.util.Random;
 
 import net.GameSocket;
@@ -23,7 +22,7 @@ public class Main extends GameSocket {
 	
 	public static ServerData data = new ServerData();
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 //		System.out.println(Inet4Address.getLocalHost().getHostAddress());
 		new Main().start();
 		AppGameContainer app;
