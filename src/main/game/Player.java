@@ -13,6 +13,7 @@ public class Player {
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();
 	public boolean preference;
+	public int ldx, ldy;
 	
 	public Player(int ix, int iy, short PID) {
 		for(int i = 0; i < 20 /* initial mass */; i++)
@@ -22,8 +23,15 @@ public class Player {
 	
 	public void update(InputData d) {
 		if(d.dx == 0 && d.dy == 0) return;
-		if(d.defend && d.dx == 0 ^ d.dy == 0) {
-			//create wall
+		int pred;
+		if(x.size() > 20 && d.defend && (ldx != 0 || ldy != 0)) {
+			for(int i = 0; i < x.size(); i++) {
+				pred = Main.r.nextInt(3)-1;
+				if(Main.data.freeAt(x.get(i)+ldx, y.get(i)+ldy) ||
+						Main.r.nextInt(3)==0 && Main.data.freeAt(x.get(i)+(ldx == 0 ? pred:ldx), y.get(i)+(ldy == 0 ? pred:ldy))) {
+					hardenID(i);
+				}
+			}
 		}
 		double l = Math.max(1, 0.4*Math.sqrt(x.size()));
 		for(int i = 0; i < l; i++)
@@ -36,6 +44,8 @@ public class Player {
 		}
 		data.sX =  (int) ((3.0*data.sX+data.clientData.pixW*nsX/x.size())*0.25);
 		data.sY = (int) ((3.0*data.sY+data.clientData.pixW*nsY/x.size())*0.25);
+		ldx = d.dx;
+		ldy = d.dy;
 	}
 	
 	public void move(InputData d) {
@@ -59,7 +69,7 @@ public class Player {
 		}
 		if(fx.size() == 0) return;
 		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size());
-		moveTo(Math.random() < 0.01 ? -1:id, fx.get(rid), fy.get(rid));
+		moveTo(Math.random() < 0.1 ? -1:id, fx.get(rid), fy.get(rid));
 	}
 	
 	public void moveTo(int id, int nx, int ny) {
@@ -75,6 +85,12 @@ public class Player {
 			x.add(nx);
 			y.add(ny);
 		}
+	}
+	
+	public void hardenID(int id) {
+		Main.data.state[x.get(id)][y.get(id)] = PID;
+		x.remove(id);
+		y.remove(id);
 	}
 	
 	public int getFurthestID(double dx, double dy) {

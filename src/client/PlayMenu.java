@@ -45,8 +45,8 @@ public class PlayMenu implements Menu {
 	}
 	
 	public Color get(short s, double t) {
-		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
-		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
+//		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
+//		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
 		int rs = (short) (((s+8192)%8192 + 8192)%8192);
 		if(rs >= R.size()) {
 			do {
@@ -66,11 +66,14 @@ public class PlayMenu implements Menu {
 					(int) (G.get(rs)*t),
 					(int) (B.get(rs)*t));
 		}else if(s < 8192) {
-			// off or def
+			// defensive
+			return new Color((int) (R.get(rs)*t*0.25),
+					(int) (G.get(rs)*t*0.25),
+					(int) (B.get(rs)*t*0.25));
 		}else {
-			// off or def
+			// offensive
 		}
-		return Color.black;
+		return Color.white;
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
