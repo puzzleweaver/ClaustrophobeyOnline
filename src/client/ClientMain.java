@@ -1,7 +1,8 @@
 package client;
 
 import java.awt.Font;
-import java.awt.Toolkit;
+
+import main.Menu;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
@@ -11,15 +12,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 
-import main.Menu;
-
 public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
 //	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), FS = true;
-	public static final int WIDTH = 800, HEIGHT = 800;
+//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+//	public static final boolean FS = true;
+	public static final int WIDTH = 800, HEIGHT = 600;
 	public static final boolean FS = false;
 	public static final int pixW = 10;
 	
@@ -59,8 +59,8 @@ public class ClientMain extends BasicGame {
 		Font awtfont;
 		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
 		awtfont = new Font("Arial", Font.BOLD, 10);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
-		font = new TrueTypeFont(awtfont.deriveFont(48f), false);
-		fontSmall = new TrueTypeFont(awtfont.deriveFont(36f), false);
+		font = new TrueTypeFont(awtfont.deriveFont((float) ClientMain.HEIGHT/16), false);
+		fontSmall = new TrueTypeFont(awtfont.deriveFont((float) ClientMain.HEIGHT/24), false);
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
