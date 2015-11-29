@@ -60,8 +60,8 @@ public class ClientMain extends BasicGame {
 		Font awtfont;
 		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
 		awtfont = new Font("Arial", Font.BOLD, 10);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
-		font = new TrueTypeFont(awtfont.deriveFont(48f), false);
-		fontSmall = new TrueTypeFont(awtfont.deriveFont(36f), false);
+		font = new TrueTypeFont(awtfont.deriveFont((float) ClientMain.HEIGHT/16), false);
+		fontSmall = new TrueTypeFont(awtfont.deriveFont((float) ClientMain.HEIGHT/24), false);
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);

@@ -2,8 +2,12 @@ package main;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.Inet4Address;
 import java.util.Random;
+
+import net.GameSocket;
+import net.InputData;
+import net.Serializer;
+import net.ServerData;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
@@ -11,11 +15,6 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-
-import net.GameSocket;
-import net.InputData;
-import net.Serializer;
-import net.ServerData;
 
 public class Main extends GameSocket {
 	
