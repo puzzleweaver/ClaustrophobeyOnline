@@ -13,14 +13,11 @@ public class Player {
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();
 	public boolean preference;
-	public int terr;
 	
 	public Player(int ix, int iy, short PID) {
-		terr = 20;
-		for(int i = 0; i < terr /* initial mass */; i++)
+		for(int i = 0; i < 20 /* initial mass */; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
-		Main.data.state[ix][iy] = PID;
 	}
 	
 	public void update(InputData d) {
@@ -66,11 +63,11 @@ public class Player {
 	}
 	
 	public void moveTo(int id, int nx, int ny) {
+		int oID = (Main.data.state[nx][ny]%8192+8192)%8192;
 		Main.data.state[nx][ny] = (short) (PID-8192);
+		if(oID != 0) Main.data.terr.set(oID, Main.data.terr.get(oID)-1);
+		Main.data.terr.set(PID, Main.data.terr.get(PID)+1);
 		if(id != -1) {
-			int oID = (Main.data.state[nx][ny]%8192+8192)%8192;
-			if(oID != 0) Main.data.indieData.get(oID-1).terr--;
-			Main.data.indieData.get(PID-1).terr--;
 			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 			x.set(id, nx);
 			y.set(id, ny);

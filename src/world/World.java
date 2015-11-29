@@ -47,7 +47,7 @@ public class World {
 	}
 	
 	public static short[][] generateWorld() {
-		int r = 200;
+		int r = 40;
 		short[][] world = new short[2*r][2*r];
 		for(int i = -r; i < r; i++) {
 			for(int j = -r; j < r; j++) {

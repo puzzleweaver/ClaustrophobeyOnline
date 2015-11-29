@@ -16,16 +16,19 @@ public class ServerData implements Serializable {
 	
 	private static final long serialVersionUID = 584460438362147743L;
 
-	public ArrayList<IndividualData> indieData = new ArrayList<IndividualData>();
+	public ArrayList<IndividualData> indieData = new ArrayList<>();
 	
 	public int index;
 	
 	public int w, h;
 	public short[][] state;
 	
+	public ArrayList<Integer> terr = new ArrayList<>();
+	
 	public ServerData() {
-		state = World.generateTestWorld();
+		state = World.generateWorld();
 		w = state.length; h = state[0].length;
+		terr.add(0);
 	}
 	
 	public boolean processData(InputData data, InetAddress address, int port) {
@@ -41,6 +44,7 @@ public class ServerData implements Serializable {
 		//create space for new data if this is a new client
 		if(index == -1) {
 			index = indieData.size();
+			terr.add(0);
 			IndividualData iData = new IndividualData(index+1);
 			iData.address = address;
 			iData.port = port;
@@ -64,9 +68,9 @@ public class ServerData implements Serializable {
 		int i0 = (id.sX-id.clientData.w/2)/pw-1, j0 = (id.sY-id.clientData.h/2)/pw-1;
 		int ie = (id.sX+id.clientData.w/2)/pw+1, je = (id.sY+id.clientData.h/2)/pw+1;
 		d.state = new short[ie-i0][je-j0];
-		d.territory = new int[indieData.size()];
-		for(int i = 0; i < indieData.size(); i++) {
-			d.territory[i] = indieData.get(i).terr;
+		d.territory = new int[terr.size()];
+		for(int i = 0; i < terr.size(); i++) {
+			d.territory[i] = terr.get(i);
 		}
 		for(int i = i0; i < ie; i++) {
 			for(int j = j0; j < je; j++) {
