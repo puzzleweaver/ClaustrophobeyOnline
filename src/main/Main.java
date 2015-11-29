@@ -23,8 +23,7 @@ public class Main extends GameSocket {
 	
 	public static ServerData data = new ServerData();
 	
-	public static void main(String[] args) throws Exception {
-//		System.out.println(Inet4Address.getLocalHost().getHostAddress());
+	public static void main(String[] args) {
 		new Main().start();
 		AppGameContainer app;
 		try {
