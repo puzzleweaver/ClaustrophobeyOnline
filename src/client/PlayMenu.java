@@ -47,18 +47,30 @@ public class PlayMenu implements Menu {
 	public Color get(short s, double t) {
 		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
 		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
-		t *= s < -8192 ? 0.3 : (s < 0 ? 1.0 : (s < 8192 ? 0.2 : 0.0));
-		s = (short) (((s+8192)%8192 + 8192)%8192);
-		if(s >= R.size()) {
+		int rs = (short) (((s+8192)%8192 + 8192)%8192);
+		if(rs >= R.size()) {
 			do {
 				R.add(Math.cos(R.size())*127+128);
 				G.add(Math.cos(G.size()+2.09439510239)*127+128);
 				B.add(Math.cos(B.size()+4.18879020479)*127+128);
-			} while(s >= R.size());
+			} while(rs >= R.size());
 		}
-		return new Color((int) (t*R.get(s)),
-			(int) (t*G.get(s)),
-			(int) (t*B.get(s)));
+		if(s < -8192) {
+			// conquered
+			return new Color((int) (R.get(rs)*0.5*t),
+					(int) (G.get(rs)*0.5*t),
+					(int) (B.get(rs)*0.5*t));
+		}else if(s < 0) {
+			// normal
+			return new Color((int) (R.get(rs)*t),
+					(int) (G.get(rs)*t),
+					(int) (B.get(rs)*t));
+		}else if(s < 8192) {
+			// off or def
+		}else {
+			// off or def
+		}
+		return Color.black;
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
@@ -75,7 +87,7 @@ public class PlayMenu implements Menu {
 			int lastSum = 0;
 			int total = 0;
 			int size = pw*10;
-			for(int i = 0; i < data.territory.length; i++)
+			for(int i = 1; i < data.territory.length; i++)
 				total += data.territory[i];
 			for(int i = 1; i < data.territory.length; i++) {
 				if(i >= R.size()) {
@@ -96,13 +108,13 @@ public class PlayMenu implements Menu {
 	public double getRf(int i, int j, OutputData d) {
 		int x = ((i+d.sX/pw)%rfw+rfw)%rfw,
 				y = ((j+d.sY/pw)%rfh+rfh)%rfh;
-		if(d.state[i][j] < -8192 /* conquered */) rf[x][y] += Math.random()*0.1-0.05;
-		else if(d.state[i][j] < 0 /* normal */) rf[x][y] = 1;
-		else if(d.state[i][j] < 8192 /* defense */) rf[x][y] = 1;
-		else {
-			rf[x][y] += Math.random()*0.025-0.0125;
-			rf[x][y] = Math.max(Math.min(rf[x][y], 1), 0.75);
-		}
+//		if(d.state[i][j] < -8192 /* conquered */) rf[x][y] += Math.random()*0.1-0.05;
+//		else if(d.state[i][j] < 0 /* normal */) rf[x][y] = 1;
+//		else if(d.state[i][j] < 8192 /* defense */) rf[x][y] = 1;
+//		else {
+		rf[x][y] += Math.random()*0.025-0.0125;
+		rf[x][y] = Math.max(Math.min(rf[x][y], 1), 0.75);
+//		}
 		return rf[x][y];
 	}
 	

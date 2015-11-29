@@ -21,7 +21,7 @@ public class ClientMain extends BasicGame {
 //	public static final boolean FS = true;
 	public static final int WIDTH = 800, HEIGHT = 600;
 	public static final boolean FS = false;
-	public static final int pixW = 10;
+	public static final int pixW = 5;
 	
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
 	
@@ -64,7 +64,7 @@ public class ClientMain extends BasicGame {
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
-		settingsMenu.init(gc);
+		settingsMenu.init(gc); 
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
