@@ -18,10 +18,11 @@ public class ClientMain extends BasicGame {
 	public static Menu menu;
 	
 //	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight(), FS = true;
-	public static final int WIDTH = 800, HEIGHT = 800;
+//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+//	public static final boolean FS = true;
+	public static final int WIDTH = 400, HEIGHT = 400;
 	public static final boolean FS = false;
-	public static final int pixW = 10;
+	public static final int pixW = 5;
 	
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
 	
@@ -64,7 +65,7 @@ public class ClientMain extends BasicGame {
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
-		settingsMenu.init(gc);
+		settingsMenu.init(gc); 
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
