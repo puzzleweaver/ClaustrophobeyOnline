@@ -17,12 +17,12 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
-//	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-//	public static final boolean FS = true;
-	public static final int WIDTH = 800, HEIGHT = 800;
-	public static final boolean FS = false;
-	public static final int pixW = 10;
+	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final boolean FS = true;
+//	public static final int WIDTH = 800, HEIGHT = 800;
+//	public static final boolean FS = false;
+	public static final int pixW = (int) Math.ceil(WIDTH/(3*Math.sqrt(1+3512*HEIGHT/WIDTH)))+1;
 	
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
 	
@@ -57,11 +57,11 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public void init(GameContainer gc) throws SlickException {
-		Font awtfont;
 		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
-		awtfont = new Font("Arial", Font.BOLD, 10);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
-		font = new TrueTypeFont(awtfont.deriveFont((float) ClientMain.HEIGHT/16), false);
-		fontSmall = new TrueTypeFont(awtfont.deriveFont((float) ClientMain.HEIGHT/24), false);
+		Font awtFont = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/16);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
+		Font awtFontSmall = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/24);
+		font = new TrueTypeFont(awtFont, false);
+		fontSmall = new TrueTypeFont(awtFontSmall, false);
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
