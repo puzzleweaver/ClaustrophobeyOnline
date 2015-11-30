@@ -72,9 +72,9 @@ public class PlayMenu implements Menu {
 					(int) (B.get(rs)*t*0.25));
 		}else {
 			// offensive
-			return new Color((int) (R.get(rs)*(t+1)),
-					(int) (G.get(rs)*(t+1)),
-					(int) (B.get(rs)*(t+1)));
+			return new Color((int) (R.get(rs)*t*1.5),
+					(int) (G.get(rs)*t*1.5),
+					(int) (B.get(rs)*t*1.5));
 		}
 	}
 	

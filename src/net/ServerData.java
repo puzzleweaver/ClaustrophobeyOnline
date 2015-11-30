@@ -90,16 +90,6 @@ public class ServerData implements Serializable {
 		}
 	}
 	
-	public boolean freeAt(int x, int y) {
-		// conquered: {id | -16384 <= id < -8192}
-		// normal: {id | -8192 <= id < 0}
-		// defensive: {id | 0 <= id < 8192}
-		// offensive: {id | 8192 <= id < 16384}
-		if(x < 0 || y < 0 || x >= w || y >= h)
-			return false;
-		return state[x][y] < -8192;
-	}
-	
 	public Color get(short s) {
 		double t = 1.0;
 		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);

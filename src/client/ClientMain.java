@@ -57,14 +57,14 @@ public class ClientMain extends BasicGame {
 	
 	public void init(GameContainer gc) throws SlickException {
 		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
-		Font awtFont = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/16);//Font.createFont(Font.TRUETYPE_FONT, inputStream);
+		Font awtFont = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/16); // Font.createFont(Font.TRUETYPE_FONT, inputStream);
 		Font awtFontSmall = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/24);
 		font = new TrueTypeFont(awtFont, false);
 		fontSmall = new TrueTypeFont(awtFontSmall, false);
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
-		settingsMenu.init(gc); 
+		settingsMenu.init(gc);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
