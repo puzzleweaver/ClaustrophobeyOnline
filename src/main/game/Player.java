@@ -69,7 +69,7 @@ public class Player {
 		}
 		if(fx.size() == 0) return;
 		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size());
-		moveTo(Math.random() < 0.1 ? -1:id, fx.get(rid), fy.get(rid));
+		moveTo(Math.random() < 0.01 ? -1:id, fx.get(rid), fy.get(rid));
 	}
 	
 	public void moveTo(int id, int nx, int ny) {

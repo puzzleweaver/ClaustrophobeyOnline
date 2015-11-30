@@ -22,7 +22,7 @@ public class ClientMain extends BasicGame {
 	public static final boolean FS = true;
 //	public static final int WIDTH = 800, HEIGHT = 800;
 //	public static final boolean FS = false;
-	public static final int pixW = (int) Math.ceil(WIDTH/(3*Math.sqrt(1+3512*HEIGHT/WIDTH)))+1;
+	public static final int pixW = (int) Math.ceil(WIDTH/(6.0*Math.sqrt(1.0+3512.0*HEIGHT/WIDTH)))+3;
 	
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
 	
