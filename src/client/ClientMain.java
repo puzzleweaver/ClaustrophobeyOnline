@@ -17,11 +17,11 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
-//	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-//			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
-//	public static final boolean FS = true;
-	public static final int WIDTH = 400, HEIGHT = 400;
-	public static final boolean FS = false;
+	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+	public static final boolean FS = true;
+//	public static final int WIDTH = 400, HEIGHT = 400;
+//	public static final boolean FS = false;
 	public static final int pixW = (int) Math.ceil(WIDTH/(6.0*Math.sqrt(1.0+3512.0*HEIGHT/WIDTH)))+3;
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu;
 	
