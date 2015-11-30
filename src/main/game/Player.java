@@ -25,13 +25,21 @@ public class Player {
 		if(d.dx == 0 && d.dy == 0) return;
 		int pred;
 		if(x.size() > 20 && d.defend && (ldx != 0 || ldy != 0)) {
-			for(int i = 0; i < x.size(); i++) {
-				pred = Main.r.nextInt(3)-1;
-				if(Main.data.freeAt(x.get(i)+ldx, y.get(i)+ldy) ||
-						Main.r.nextInt(3)==0 && Main.data.freeAt(x.get(i)+(ldx == 0 ? pred:ldx), y.get(i)+(ldy == 0 ? pred:ldy))) {
-					hardenID(i);
-				}
+			
+			// method 1
+//			for(int i = 0; i < x.size(); i++) {
+//				pred = Main.r.nextInt(3)-1;
+//				if(Main.data.freeAt(x.get(i)+ldx, y.get(i)+ldy) ||
+//						Main.r.nextInt(3)==0 && Main.data.freeAt(x.get(i)+(ldx == 0 ? pred:ldx), y.get(i)+(ldy == 0 ? pred:ldy))) {
+//					hardenID(i);
+//				}
+//			}
+			
+			// method 2
+			for(int i = 0; i < 20; i++) {
+				hardenID(getFurthestID(ldx, ldy));
 			}
+			
 		}
 		double l = Math.max(1, 0.4*Math.sqrt(x.size()));
 		for(int i = 0; i < l; i++)
