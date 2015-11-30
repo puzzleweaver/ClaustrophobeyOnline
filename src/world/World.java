@@ -14,7 +14,7 @@ public class World {
 
 	public static int nodes;
 	
-	public static final short STATE_SPACE = -16384, STATE_WALL = 0;
+	public static final short STATE_SPACE = -16384, STATE_WALL = 0, STATE_FOOD = -8192, STATE_FOODER = 8192;
 	public static int border = 10;
 	public static double turnAngle = 0.2 /*0<x<pi*/,
 			branchAngle = 0.4 /*0<x<pi/2*/, 
@@ -47,11 +47,11 @@ public class World {
 	}
 	
 	public static short[][] generateSDWorld() {
-		int r = 40;
-		short[][] world = new short[2*r][2*r];
+		int r = 400;
+		short[][] world = new short[2*(r+border)][2*(r+border)];
 		for(int i = -r; i < r; i++) {
 			for(int j = -r; j < r; j++) {
-				world[i+r][j+r] = Math.hypot(i, j)-r < 0 ? World.STATE_SPACE:World.STATE_WALL;
+				world[i+r+border][j+r+border] = Math.hypot(i, j)-r < 0 ? World.STATE_SPACE:World.STATE_WALL;
 			}
 		}
 		return world;

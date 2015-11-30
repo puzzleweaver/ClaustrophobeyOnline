@@ -10,7 +10,7 @@ public abstract class GameSocket extends Thread {
 	
 	public static InetAddress serverIP;
 	
-	public static final int PORT = 7890;
+	public static final int PORT = 25566;
 	
 	public void sendData(byte[] data, InetAddress ipAddress, int port) {
 		DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);

@@ -132,6 +132,8 @@ public class PlayMenu implements Menu {
 		clientData.pixW = ClientMain.pixW;
 		clientData.attack = Keyboard.isKeyDown(Keyboard.KEY_X);
 		clientData.defend = Keyboard.isKeyDown(Keyboard.KEY_Z);
+		clientData.slothShortcut = Keyboard.isKeyDown(Keyboard.KEY_1);
+		clientData.greedShortcut = Keyboard.isKeyDown(Keyboard.KEY_2);
 		try {
 			gameClient.sendData(Serializer.serialize(clientData), GameSocket.serverIP, GameSocket.PORT);
 		} catch(Exception e) {

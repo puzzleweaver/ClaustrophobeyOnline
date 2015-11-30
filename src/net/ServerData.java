@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import main.game.RBCHandler;
 import world.World;
 
 public class ServerData implements Serializable {
@@ -17,6 +18,7 @@ public class ServerData implements Serializable {
 	private static final long serialVersionUID = 584460438362147743L;
 
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
+	RBCHandler p0 = new RBCHandler();
 	
 	public int index;
 	
@@ -85,6 +87,8 @@ public class ServerData implements Serializable {
 	}
 	
 	public void update(double dt) {
+		p0.update();
+		p0.spawn();
 		for(int i = 0; i < indieData.size(); i++) {
 			indieData.get(i).update(dt);
 		}
