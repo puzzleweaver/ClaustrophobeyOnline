@@ -72,8 +72,10 @@ public class PlayMenu implements Menu {
 					(int) (B.get(rs)*t*0.25));
 		}else {
 			// offensive
+			return new Color((int) (R.get(rs)*(t+1)),
+					(int) (G.get(rs)*(t+1)),
+					(int) (B.get(rs)*(t+1)));
 		}
-		return Color.white;
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
@@ -121,8 +123,6 @@ public class PlayMenu implements Menu {
 		return rf[x][y];
 	}
 	
-	private boolean def;
-	
 	public void update(GameContainer gc) {
 		clientData.exited = ClientMain.exited;
 		clientData.dx = (Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D) ? 1 : 0) -
@@ -131,7 +131,7 @@ public class PlayMenu implements Menu {
 				(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W) ? 1 : 0);
 		clientData.pixW = ClientMain.pixW;
 		clientData.attack = Keyboard.isKeyDown(Keyboard.KEY_X);
-		clientData.defend = gc.getInput().isKeyPressed(Keyboard.KEY_Z);
+		clientData.defend = Keyboard.isKeyDown(Keyboard.KEY_Z);
 		try {
 			gameClient.sendData(Serializer.serialize(clientData), GameSocket.serverIP, GameSocket.PORT);
 		} catch(Exception e) {
