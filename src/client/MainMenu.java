@@ -14,19 +14,19 @@ public class MainMenu implements Menu {
 	public void render(GameContainer gc, Graphics g) {
 		MenuBackground.render(gc, g);
 		//title
-		g.setColor(Color.black);
+		g.setColor(Menu.TITLE_COLOR);
 		g.setFont(ClientMain.font);
 		g.drawString("Claustrophobey", gc.getWidth()/2 - ClientMain.font.getWidth("Claustrophobey")/2, gc.getHeight()/4);
 		//play button
-		g.setColor(isPlayButtonHovered() ? Color.green : Color.green.darker());
+		g.setColor(isPlayButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
 		g.drawString("Play", gc.getWidth()/2 - ClientMain.font.getWidth("Play")/2, gc.getHeight()/2);
 		//settings button
-		g.setColor(isSettingsButtonHovered() ? Color.green : Color.green.darker());
-		g.drawString("Settings", gc.getWidth()/2 - ClientMain.font.getWidth("Settings")/2, gc.getHeight()/2 + ClientMain.font.getHeight("Play"));
+		g.setColor(isSettingsButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+		g.drawString("Settings", gc.getWidth()/2 - ClientMain.font.getWidth("Settings")/2, gc.getHeight()/2 + ClientMain.font.getHeight("Play") + 1);
 	}
 	
 	public void update(GameContainer gc) {
-		boolean mouseDown = Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON);
+		boolean mouseDown = gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		if(mouseDown) {
 			if(isPlayButtonHovered())
 				ClientMain.menu = ClientMain.serverManagerMenu;
@@ -46,7 +46,7 @@ public class MainMenu implements Menu {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
 		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Settings")/2;
-		int by = ClientMain.HEIGHT/2 + ClientMain.font.getHeight("Play");
+		int by = ClientMain.HEIGHT/2 + ClientMain.font.getHeight("Play") + 1;
 		return mx >= bx && mx <= bx+ClientMain.font.getWidth("Settings") && my >= by && my <= by+ClientMain.font.getHeight("Settings");
 	}
 	

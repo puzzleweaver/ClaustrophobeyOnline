@@ -1,7 +1,12 @@
 package client;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.io.InputStream;
+
+import main.Menu;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
@@ -10,8 +15,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
-
-import main.Menu;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class ClientMain extends BasicGame {
 	
@@ -56,11 +60,16 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public void init(GameContainer gc) throws SlickException {
-		//InputStream inputStream = ResourceLoader.getResourceAsStream("res/Fipps-Regular.ttf");
-		Font awtFont = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/16); // Font.createFont(Font.TRUETYPE_FONT, inputStream);
-		Font awtFontSmall = new Font("Arial", Font.BOLD, ClientMain.HEIGHT/24);
-		font = new TrueTypeFont(awtFont, false);
-		fontSmall = new TrueTypeFont(awtFontSmall, false);
+		InputStream inputStream = ResourceLoader.getResourceAsStream("res/half_bold_pixel-7.ttf");
+		Font awtFont;
+		try {
+			awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream); //16, 24
+			font = new TrueTypeFont(awtFont.deriveFont((float) Math.min(48, ClientMain.WIDTH/20)), false);
+			fontSmall = new TrueTypeFont(awtFont.deriveFont((float) Math.min(48, ClientMain.WIDTH/24)), false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		MenuBackground.init();
 		mainMenu.init(gc);
 		serverManagerMenu.init(gc);
