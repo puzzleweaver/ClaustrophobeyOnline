@@ -9,7 +9,7 @@ import world.World;
 
 public class Player {
 
-	public static final int MAX_SIZE = 400, MIN_SIZE = 20;
+	public static final int MAX_SIZE = 1000, MIN_SIZE = 20;
 	public short PID;
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();
@@ -126,14 +126,14 @@ public class Player {
 
 	public int getFurthestID(double dx, double dy) {
 		int minID = 0;
-		boolean taken = false;
 		double minDot = Double.MAX_VALUE, dot;
+		if(dx != 0) dy = Main.r.nextDouble()*2-1;
+		else dx = Main.r.nextDouble()*2-1;
 		for(int i = 0; i < x.size(); i++) {
 			dot = x.get(i)*dx+y.get(i)*dy;
-			if(dot < minDot && (taken || Math.random() < 0.1)) {
+			if(minDot > dot) {
 				minDot = dot;
 				minID = i;
-				taken = true;
 			}
 		}
 		return minID;
