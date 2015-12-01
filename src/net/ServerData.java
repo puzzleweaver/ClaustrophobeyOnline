@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import main.game.RBCHandler;
+import main.game.AmoebaHandler;
 import world.World;
 
 public class ServerData implements Serializable {
@@ -18,7 +18,7 @@ public class ServerData implements Serializable {
 	private static final long serialVersionUID = 584460438362147743L;
 
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
-	RBCHandler p0 = new RBCHandler();
+	AmoebaHandler p0 = new AmoebaHandler();
 	
 	public int index;
 	

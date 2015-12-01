@@ -6,13 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Inet4Address;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.Random;
-
-import net.GameSocket;
-import net.InputData;
-import net.Serializer;
-import net.ServerData;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
@@ -21,6 +15,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+
+import net.GameSocket;
+import net.InputData;
+import net.Serializer;
+import net.ServerData;
 
 public class Main extends GameSocket {
 	
@@ -75,7 +74,13 @@ public class Main extends GameSocket {
 		                whatismyip.openStream()));
 				str2 = "Public IP: " + in.readLine();
 			} catch (Exception e) {
-				e.printStackTrace();
+				// computer is offline
+				if(str1 == null) {
+					str1 = "PRIVATE IP NOT AVAILABLE";
+				}
+				if(str2 == null) {
+					str2 = "PUBLIC IP NOT AVAILABLE";
+				}
 			}
 		}
 		
