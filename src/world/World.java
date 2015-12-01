@@ -46,7 +46,7 @@ public class World {
 		System.out.println(nodes);
 	}
 	
-	public static short[][] generateSDWorld() {
+	public static short[][] generateWorld() {
 		int r = 400;
 		short[][] world = new short[2*(r+border)][2*(r+border)];
 		for(int i = -r; i < r; i++) {
@@ -57,7 +57,7 @@ public class World {
 		return world;
 	}
 	
-	public static short[][] generateWorld() {
+	public static short[][] generateSDWorld() {
 		ArrayList<Circ> c = new ArrayList<Circ>();
 		startDendrite(c, 0, 0);
 		double maxX = Double.MIN_VALUE, minX = Double.MAX_VALUE, maxY = Double.MIN_VALUE, minY = Double.MAX_VALUE;

@@ -18,7 +18,7 @@ public class Player {
 	public boolean att;
 
 	public Player(int ix, int iy, short PID) {
-		for(int i = 0; i < MAX_SIZE /* initial mass */; i++)
+		for(int i = 0; i < 20 /* initial mass */; i++)
 			moveTo(-1, ix, iy);
 		this.PID = PID;
 	}
@@ -45,16 +45,18 @@ public class Player {
 				delete(getFurthestID(ldx, ldy));
 			for(int i = 0; i < l; i++)
 				move(d);
-			IndividualData data = Main.data.indieData.get(PID-1);
-			int nsX = 0, nsY = 0;
-			for(int i = 0; i < x.size(); i++) {
-				nsX += x.get(i);
-				nsY += y.get(i);
+			if(PID != 0) {
+				IndividualData data = Main.data.indieData.get(PID-1);
+				int nsX = 0, nsY = 0;
+				for(int i = 0; i < x.size(); i++) {
+					nsX += x.get(i);
+					nsY += y.get(i);
+				}
+				data.sX =  (int) ((3.0*data.sX+data.clientData.pixW*nsX/x.size())*0.25);
+				data.sY = (int) ((3.0*data.sY+data.clientData.pixW*nsY/x.size())*0.25);
+				ldx = d.dx;
+				ldy = d.dy;
 			}
-			data.sX =  (int) ((3.0*data.sX+data.clientData.pixW*nsX/x.size())*0.25);
-			data.sY = (int) ((3.0*data.sY+data.clientData.pixW*nsY/x.size())*0.25);
-			ldx = d.dx;
-			ldy = d.dy;
 		}
 	}
 
@@ -79,7 +81,7 @@ public class Player {
 		}
 		if(fx.size() == 0) return;
 		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size());
-		moveTo(x.size() < 200 && Math.random() < 0.1 ? -1:id, fx.get(rid), fy.get(rid));
+		moveTo(id, fx.get(rid), fy.get(rid));
 	}
 
 	public boolean freeAt(int nx, int ny) {

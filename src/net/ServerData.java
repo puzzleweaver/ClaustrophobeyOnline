@@ -87,8 +87,8 @@ public class ServerData implements Serializable {
 	}
 	
 	public void update(double dt) {
-		p0.update();
 		p0.spawn();
+		p0.update();
 		for(int i = 0; i < indieData.size(); i++) {
 			indieData.get(i).update(dt);
 		}
