@@ -43,8 +43,8 @@ public class ServerManagerMenu implements Menu {
 		serverIPList.add("172.78.67.129");
 		serverIPList.add("192.168.1.109");
 		try {
-			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, 48);
-			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, 48);
+			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
+			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
 			image = new Image(gc.getWidth(), gc.getHeight()/2);
 			g2 = image.getGraphics();
 		} catch (Exception e) {
@@ -57,45 +57,48 @@ public class ServerManagerMenu implements Menu {
 		if(enterIP) {
 			//labels for name and ip
 			g.setFont(ClientMain.font);
-			g.setColor(Color.black);
-			g.drawString("Name: ", gc.getWidth()/2 - ClientMain.font.getWidth("Name: ")/2 - nameTextField.getWidth()/2, gc.getHeight()/2-24);
-			g.drawString("IP: ", gc.getWidth()/2 - ClientMain.font.getWidth("IP: ")/2 - ipTextField.getWidth()/2, gc.getHeight()/2+24);
+			g.setColor(Menu.TITLE_COLOR);
+			g.drawString("Name: ", gc.getWidth()/2 - ClientMain.font.getWidth("Name: ")/2 - nameTextField.getWidth()/2, gc.getHeight()/2-ClientMain.fontSmall.getHeight()/2);
+			g.drawString("IP: ", gc.getWidth()/2 - ClientMain.font.getWidth("IP: ")/2 - ipTextField.getWidth()/2, gc.getHeight()/2+ClientMain.fontSmall.getHeight()/2);
 			//text fields
+			g.setColor(Menu.TYPE_COLOR);
+			nameTextField.setBorderColor(Color.black);
 			nameTextField.render(gc, g);
+			ipTextField.setBorderColor(Color.black);
 			ipTextField.render(gc, g);
 			//ok button
-			g.setColor(isOkButtonHovered() ? Color.green : Color.green.darker());
-			g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+72);
+			g.setColor(isOkButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+			g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+ClientMain.fontSmall.getHeight()*2);
 		}else {
 			//title
 			g.setFont(ClientMain.font);
-			g.setColor(Color.black);
+			g.setColor(Menu.TITLE_COLOR);
 			g.drawString("Select Server", gc.getWidth()/2 - ClientMain.font.getWidth("Select Server")/2, gc.getHeight()/8);
 			//back button
-			g.setColor(isBackButtonHovered() ? Color.green : Color.green.darker());
-			g.drawString("Back", gc.getWidth()/4 - ClientMain.font.getWidth("Back")/2,  gc.getHeight()/8);
+			g.setColor(isBackButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+			g.drawString("Back", gc.getWidth()/8 - ClientMain.font.getWidth("Back")/2,  gc.getHeight()/8);
 			//server list
 			g2.clear();
 //			g2.setColor(Color.black);
 //			g2.fillRect(0, 0, image.getWidth(), image.getHeight());
 			g2.setFont(ClientMain.fontSmall);
 			for(int i = 0; i < serverNameList.size(); i++) {
-				g2.setColor(isServerHovered(i) || selectedServer == i ? Color.green : Color.green.darker());
-				g2.drawString(serverNameList.get(i), image.getWidth()/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2, sy + i*46);
+				g2.setColor(isServerHovered(i) || selectedServer == i ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+				g2.drawString(serverNameList.get(i), image.getWidth()/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2, sy + i*(ClientMain.fontSmall.getHeight()+1));
 			}
 //			g2.setColor(Color.green);
 //			g2.setLineWidth(4);
 //			g2.drawRect(0, 0, image.getWidth(), image.getHeight());
 			g.drawImage(image, 0, gc.getHeight()/4);
 			//add server button
-			g.setColor(isAddButtonHovered() ? Color.green : Color.green.darker());
+			g.setColor(isAddButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
 			g.drawString("Add Server", gc.getWidth()/2 - ClientMain.font.getWidth("Add Server")/2, 7*gc.getHeight()/8);
 			//other buttons
 			if(selectedServer >= 0) {
-				g.setColor(isPlayButtonHovered() ? Color.green : Color.green.darker());
-				g.drawString("Play", gc.getWidth()/4 - ClientMain.font.getWidth("Play")/2, 7*gc.getHeight()/8);
-				g.setColor(isRemoveButtonHovered() ? Color.green : Color.green.darker());
-				g.drawString("Remove", 3*gc.getWidth()/4 - ClientMain.font.getWidth("Remove")/2, 7*gc.getHeight()/8);
+				g.setColor(isPlayButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+				g.drawString("Play", gc.getWidth()/8 - ClientMain.font.getWidth("Play")/2, 7*gc.getHeight()/8);
+				g.setColor(isRemoveButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+				g.drawString("Remove", 7*gc.getWidth()/8 - ClientMain.font.getWidth("Remove")/2, 7*gc.getHeight()/8);
 			}
 		}
 	}
@@ -147,9 +150,9 @@ public class ServerManagerMenu implements Menu {
 				if(!didSelect) selectedServer = -1;
 			}
 			sy += Mouse.getDWheel()/4;
-			if(image.getHeight() < serverNameList.size()*46 && sy < image.getHeight()-serverNameList.size()*46)
-				sy = image.getHeight()-serverNameList.size()*46;
-			if(image.getHeight() > serverNameList.size()*46 || sy > 0)
+			if(image.getHeight() < serverNameList.size()*(ClientMain.fontSmall.getHeight()+1) && sy < image.getHeight()-serverNameList.size()*46)
+				sy = image.getHeight()-serverNameList.size()*(ClientMain.fontSmall.getHeight()+1);
+			if(image.getHeight() > serverNameList.size()*(ClientMain.fontSmall.getHeight()+1) || sy > 0)
 				sy = 0;
 		}
 	}
@@ -165,14 +168,14 @@ public class ServerManagerMenu implements Menu {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
 		int bx = ClientMain.WIDTH/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2;
-		int by = ClientMain.HEIGHT/4 + sy + i*46;
+		int by = ClientMain.HEIGHT/4 + sy + i*(ClientMain.fontSmall.getHeight()+1);
 		return my > ClientMain.HEIGHT/4 && my < 3*ClientMain.HEIGHT/4 &&
 				mx > bx && mx < bx+ClientMain.fontSmall.getWidth(serverNameList.get(i)) && my > by && my < by+ClientMain.fontSmall.getHeight(serverNameList.get(i));
 	}
 	private boolean isBackButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/4 - ClientMain.font.getWidth("Back")/2;
+		int bx = ClientMain.WIDTH/8 - ClientMain.font.getWidth("Back")/2;
 		int by = ClientMain.HEIGHT/8;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("Back") && my > by && my < by+ClientMain.font.getHeight("Back");
 	}
@@ -181,21 +184,21 @@ public class ServerManagerMenu implements Menu {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
 		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("OK")/2;
-		int by = ClientMain.HEIGHT/2+72;
+		int by = ClientMain.HEIGHT/2+ClientMain.fontSmall.getHeight()*2;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("OK") && my > by && my < by+ClientMain.font.getHeight("OK");
 	}
 	
 	private boolean isPlayButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/4 - ClientMain.font.getWidth("Play")/2;
+		int bx = ClientMain.WIDTH/8 - ClientMain.font.getWidth("Play")/2;
 		int by = 7*ClientMain.HEIGHT/8;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("Play") && my > by && my < by+ClientMain.font.getHeight("Play");
 	}
 	private boolean isRemoveButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = 3*ClientMain.WIDTH/4 - ClientMain.font.getWidth("Remove")/2;
+		int bx = 7*ClientMain.WIDTH/8 - ClientMain.font.getWidth("Remove")/2;
 		int by = 7*ClientMain.HEIGHT/8;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("Remove") && my > by && my < by+ClientMain.font.getHeight("Remove");
 	}

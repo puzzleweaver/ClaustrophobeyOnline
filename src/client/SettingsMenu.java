@@ -17,14 +17,14 @@ public class SettingsMenu implements Menu {
 		//background
 		MenuBackground.render(gc, g);
 		//title
-		g.setColor(Color.black);
+		g.setColor(Menu.TITLE_COLOR);
 		g.setFont(ClientMain.font);
 		g.drawString("Settings", gc.getWidth()/2 - ClientMain.font.getWidth("Settings")/2, gc.getHeight()/8);
 		//back button
-		g.setColor(isBackButtonHovered() ? Color.green : Color.green.darker());
+		g.setColor(isBackButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
 		g.drawString("Back", gc.getWidth()/4 - ClientMain.font.getWidth("Back")/2,  gc.getHeight()/8);
 		//music volume
-		g.setColor(Color.black);
+		g.setColor(Menu.TITLE_COLOR);
 		g.setFont(ClientMain.fontSmall);
 		g.drawString("Music Volume", gc.getWidth()/2 - ClientMain.fontSmall.getWidth("Music Volume")/2, gc.getHeight()/4);
 		//draw scale of volume
