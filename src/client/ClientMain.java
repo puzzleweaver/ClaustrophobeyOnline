@@ -38,9 +38,10 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
+		Settings.read();
 		Sounds.load();
 		Sounds.music.loop();
-		Sounds.music.setVolume(0.0f);
+		Sounds.music.setVolume(Settings.musicVolume);
 		mainMenu = new MainMenu();
 		serverManagerMenu = new ServerManagerMenu();
 		playMenu = new PlayMenu();
@@ -83,8 +84,10 @@ public class ClientMain extends BasicGame {
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 			exited = true;
 		menu.update(gc);
-		if(exited)
+		if(exited) {
+			Settings.write();
 			gc.exit();
+		}
 	}
 	
 	public boolean closeRequested() {

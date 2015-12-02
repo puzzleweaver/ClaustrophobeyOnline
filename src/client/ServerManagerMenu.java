@@ -2,7 +2,6 @@ package client;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import main.Menu;
 import net.GameSocket;
@@ -24,24 +23,9 @@ public class ServerManagerMenu implements Menu {
 	
 	private TextField nameTextField, ipTextField;
 	
-	private ArrayList<String> serverNameList = new ArrayList<>();
-	private ArrayList<String> serverIPList = new ArrayList<>();
 	private int selectedServer = -1;
 	
 	public void init(GameContainer gc) {
-		//possible servers we will use - feel free to add any
-		//in the future, this should be a text file
-		serverNameList.add("This Computer");
-		serverNameList.add("Riley Local");
-		serverNameList.add("Riley Public");
-		serverNameList.add("Austin Public");
-		serverNameList.add("Austin Local?");
-		
-		serverIPList.add("localhost");
-		serverIPList.add("192.168.1.115");
-		serverIPList.add("71.46.93.12");
-		serverIPList.add("172.78.67.129");
-		serverIPList.add("192.168.1.109");
 		try {
 			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
 			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
@@ -82,9 +66,9 @@ public class ServerManagerMenu implements Menu {
 //			g2.setColor(Color.black);
 //			g2.fillRect(0, 0, image.getWidth(), image.getHeight());
 			g2.setFont(ClientMain.fontSmall);
-			for(int i = 0; i < serverNameList.size(); i++) {
+			for(int i = 0; i < Settings.name.size(); i++) {
 				g2.setColor(isServerHovered(i) || selectedServer == i ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-				g2.drawString(serverNameList.get(i), image.getWidth()/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2, sy + i*(ClientMain.fontSmall.getHeight()+1));
+				g2.drawString(Settings.name.get(i), image.getWidth()/2 - ClientMain.fontSmall.getWidth(Settings.name.get(i))/2, sy + i*(ClientMain.fontSmall.getHeight()+1));
 			}
 //			g2.setColor(Color.green);
 //			g2.setLineWidth(4);
@@ -109,8 +93,8 @@ public class ServerManagerMenu implements Menu {
 		if(enterIP) {
 			if(isOkButtonHovered() && mousePressed) {
 				if(nameTextField.getText().length() > 0 && ipTextField.getText().length() > 0) {
-					serverNameList.add(nameTextField.getText());
-					serverIPList.add(ipTextField.getText());
+					Settings.name.add(nameTextField.getText());
+					Settings.ip.add(ipTextField.getText());
 				}
 				enterIP = false;
 				nameTextField.setText("");
@@ -125,13 +109,13 @@ public class ServerManagerMenu implements Menu {
 				}
 				if(selectedServer >= 0) {
 					if(isRemoveButtonHovered()) {
-						serverNameList.remove(selectedServer);
-						serverIPList.remove(selectedServer);
+						Settings.name.remove(selectedServer);
+						Settings.ip.remove(selectedServer);
 						selectedServer = -1;
 					}
 					if(isPlayButtonHovered()) {
 						try {
-							GameSocket.serverIP = InetAddress.getByName(serverIPList.get(selectedServer));
+							GameSocket.serverIP = InetAddress.getByName(Settings.ip.get(selectedServer));
 							ClientMain.menu = new PlayMenu();
 							ClientMain.menu.init(gc);
 						} catch (UnknownHostException e) {
@@ -140,7 +124,7 @@ public class ServerManagerMenu implements Menu {
 					}
 				}
 				boolean didSelect = false;
-				for(int i = 0; i < serverNameList.size(); i++) {
+				for(int i = 0; i < Settings.name.size(); i++) {
 					if(isServerHovered(i)) {
 						if(selectedServer != i) selectedServer = i;
 						else selectedServer = -1;
@@ -150,9 +134,9 @@ public class ServerManagerMenu implements Menu {
 				if(!didSelect) selectedServer = -1;
 			}
 			sy += Mouse.getDWheel()/4;
-			if(image.getHeight() < serverNameList.size()*(ClientMain.fontSmall.getHeight()+1) && sy < image.getHeight()-serverNameList.size()*46)
-				sy = image.getHeight()-serverNameList.size()*(ClientMain.fontSmall.getHeight()+1);
-			if(image.getHeight() > serverNameList.size()*(ClientMain.fontSmall.getHeight()+1) || sy > 0)
+			if(image.getHeight() < Settings.name.size()*(ClientMain.fontSmall.getHeight()+1) && sy < image.getHeight()-Settings.name.size()*46)
+				sy = image.getHeight()-Settings.name.size()*(ClientMain.fontSmall.getHeight()+1);
+			if(image.getHeight() > Settings.name.size()*(ClientMain.fontSmall.getHeight()+1) || sy > 0)
 				sy = 0;
 		}
 	}
@@ -167,10 +151,10 @@ public class ServerManagerMenu implements Menu {
 	private boolean isServerHovered(int i) {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - ClientMain.fontSmall.getWidth(serverNameList.get(i))/2;
+		int bx = ClientMain.WIDTH/2 - ClientMain.fontSmall.getWidth(Settings.name.get(i))/2;
 		int by = ClientMain.HEIGHT/4 + sy + i*(ClientMain.fontSmall.getHeight()+1);
 		return my > ClientMain.HEIGHT/4 && my < 3*ClientMain.HEIGHT/4 &&
-				mx > bx && mx < bx+ClientMain.fontSmall.getWidth(serverNameList.get(i)) && my > by && my < by+ClientMain.fontSmall.getHeight(serverNameList.get(i));
+				mx > bx && mx < bx+ClientMain.fontSmall.getWidth(Settings.name.get(i)) && my > by && my < by+ClientMain.fontSmall.getHeight(Settings.name.get(i));
 	}
 	private boolean isBackButtonHovered() {
 		int mx = Mouse.getX();
