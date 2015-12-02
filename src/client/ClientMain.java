@@ -1,12 +1,8 @@
 package client;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Toolkit;
-import java.io.IOException;
 import java.io.InputStream;
-
-import main.Menu;
 
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
@@ -16,6 +12,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
+
+import main.Menu;
 
 public class ClientMain extends BasicGame {
 	
@@ -38,9 +36,10 @@ public class ClientMain extends BasicGame {
 	}
 	
 	public static void main(String[] args) {
+		Settings.read();
 		Sounds.load();
 		Sounds.music.loop();
-		Sounds.music.setVolume(0.0f);
+		Sounds.music.setVolume(Settings.musicVolume);
 		mainMenu = new MainMenu();
 		serverManagerMenu = new ServerManagerMenu();
 		playMenu = new PlayMenu();
@@ -83,8 +82,10 @@ public class ClientMain extends BasicGame {
 		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE))
 			exited = true;
 		menu.update(gc);
-		if(exited)
+		if(exited) {
+			Settings.write();
 			gc.exit();
+		}
 	}
 	
 	public boolean closeRequested() {

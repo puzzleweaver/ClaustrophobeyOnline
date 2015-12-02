@@ -5,7 +5,6 @@ import java.net.InetAddress;
 
 import main.Main;
 import main.game.Player;
-import world.World;
 
 public class IndividualData implements Serializable {
 	
