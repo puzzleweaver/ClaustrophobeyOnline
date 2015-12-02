@@ -24,7 +24,7 @@ public class IndividualData implements Serializable {
 		do {
 			x = Main.r.nextInt(Main.data.w);
 			y = Main.r.nextInt(Main.data.h);
-		}while(Main.data.state[x][y] != World.STATE_SPACE);
+		}while(Main.data.state[x][y] >= -8192);
 		player = new Player(x, y, (short) (index));
 	}
 	

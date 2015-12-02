@@ -9,7 +9,7 @@ import world.World;
 
 public class Player {
 
-	public static final int MAX_SIZE = 1000, MIN_SIZE = 20;
+	public static final int MAX_SIZE = 300, MIN_SIZE = 20;
 	public short PID;
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();

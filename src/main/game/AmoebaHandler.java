@@ -27,7 +27,7 @@ public class AmoebaHandler {
 			do {
 				x = Main.r.nextInt(Main.data.w);
 				y = Main.r.nextInt(Main.data.h);
-			}while(Main.data.state[x][y] != World.STATE_SPACE);
+			}while(Main.data.state[x][y] >= -8192);
 			p.add(new Amoeba(x, y));
 		}
 	}
@@ -96,6 +96,8 @@ public class AmoebaHandler {
 		}
 		
 		public boolean freeAt(int x, int y) {
+			if(x < 0 || y < 0 || x >= Main.data.w || y >= Main.data.h)
+				return false;
 			return Main.data.state[x][y] < -8192;
 		}
 		

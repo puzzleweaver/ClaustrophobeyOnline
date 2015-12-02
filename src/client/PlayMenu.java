@@ -2,19 +2,17 @@ package client;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import main.Menu;
 import net.GameClient;
 import net.GameSocket;
 import net.InputData;
 import net.OutputData;
 import net.Serializer;
-
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-
-import world.World;
 
 public class PlayMenu implements Menu {
 	
@@ -26,6 +24,7 @@ public class PlayMenu implements Menu {
 	private int pw;
 	private int rfw = ClientMain.WIDTH, rfh = ClientMain.HEIGHT;
 	private double rf[][] = new double[rfw][rfh];
+	private ClientSubmap submap = new ClientSubmap(rfw-300, rfh-300, 1, 200, 200);
 	
 	public static final ArrayList<Double> R = new ArrayList<Double>(),
 			G = new ArrayList<Double>(),
@@ -34,14 +33,15 @@ public class PlayMenu implements Menu {
 	public void init(GameContainer gc) {
 		gameClient = new GameClient();
 		gameClient.start();
-		clientData.w = ClientMain.WIDTH;
-		clientData.h = ClientMain.HEIGHT;
+		clientData.w = rfw;
+		clientData.h = rfh;
 		for(int i = 0; i < rfw; i++) {
 			for(int j = 0; j < rfh; j++) {
 				rf[i][j] = Math.random()*0.25+0.75;
 			}
 		}
 		pw = ClientMain.pixW;
+		submap.set(2000, 2000);
 	}
 	
 	public Color get(short s, double t) {
@@ -81,6 +81,7 @@ public class PlayMenu implements Menu {
 	public void render(GameContainer gc, Graphics g) {
 		if(gameClient.loaded) {
 			OutputData d = data;
+			submap.addData(d.sX/pw, d.sY/pw, d.state);
 			for(int i = 0; i < d.state.length; i++) {
 				for(int j = 0; j < d.state[0].length; j++) {
 					g.setColor(get(d.state[i][j], getRf(i, j, d)));
@@ -107,6 +108,7 @@ public class PlayMenu implements Menu {
 				g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
 				lastSum = sum;
 			}
+			submap.render(g, (d.sX+rfw/2)/pw, (d.sY+rfh/2)/pw);
 		}
 	}
 	
