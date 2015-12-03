@@ -84,7 +84,7 @@ public class ServerData implements Serializable {
 	
 	private short getState(double x, double y) {
 		if(x < 0 || x > w || y < 0 || y > h)
-			return 0;
+			return World.STATE_BEDROCK;
 		return state[(int) Math.max(Math.min(x, state.length-1),0)][(int) Math.max(Math.min(y, state[0].length-1),0)];
 	}
 	

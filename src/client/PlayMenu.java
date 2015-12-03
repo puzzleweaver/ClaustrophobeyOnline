@@ -13,6 +13,7 @@ import net.GameSocket;
 import net.InputData;
 import net.OutputData;
 import net.Serializer;
+import world.World;
 
 public class PlayMenu implements Menu {
 	
@@ -24,11 +25,13 @@ public class PlayMenu implements Menu {
 	private int pw;
 	private int rfw = ClientMain.WIDTH, rfh = ClientMain.HEIGHT;
 	private double rf[][] = new double[rfw][rfh];
-	private ClientSubmap submap = new ClientSubmap(rfw-300, rfh-300, 1, 200, 200);
 	
 	public static final ArrayList<Double> R = new ArrayList<Double>(),
 			G = new ArrayList<Double>(),
 			B = new ArrayList<Double>();
+	
+//	private Image img;
+//	private Graphics g;
 	
 	public void init(GameContainer gc) {
 		gameClient = new GameClient();
@@ -41,12 +44,16 @@ public class PlayMenu implements Menu {
 			}
 		}
 		pw = ClientMain.pixW;
-		submap.set(2000, 2000);
+//		try {
+//			img = new Image(rfw, rfh);
+//			g = img.getGraphics();
+//		} catch(Exception e) {}
 	}
 	
 	public Color get(short s, double t) {
-//		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
-//		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
+		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);
+		else if(s == World.STATE_WALL) return new Color((int) (32*t+64), 0, 0);
+		else if(s == World.STATE_BEDROCK) return new Color((int) (32*t+32), 0, 0);
 		int rs = (short) (((s+8192)%8192 + 8192)%8192);
 		if(rs >= R.size()) {
 			do {
@@ -76,12 +83,15 @@ public class PlayMenu implements Menu {
 					(int) (G.get(rs)*t*1.5),
 					(int) (B.get(rs)*t*1.5));
 		}
+//		if(s < -8192) return Color.black;
+//		else if(s < 0) return Color.white;
+//		return Color.gray;
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
 		if(gameClient.loaded) {
+			
 			OutputData d = data;
-			submap.addData(d.sX/pw, d.sY/pw, d.state);
 			for(int i = 0; i < d.state.length; i++) {
 				for(int j = 0; j < d.state[0].length; j++) {
 					g.setColor(get(d.state[i][j], getRf(i, j, d)));
@@ -108,7 +118,7 @@ public class PlayMenu implements Menu {
 				g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
 				lastSum = sum;
 			}
-			submap.render(g, (d.sX+rfw/2)/pw, (d.sY+rfh/2)/pw);
+//			g1.drawImage(img, 0, 0);
 		}
 	}
 	

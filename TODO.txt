@@ -1,3 +1,4 @@
--make pixW based on screen width/height
--make defensive and offensive states
--
+- optimize playmenu rendering
+- add HUD
+- add border to world gen
+- 

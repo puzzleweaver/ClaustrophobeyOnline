@@ -14,7 +14,7 @@ public class World {
 
 	public static int nodes;
 	
-	public static final short STATE_SPACE = -16384, STATE_WALL = 0, STATE_FOOD = -8192, STATE_FOODER = 8192;
+	public static final short STATE_SPACE = -16384, STATE_WALL = 0, STATE_FOOD = -8192, STATE_BEDROCK = 8192;
 	public static int border = 10;
 	public static double turnAngle = 0.2 /*0<x<pi*/,
 			branchAngle = 0.4 /*0<x<pi/2*/, 
@@ -46,18 +46,19 @@ public class World {
 		System.out.println(nodes);
 	}
 	
-	public static short[][] generateSDWorld() {
-		int r = 75;
+	public static short[][] generateWorld() {
+		int r = 100;
 		short[][] world = new short[2*(r+border)][2*(r+border)];
 		for(int i = -r; i < r; i++) {
 			for(int j = -r; j < r; j++) {
 				world[i+r+border][j+r+border] = Math.hypot(i, j)-r < 0 ? World.STATE_SPACE:World.STATE_WALL;
 			}
 		}
+		addBorder(world);
 		return world;
 	}
 	
-	public static short[][] generateWorld() {
+	public static short[][] generateSDWorld() {
 		ArrayList<Circ> c = new ArrayList<Circ>();
 		startDendrite(c, 0, 0);
 		double maxX = Double.MIN_VALUE, minX = Double.MAX_VALUE, maxY = Double.MIN_VALUE, minY = Double.MAX_VALUE;
@@ -78,6 +79,7 @@ public class World {
 		for(int i = 0; i < c.size(); i++) {
 			circ(world, c.get(i).x-minX+border, c.get(i).y-minY+border, c.get(i).r);
 		}
+		addBorder(world);
 		return world;
 	}
 
@@ -122,6 +124,10 @@ public class World {
 					world[i][j] = STATE_SPACE;
 			}
 		}
+	}
+	
+	private static void addBorder(short[][] world) {
+		// to implement
 	}
 	
 	public static class Circ {

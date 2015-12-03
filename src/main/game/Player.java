@@ -80,7 +80,10 @@ public class Player {
 			}
 		}
 		if(fx.size() == 0) return;
-		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size());
+		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size()), s = Main.data.state[fx.get(rid)][fy.get(rid)];
+		if(s < 0 && s > -8192) {
+			Main.data.indieData.get(s+8191).player.remove(fx.get(rid), fy.get(rid));
+		}
 		moveTo(id, fx.get(rid), fy.get(rid));
 	}
 
@@ -90,6 +93,9 @@ public class Player {
 		short state = Main.data.state[nx][ny];
 		if(state == World.STATE_FOOD)
 			return true;
+		if(att && Main.r.nextBoolean() && state != PID-8192 && state >= -8192 && state < 0 && Main.data.indieData.get(state+8191).player.x.size() > MIN_SIZE) {
+			return true;
+		}
 		if(att && Main.r.nextInt(50) == 0 && state >= 0 && state < 8192) {
 			return true;
 		}
@@ -122,6 +128,17 @@ public class Player {
 		Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 		x.remove(id);
 		y.remove(id);
+	}
+	
+	public void remove(int nx, int ny) {
+		for(int i = 0; i < x.size(); i++) {
+			if(x.get(i) == nx && y.get(i) == ny) {
+				System.out.println(x.get(i) + ", " + y.get(i));
+				x.remove(i);
+				y.remove(i);
+				i--;
+			}
+		}
 	}
 
 	public int getFurthestID(double dx, double dy) {
