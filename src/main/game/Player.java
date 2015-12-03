@@ -18,8 +18,8 @@ public class Player {
 	public boolean att;
 
 	public Player(int ix, int iy, short PID) {
-		for(int i = 0; i < 20 /* initial mass */; i++)
-			moveTo(-1, ix, iy);
+		for(int i = 0; i < MIN_SIZE; i++)
+			moveTo(-1, ix, iy); //-1 means no cell is being moved, the position is simply added to the list
 		this.PID = PID;
 	}
 
@@ -32,17 +32,17 @@ public class Player {
 		}
 		
 		double l = (d.slothShortcut ? 3:1)*Math.max(1, 0.4*Math.sqrt(x.size()));
-		att = x.size() > MIN_SIZE && d.attack;
+		att = x.size() > MIN_SIZE && d.attack; // attack if large enough
 		if(x.size() > MIN_SIZE) {
-			if(!att && d.defend) {
+			if(!att && d.defend) { // defend if not attacking
 				for(int i = 0; i < l; i++)
-					hardenID(getFurthestID(ldx, ldy));
+					hardenID(getFurthestID(ldx, ldy, false));
 			}
 		}
 
 		if(d.dx != 0 || d.dy != 0) {
 			if(att)
-				delete(getFurthestID(ldx, ldy));
+				delete(getFurthestID(ldx, ldy, true));
 			for(int i = 0; i < l; i++)
 				move(d);
 			if(PID != 0) {
@@ -80,7 +80,7 @@ public class Player {
 			}
 		}
 		if(fx.size() == 0) return;
-		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size()), s = Main.data.state[fx.get(rid)][fy.get(rid)];
+		int id = getFurthestID(dx, dy, true), rid = Main.r.nextInt(fx.size()), s = Main.data.state[fx.get(rid)][fy.get(rid)];
 		if(s < 0 && s > -8192) {
 			Main.data.indieData.get(s+8191).player.remove(fx.get(rid), fy.get(rid));
 		}
@@ -141,11 +141,12 @@ public class Player {
 		}
 	}
 
-	public int getFurthestID(double dx, double dy) {
+	public int getFurthestID(double dx, double dy, boolean curved) {
 		int minID = 0;
 		double minDot = Double.MAX_VALUE, dot;
-		if(dx != 0) dy = Main.r.nextDouble()*2-1;
-		else dx = Main.r.nextDouble()*2-1;
+		if(curved)
+			if(dx != 0) dy = Main.r.nextDouble()*2-1;
+			else dx = Main.r.nextDouble()*2-1;
 		for(int i = 0; i < x.size(); i++) {
 			dot = x.get(i)*dx+y.get(i)*dy;
 			if(minDot > dot) {

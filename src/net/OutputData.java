@@ -10,5 +10,7 @@ public class OutputData implements Serializable {
 	public short[][] state;
 	public int sX, sY;
 	public int[] territory;
+	public String[] names;
+	public int[] nameX, nameY;
 	
 }

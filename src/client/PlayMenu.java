@@ -89,6 +89,7 @@ public class PlayMenu implements Menu {
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
+		g.setFont(ClientMain.font);
 		if(gameClient.loaded) {
 			
 			OutputData d = data;
@@ -98,11 +99,18 @@ public class PlayMenu implements Menu {
 					g.fillRect((i-1)*pw-d.sX%pw, (j-1)*pw-d.sY%pw, pw, pw);
 				}
 			}
-			//draw pie chart
+			
+			// draw names over players
+			g.setColor(new Color(255, 255, 255, 128));
+			for(int i = 0; i < d.names.length; i++) {
+				g.drawString(d.names[i], d.nameX[i]-ClientMain.font.getWidth(d.names[i])/2, d.nameY[i]-ClientMain.font.getHeight()/2);
+			}
+			
+			// draw pie chart
 			int sum = 0;
 			int lastSum = 0;
 			int total = 0;
-			int size = pw*10;
+			int size = rfw/10;
 			for(int i = 1; i < data.territory.length; i++)
 				total += data.territory[i];
 			for(int i = 1; i < data.territory.length; i++) {
@@ -119,14 +127,10 @@ public class PlayMenu implements Menu {
 				lastSum = sum;
 			}
 //			g1.drawImage(img, 0, 0);
-		} else {
+		} else { // when not connected yet, draw something other than a black screen
 			MenuBackground.render(gc, g);
 			g.setColor(Menu.TEXT_COLOR);
-			g.setFont(ClientMain.font);
 			g.drawString("Connecting...", rfw/2-ClientMain.font.getWidth("Connecting...")/2, rfh/2-ClientMain.font.getHeight()/2);
-			// background something?
-			// something humorous or random?
-			//
 		}
 	}
 	

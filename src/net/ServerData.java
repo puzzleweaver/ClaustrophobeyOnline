@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import main.game.AmoebaHandler;
+import main.game.Player;
 import world.World;
 
 public class ServerData implements Serializable {
@@ -18,7 +19,7 @@ public class ServerData implements Serializable {
 	private static final long serialVersionUID = 584460438362147743L;
 
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
-	AmoebaHandler p0 = new AmoebaHandler();
+	AmoebaHandler amoebas = new AmoebaHandler();
 	
 	public int index;
 	
@@ -28,9 +29,9 @@ public class ServerData implements Serializable {
 	public ArrayList<Integer> terr = new ArrayList<>();
 	
 	public ServerData() {
-		state = World.generateWorld();
+		state = World.generateWorld(World.TYPE_NETWORK);
 		w = state.length; h = state[0].length;
-		terr.add(0);
+		terr.add(0); // because PIDs are shifted over (player.get(0).PID = 1)
 	}
 	
 	public boolean processData(InputData data, InetAddress address, int port) {
@@ -53,32 +54,47 @@ public class ServerData implements Serializable {
 			iData.clientData = data;
 			indieData.add(iData);
 		}
-		//exit if the user exits
-//		if(data.exited) {
-//			indieData.remove(index);
-//			return false;
-//		}
 		return true;
 	}
 	
 	public OutputData getOutputData() {
 		IndividualData id = indieData.get(index);
 		OutputData d = new OutputData();
+		
+		// d.sX/Y
 		d.sX = id.sX-id.clientData.w/2;
 		d.sY = id.sY-id.clientData.h/2;
-		int pw = id.clientData.pixW;
-		int i0 = (id.sX-id.clientData.w/2)/pw-1, j0 = (id.sY-id.clientData.h/2)/pw-1;
-		int ie = (id.sX+id.clientData.w/2)/pw+1, je = (id.sY+id.clientData.h/2)/pw+1;
-		d.state = new short[ie-i0][je-j0];
+		
+		// d.territory
 		d.territory = new int[terr.size()];
 		for(int i = 0; i < terr.size(); i++) {
 			d.territory[i] = terr.get(i);
 		}
+		
+		// d.state
+		int pw = id.clientData.pixW;
+		int i0 = (id.sX-id.clientData.w/2)/pw-1, j0 = (id.sY-id.clientData.h/2)/pw-1;
+		int ie = (id.sX+id.clientData.w/2)/pw+1, je = (id.sY+id.clientData.h/2)/pw+1;
+		d.state = new short[ie-i0][je-j0];
 		for(int i = i0; i < ie; i++) {
 			for(int j = j0; j < je; j++) {
 				d.state[i-i0][j-j0] = getState(i /* ><> */, j);
 			}
 		}
+		
+		// d.name, d.nameX/Y
+		d.names = new String[indieData.size()];
+		d.nameX = new int[indieData.size()];
+		d.nameY = new int[indieData.size()];
+		for(int i = 0; i < d.names.length; i++) {
+			if(i == id.player.PID-1)
+				d.names[i] = "[]";
+			else
+				d.names[i] = indieData.get(i).name;
+			d.nameX[i] = indieData.get(i).sX-d.sX;
+			d.nameY[i] = indieData.get(i).sY-d.sY;
+		}
+		
 		return d;
 	}
 	
@@ -89,8 +105,8 @@ public class ServerData implements Serializable {
 	}
 	
 	public void update(double dt) {
-		p0.spawn();
-		p0.update();
+		amoebas.spawn();
+		amoebas.update();
 		for(int i = 0; i < indieData.size(); i++) {
 			indieData.get(i).update(dt);
 		}
