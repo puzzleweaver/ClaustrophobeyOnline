@@ -27,8 +27,8 @@ public class ServerManagerMenu implements Menu {
 	
 	public void init(GameContainer gc) {
 		try {
-			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-24, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
-			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+24, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
+			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-ClientMain.fontSmall.getHeight()/2, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
+			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+ClientMain.fontSmall.getHeight()/2, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
 			image = new Image(gc.getWidth(), gc.getHeight()/2);
 			g2 = image.getGraphics();
 		} catch (Exception e) {
