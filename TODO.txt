@@ -3,18 +3,17 @@
 
 - optimize playmenu rendering
 - add HUD
-- add border to world gen
 - game modes
   - rounds
+  - single player
 - "edit server" functionality
 - text file exception handling
 - more settings
   - color scheme something in settings
 - better music (atmospheric maybe?)
-- tutorial maybe
-- comment all the code
+- play tutorial maybe
+- comment all the code / organize it
 - something about names or idetifyers for you/other players (like agario?)
 - fix pie chart scaling
-- 
 
 - more ideas for TODOs

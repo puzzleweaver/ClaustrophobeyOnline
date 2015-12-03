@@ -15,7 +15,7 @@ public class World {
 	public static int nodes;
 	
 	public static final short STATE_SPACE = -16384, STATE_WALL = 0, STATE_FOOD = -8192, STATE_BEDROCK = 8192;
-	public static int border = 10;
+	public static int border = 20;
 	public static double turnAngle = 0.2 /*0<x<pi*/,
 			branchAngle = 0.4 /*0<x<pi/2*/, 
 			taper = 0.998 /*0.5<x<0.999*/,
@@ -26,14 +26,14 @@ public class World {
 	
 	// world test - saves what is generated to an image
 	public static void main(String[] args) {
-		short[][] world = generateWorld();
+		short[][] world = generateSDWorld();
 		int w = world.length, h = world[0].length;
 		System.out.println("Generation Completed, Drawing Image");
 		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics g = img.getGraphics();
 		for(int i = 0; i < w; i++) {
 			for(int j = 0; j < h; j++) {
-				g.setColor(world[i][j] == STATE_SPACE ? Color.red:new Color(128, 0, 0));
+				g.setColor(world[i][j] == STATE_SPACE ? Color.red: (world[i][j] == STATE_BEDROCK ? Color.black:new Color(128, 0, 0)));
 				g.fillRect(i, j, 1, 1);
 			}
 		}
@@ -128,6 +128,26 @@ public class World {
 	
 	private static void addBorder(short[][] world) {
 		// to implement
+		for(int i = 0; i < world.length; i++) {
+			for(int j = 0; j < border; j++) {
+				if(Main.r.nextInt(j+1)/3 == 0) {
+					world[i][j] = STATE_BEDROCK;
+				}
+				if(Main.r.nextInt(j+1)/3 == 0) {
+					world[i][world[0].length-1-j] = STATE_BEDROCK;
+				}
+			}
+		}
+		for(int j = 0; j < world[0].length; j++) {
+			for(int i = 0; i < border; i++) {
+				if(Main.r.nextInt(i+1)/3 == 0) {
+					world[i][j] = STATE_BEDROCK;
+				}
+				if(Main.r.nextInt(i+1)/3 == 0) {
+					world[world.length-1-i][j] = STATE_BEDROCK;
+				}
+			}
+		}
 	}
 	
 	public static class Circ {
