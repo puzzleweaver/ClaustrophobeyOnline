@@ -19,7 +19,7 @@ public class ServerManagerMenu implements Menu {
 	private Image image;
 	private Graphics g2;
 	private int sy = 0;
-	private boolean enterIP = false;
+	private boolean enterIP = false, editing = false;
 	
 	private TextField nameTextField, ipTextField;
 	
@@ -74,9 +74,15 @@ public class ServerManagerMenu implements Menu {
 //			g2.setLineWidth(4);
 //			g2.drawRect(0, 0, image.getWidth(), image.getHeight());
 			g.drawImage(image, 0, gc.getHeight()/4);
-			//add server button
-			g.setColor(isAddButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-			g.drawString("Add Server", gc.getWidth()/2 - ClientMain.font.getWidth("Add Server")/2, 7*gc.getHeight()/8);
+			if(selectedServer == -1) {
+				//add server button
+				g.setColor(isAddButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+				g.drawString("Add Server", gc.getWidth()/2 - ClientMain.font.getWidth("Add Server")/2, 7*gc.getHeight()/8);
+			}else {
+				//edit server button
+				g.setColor(isEditButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+				g.drawString("Edit", gc.getWidth()/2 - ClientMain.font.getWidth("Edit")/2, 7*gc.getHeight()/8);
+			}
 			//other buttons
 			if(selectedServer >= 0) {
 				g.setColor(isPlayButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
@@ -93,17 +99,36 @@ public class ServerManagerMenu implements Menu {
 		if(enterIP) {
 			if(isOkButtonHovered() && mousePressed) {
 				if(nameTextField.getText().length() > 0 && ipTextField.getText().length() > 0) {
-					Settings.name.add(nameTextField.getText());
-					Settings.ip.add(ipTextField.getText());
+					if(editing) {
+						Settings.name.set(selectedServer, nameTextField.getText());
+						Settings.ip.set(selectedServer, ipTextField.getText());
+					}else {
+						Settings.name.add(nameTextField.getText());
+						Settings.ip.add(ipTextField.getText());
+					}
 				}
 				enterIP = false;
+				editing = false;
 				nameTextField.setText("");
 				ipTextField.setText("");
+				selectedServer = -1;
 			}
 		}else {
 			if(mousePressed) {
-				if(isAddButtonHovered())
-					enterIP = true;
+				if(selectedServer == -1) {
+					if(isAddButtonHovered()) {
+						enterIP = true;
+					}
+				}else {
+					if(isEditButtonHovered()) {
+						enterIP = true;
+						editing = true;
+						nameTextField.setText(Settings.name.get(selectedServer));
+						ipTextField.setText(Settings.ip.get(selectedServer));
+						//return so that selectedServer doesn't become -1 so I know what to edit
+						return;
+					}
+				}
 				if(isBackButtonHovered()) {
 					ClientMain.menu = ClientMain.mainMenu;
 				}
@@ -147,6 +172,13 @@ public class ServerManagerMenu implements Menu {
 		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Add Server")/2;
 		int by = 7*ClientMain.HEIGHT/8;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("Add Server") && my > by && my < by+ClientMain.font.getHeight("Add Server");
+	}
+	private boolean isEditButtonHovered() {
+		int mx = Mouse.getX();
+		int my = ClientMain.HEIGHT - Mouse.getY();
+		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Edit")/2;
+		int by = 7*ClientMain.HEIGHT/8;
+		return mx > bx && mx < bx+ClientMain.font.getWidth("Edit") && my > by && my < by+ClientMain.font.getHeight("Edit");
 	}
 	private boolean isServerHovered(int i) {
 		int mx = Mouse.getX();
