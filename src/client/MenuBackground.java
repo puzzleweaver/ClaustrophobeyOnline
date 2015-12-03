@@ -34,8 +34,7 @@ public class MenuBackground {
 	public static double getRf(int i, int j) {
 		int x = (i%rfw+rfw)%rfw,
 				y = (j%rfh+rfh)%rfh;
-		if(rf[x][y] < 0) rf[x][y] += Math.random()*0.1-0.05;
-		else rf[x][y] += Math.random()*0.025-0.0125;
+		rf[x][y] += Math.random()*0.1-0.05;
 		rf[x][y] = Math.max(Math.min(rf[x][y], 1), 0.75);
 		return rf[x][y];
 	}
