@@ -123,7 +123,7 @@ public class PlayMenu implements Menu {
 			MenuBackground.render(gc, g);
 			g.setColor(Menu.TEXT_COLOR);
 			g.setFont(ClientMain.font);
-			g.drawString("Loading...", rfw/2-ClientMain.font.getWidth("Loading...")/2, rfh/2-ClientMain.font.getHeight()/2);
+			g.drawString("Connecting...", rfw/2-ClientMain.font.getWidth("Connecting...")/2, rfh/2-ClientMain.font.getHeight()/2);
 			// background something?
 			// something humorous or random?
 			//
