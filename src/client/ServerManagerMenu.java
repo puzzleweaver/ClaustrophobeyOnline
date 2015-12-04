@@ -19,16 +19,17 @@ public class ServerManagerMenu implements Menu {
 	private Image image;
 	private Graphics g2;
 	private int sy = 0;
-	private boolean enterIP = false, editing = false;
+	private boolean enterIP = false, editing = false, enterName = false;
 	
-	private TextField nameTextField, ipTextField;
+	private TextField nameTextField, ipTextField, nicknameTextField;
 	
 	private int selectedServer = -1;
 	
 	public void init(GameContainer gc) {
 		try {
-			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2-ClientMain.fontSmall.getHeight()/2, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
-			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/8, gc.getHeight()/2+ClientMain.fontSmall.getHeight()/2, gc.getWidth()/4, ClientMain.fontSmall.getHeight());
+			nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/4, gc.getHeight()/2-ClientMain.fontSmall.getHeight()/2, gc.getWidth()/2, ClientMain.fontSmall.getHeight());
+			ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/4, gc.getHeight()/2+ClientMain.fontSmall.getHeight()/2, gc.getWidth()/2, ClientMain.fontSmall.getHeight());
+			nicknameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/4, gc.getHeight()/2, gc.getWidth()/2, ClientMain.fontSmall.getHeight());
 			image = new Image(gc.getWidth(), gc.getHeight()/2);
 			g2 = image.getGraphics();
 		} catch (Exception e) {
@@ -38,7 +39,19 @@ public class ServerManagerMenu implements Menu {
 	
 	public void render(GameContainer gc, Graphics g) {
 		MenuBackground.render(gc, g);
-		if(enterIP) {
+		if(enterName) {
+			g.setFont(ClientMain.font);
+			g.setColor(Menu.TITLE_COLOR);
+			g.drawString("Nickname:", gc.getWidth()/2 - ClientMain.font.getWidth("Nickname:")/2, gc.getHeight()/2-ClientMain.font.getHeight());
+			nicknameTextField.setBorderColor(Color.black);
+			nicknameTextField.render(gc, g);
+			//ok button
+			g.setColor(isOkButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+			g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+ClientMain.font.getHeight()*2);
+			//cancel button
+			g.setColor(isCancelButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+			g.drawString("Cancel", gc.getWidth()/2 - ClientMain.font.getWidth("Cancel")/2, gc.getHeight()/2+ClientMain.font.getHeight()*3);
+		}else if(enterIP) {
 			//labels for name and ip
 			g.setFont(ClientMain.font);
 			g.setColor(Menu.TITLE_COLOR);
@@ -52,7 +65,10 @@ public class ServerManagerMenu implements Menu {
 			ipTextField.render(gc, g);
 			//ok button
 			g.setColor(isOkButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-			g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+ClientMain.fontSmall.getHeight()*2);
+			g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+ClientMain.font.getHeight()*2);
+			//cancel button
+			g.setColor(isCancelButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
+			g.drawString("Cancel", gc.getWidth()/2 - ClientMain.font.getWidth("Cancel")/2, gc.getHeight()/2+ClientMain.font.getHeight()*3);
 		}else {
 			//title
 			g.setFont(ClientMain.font);
@@ -96,8 +112,40 @@ public class ServerManagerMenu implements Menu {
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
 		boolean mousePressed = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
-		if(enterIP) {
+		if(enterName) {
+			nicknameTextField.setFocus(true);
+			//enforce text limit
+			if(nicknameTextField.getText().length() > 20)
+				nicknameTextField.setText(nicknameTextField.getText().substring(0, 20));
 			if(isOkButtonHovered() && mousePressed) {
+				try {
+					GameSocket.serverIP = InetAddress.getByName(Settings.ip.get(selectedServer));
+					PlayMenu.clientData.nickname = nicknameTextField.getText();
+					ClientMain.menu = new PlayMenu();
+					ClientMain.menu.init(gc);
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			}
+			if(isCancelButtonHovered() && mousePressed) {
+				enterIP = false;
+				editing = false;
+				enterName = false;
+				nameTextField.setText("");
+				ipTextField.setText("");
+				selectedServer = -1;
+			}
+		}else if(enterIP) {
+			if(input.isKeyPressed(Input.KEY_TAB)) {
+				if(nameTextField.hasFocus()) {
+					nameTextField.setFocus(false);
+					ipTextField.setFocus(true);
+				}else {
+					nameTextField.setFocus(true);
+					ipTextField.setFocus(false);
+				}
+			}
+			if((isOkButtonHovered() && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
 				if(nameTextField.getText().length() > 0 && ipTextField.getText().length() > 0) {
 					if(editing) {
 						Settings.name.set(selectedServer, nameTextField.getText());
@@ -113,18 +161,31 @@ public class ServerManagerMenu implements Menu {
 				ipTextField.setText("");
 				selectedServer = -1;
 			}
+			if(isCancelButtonHovered() && mousePressed) {
+				enterIP = false;
+				editing = false;
+				nameTextField.setText("");
+				ipTextField.setText("");
+				selectedServer = -1;
+			}
 		}else {
 			if(mousePressed) {
 				if(selectedServer == -1) {
 					if(isAddButtonHovered()) {
 						enterIP = true;
+						nameTextField.setFocus(false);
+						ipTextField.setFocus(false);
 					}
 				}else {
 					if(isEditButtonHovered()) {
 						enterIP = true;
 						editing = true;
+						nameTextField.setFocus(false);
+						ipTextField.setFocus(false);
 						nameTextField.setText(Settings.name.get(selectedServer));
 						ipTextField.setText(Settings.ip.get(selectedServer));
+						nameTextField.setCursorPos(nameTextField.getText().length());
+						ipTextField.setCursorPos(ipTextField.getText().length());
 						//return so that selectedServer doesn't become -1 so I know what to edit
 						return;
 					}
@@ -139,13 +200,10 @@ public class ServerManagerMenu implements Menu {
 						selectedServer = -1;
 					}
 					if(isPlayButtonHovered()) {
-						try {
-							GameSocket.serverIP = InetAddress.getByName(Settings.ip.get(selectedServer));
-							ClientMain.menu = new PlayMenu();
-							ClientMain.menu.init(gc);
-						} catch (UnknownHostException e) {
-							e.printStackTrace();
-						}
+						enterName = true;
+						nicknameTextField.setText("");
+						//return so that selectedServer doesn't become -1 so I know what to edit
+						return;
 					}
 				}
 				boolean didSelect = false;
@@ -195,15 +253,6 @@ public class ServerManagerMenu implements Menu {
 		int by = ClientMain.HEIGHT/8;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("Back") && my > by && my < by+ClientMain.font.getHeight("Back");
 	}
-	
-	private boolean isOkButtonHovered() {
-		int mx = Mouse.getX();
-		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("OK")/2;
-		int by = ClientMain.HEIGHT/2+ClientMain.fontSmall.getHeight()*2;
-		return mx > bx && mx < bx+ClientMain.font.getWidth("OK") && my > by && my < by+ClientMain.font.getHeight("OK");
-	}
-	
 	private boolean isPlayButtonHovered() {
 		int mx = Mouse.getX();
 		int my = ClientMain.HEIGHT - Mouse.getY();
@@ -217,6 +266,21 @@ public class ServerManagerMenu implements Menu {
 		int bx = 7*ClientMain.WIDTH/8 - ClientMain.font.getWidth("Remove")/2;
 		int by = 7*ClientMain.HEIGHT/8;
 		return mx > bx && mx < bx+ClientMain.font.getWidth("Remove") && my > by && my < by+ClientMain.font.getHeight("Remove");
+	}
+	
+	private boolean isOkButtonHovered() {
+		int mx = Mouse.getX();
+		int my = ClientMain.HEIGHT - Mouse.getY();
+		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("OK")/2;
+		int by = ClientMain.HEIGHT/2+ClientMain.font.getHeight()*2;
+		return mx > bx && mx < bx+ClientMain.font.getWidth("OK") && my > by && my < by+ClientMain.font.getHeight("OK");
+	}
+	private boolean isCancelButtonHovered() {
+		int mx = Mouse.getX();
+		int my = ClientMain.HEIGHT - Mouse.getY();
+		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Cancel")/2;
+		int by = ClientMain.HEIGHT/2+ClientMain.font.getHeight()*3;
+		return mx > bx && mx < bx+ClientMain.font.getWidth("Cancel") && my > by && my < by+ClientMain.font.getHeight("Cancel");
 	}
 	
 }

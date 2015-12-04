@@ -87,10 +87,7 @@ public class ServerData implements Serializable {
 		d.nameX = new int[indieData.size()];
 		d.nameY = new int[indieData.size()];
 		for(int i = 0; i < d.names.length; i++) {
-			if(i == id.player.PID-1)
-				d.names[i] = "[]";
-			else
-				d.names[i] = indieData.get(i).name;
+			d.names[i] = indieData.get(i).clientData.nickname;
 			d.nameX[i] = indieData.get(i).sX-d.sX;
 			d.nameY[i] = indieData.get(i).sY-d.sY;
 		}

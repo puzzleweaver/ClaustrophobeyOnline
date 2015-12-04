@@ -15,7 +15,6 @@ public class IndividualData implements Serializable {
 	public InputData clientData;
 	public Player player;
 	
-	public String name = "Plompers";
 	public int sX, sY;
 	
 	public IndividualData(int index) {
