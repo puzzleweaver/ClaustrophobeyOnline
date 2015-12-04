@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import main.game.AmoebaHandler;
-import main.game.Player;
 import world.World;
 
 public class ServerData implements Serializable {
@@ -88,8 +87,13 @@ public class ServerData implements Serializable {
 		d.nameY = new int[indieData.size()];
 		for(int i = 0; i < d.names.length; i++) {
 			d.names[i] = indieData.get(i).clientData.nickname;
-			d.nameX[i] = indieData.get(i).sX-d.sX;
-			d.nameY[i] = indieData.get(i).sY-d.sY;
+			if(i == index) {
+				d.nameX[i] = id.clientData.w/2;
+				d.nameY[i] = id.clientData.h/2;
+			}else {
+				d.nameX[i] = indieData.get(i).sX-d.sX;
+				d.nameY[i] = indieData.get(i).sY-d.sY;
+			}
 		}
 		
 		return d;

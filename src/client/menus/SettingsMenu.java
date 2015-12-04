@@ -1,4 +1,4 @@
-package client;
+package client.menus;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
@@ -6,6 +6,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import client.ClientMain;
+import client.MenuBackground;
+import client.Sounds;
 import main.Menu;
 
 public class SettingsMenu implements Menu {

@@ -20,6 +20,7 @@
   - capture the flag / find something
   - race?
 
+- menu transitions
 - optimize playmenu rendering
 - more ideas for TODOs
 - comment all the code / organize it

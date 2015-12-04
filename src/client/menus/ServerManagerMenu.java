@@ -1,4 +1,4 @@
-package client;
+package client.menus;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -13,6 +13,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.gui.TextField;
+
+import client.ClientMain;
+import client.MenuBackground;
+import client.Settings;
 
 public class ServerManagerMenu implements Menu {
 	
@@ -191,7 +195,7 @@ public class ServerManagerMenu implements Menu {
 					}
 				}
 				if(isBackButtonHovered()) {
-					ClientMain.menu = ClientMain.mainMenu;
+					ClientMain.menu = new TransitionMenu(ClientMain.serverManagerMenu, ClientMain.mainMenu);
 				}
 				if(selectedServer >= 0) {
 					if(isRemoveButtonHovered()) {

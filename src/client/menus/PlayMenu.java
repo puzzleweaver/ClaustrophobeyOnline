@@ -1,4 +1,4 @@
-package client;
+package client.menus;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,10 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 
+import client.ClientMain;
+import client.MenuBackground;
 import main.Menu;
 import net.GameClient;
 import net.GameSocket;
@@ -91,7 +94,7 @@ public class PlayMenu implements Menu {
 			// draw names over players
 			g.setColor(new Color(255, 255, 255, 64));
 			for(int i = 0; i < d.names.length; i++) {
-				g.drawString(d.names[i], d.nameX[i]-ClientMain.font.getWidth(d.names[i])/2, d.nameY[i]-ClientMain.font.getHeight()/2);
+				g.drawString(d.names[i], d.nameX[i]-ClientMain.font.getWidth(d.names[i])/2, d.nameY[i]-ClientMain.font.getHeight()*2);
 			}
 			
 			// draw pie chart
