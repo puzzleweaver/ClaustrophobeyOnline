@@ -29,7 +29,7 @@ public class ServerData implements Serializable {
 	public ArrayList<Integer> terr = new ArrayList<>();
 	
 	public ServerData() {
-		state = World.generateWorld(World.TYPE_NETWORK);
+		state = World.generateWorld(World.TYPE_CIRCLE);
 		w = state.length; h = state[0].length;
 		terr.add(0); // because PIDs are shifted over (player.get(0).PID = 1)
 	}
