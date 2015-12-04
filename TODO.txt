@@ -7,7 +7,6 @@
   - color scheme something in settings
 - fix pie chart scaling
 - play tutorial maybe
-- text file exception handling
 - better music (atmospheric maybe?)
 - framework for different game modes (the menu crap for that)   <-- DO THIS SO THAT I (OSTIN?!?) CAN DO GAME MODE STUFF
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Settings {
 	
 	public static ArrayList<String> name = new ArrayList<>(), ip = new ArrayList<>();
-	public static float musicVolume;
+	public static float musicVolume = 0.5f;
 	
 	public static void read() {
 		try {
