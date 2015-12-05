@@ -25,12 +25,14 @@ public class Player {
 
 	public void update(InputData d) {
 		
+		// maximize mass if dev key is used
 		if(d.greedShortcut) {
 			for(int i = MAX_SIZE-x.size(); i > 0; i--) {
 				moveTo(-1, x.get(0), y.get(0));
 			}
 		}
 		
+		// move player and use off/def mechanics
 		double l = (d.slothShortcut ? 3:1)*Math.max(1, 0.4*Math.sqrt(x.size()));
 		att = x.size() > MIN_SIZE && d.attack; // attack if large enough
 		if(x.size() > MIN_SIZE) {
@@ -39,25 +41,24 @@ public class Player {
 					hardenID(getFurthestID(ldx, ldy, false));
 			}
 		}
-
 		if(d.dx != 0 || d.dy != 0) {
 			if(att)
 				delete(getFurthestID(ldx, ldy, true));
 			for(int i = 0; i < l; i++)
 				move(d);
-			if(PID != 0) {
-				IndividualData data = Main.data.indieData.get(PID-1);
-				int nsX = 0, nsY = 0;
-				for(int i = 0; i < x.size(); i++) {
-					nsX += x.get(i);
-					nsY += y.get(i);
-				}
-				data.sX =  (int) ((3.0*data.sX+data.clientData.pixW*nsX/x.size())*0.25);
-				data.sY = (int) ((3.0*data.sY+data.clientData.pixW*nsY/x.size())*0.25);
-				ldx = d.dx;
-				ldy = d.dy;
-			}
+			ldx = d.dx;
+			ldy = d.dy;
 		}
+		
+		// scroll
+		IndividualData data = Main.data.indieData.get(PID-1);
+		int nsX = 0, nsY = 0;
+		for(int i = 0; i < x.size(); i++) {
+			nsX += x.get(i);
+			nsY += y.get(i);
+		}
+		data.sX = (3.0*data.sX+nsX/x.size())*0.25;
+		data.sY = (3.0*data.sY+nsY/x.size())*0.25;
 	}
 
 	public void move(InputData d) {

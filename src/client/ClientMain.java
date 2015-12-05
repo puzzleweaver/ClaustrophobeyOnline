@@ -21,12 +21,11 @@ import client.menus.NicknameMenu;
 import client.menus.PlayMenu;
 import client.menus.ServerManagerMenu;
 import client.menus.SettingsMenu;
-import client.menus.TransitionMenu;
 
 public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
-//	
+	
 	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 	public static final boolean FS = true;

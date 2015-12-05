@@ -61,8 +61,8 @@ public class ServerData implements Serializable {
 		OutputData d = new OutputData();
 		
 		// d.sX/Y
-		d.sX = id.sX-id.clientData.w/2;
-		d.sY = id.sY-id.clientData.h/2;
+		d.sX = (int) (id.sX*id.clientData.pixW)-id.clientData.w/2;
+		d.sY = (int) (id.sY*id.clientData.pixW)-id.clientData.h/2;
 		
 		// d.territory
 		d.territory = new int[terr.size()];
@@ -72,8 +72,8 @@ public class ServerData implements Serializable {
 		
 		// d.state
 		int pw = id.clientData.pixW;
-		int i0 = (id.sX-id.clientData.w/2)/pw-1, j0 = (id.sY-id.clientData.h/2)/pw-1;
-		int ie = (id.sX+id.clientData.w/2)/pw+1, je = (id.sY+id.clientData.h/2)/pw+1;
+		int i0 = ((int)(id.sX*id.clientData.pixW)-id.clientData.w/2)/pw-1, j0 = ((int)(id.sY*id.clientData.pixW)-id.clientData.h/2)/pw-1;
+		int ie = ((int)(id.sX*id.clientData.pixW)+id.clientData.w/2)/pw+1, je = ((int)(id.sY*id.clientData.pixW)+id.clientData.h/2)/pw+1;
 		d.state = new short[ie-i0][je-j0];
 		for(int i = i0; i < ie; i++) {
 			for(int j = j0; j < je; j++) {
@@ -91,8 +91,8 @@ public class ServerData implements Serializable {
 				d.nameX[i] = id.clientData.w/2;
 				d.nameY[i] = id.clientData.h/2;
 			}else {
-				d.nameX[i] = indieData.get(i).sX-d.sX;
-				d.nameY[i] = indieData.get(i).sY-d.sY;
+				d.nameX[i] = ((int)indieData.get(i).sX*id.clientData.pixW)-d.sX;
+				d.nameY[i] = ((int)indieData.get(i).sY*id.clientData.pixW)-d.sY;
 			}
 		}
 		
