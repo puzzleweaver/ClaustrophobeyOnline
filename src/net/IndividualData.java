@@ -15,7 +15,7 @@ public class IndividualData implements Serializable {
 	public InputData clientData;
 	public Player player;
 	
-	public int sX, sY;
+	public double sX, sY;
 	
 	public IndividualData(int index) {
 		//PIDs can be {x | 0 < x < 8192}

@@ -52,8 +52,8 @@ public class Player {
 					nsX += x.get(i);
 					nsY += y.get(i);
 				}
-				data.sX =  (int) ((3.0*data.sX+data.clientData.pixW*nsX/x.size())*0.25);
-				data.sY = (int) ((3.0*data.sY+data.clientData.pixW*nsY/x.size())*0.25);
+				data.sX = (3.0*data.sX+nsX/x.size())*0.25;
+				data.sY = (3.0*data.sY+nsY/x.size())*0.25;
 				ldx = d.dx;
 				ldy = d.dy;
 			}
