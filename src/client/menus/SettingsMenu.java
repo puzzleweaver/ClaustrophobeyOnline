@@ -42,7 +42,7 @@ public class SettingsMenu implements Menu {
 			if(isMusicHovered())
 				isMusicSelected = true;
 			if(isBackButtonHovered())
-				ClientMain.menu = ClientMain.mainMenu;
+				ClientMain.menu = new TransitionMenu(this, ClientMain.mainMenu);
 		}else {
 			isMusicSelected = false;
 		}

@@ -13,12 +13,12 @@ import main.Main;
 import main.Menu;
 
 public class TransitionMenu implements Menu {
-
+	
 	public ArrayList<Integer> fpx, fpy;
 	private Menu preTrans, postTrans;
 	private Image a, b, c;
 	private Graphics g1;
-	private int speed = 200;
+	private int speed = 500;
 	private boolean filling;
 	private boolean indeces[][];
 	
@@ -63,8 +63,7 @@ public class TransitionMenu implements Menu {
 		}
 	}
 
-	public void update(GameContainer gc) {
-	}
+	public void update(GameContainer gc) {}
 
 	public void render(GameContainer gc, Graphics g) {
 		int rid, x, y;

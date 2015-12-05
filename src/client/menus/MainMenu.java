@@ -32,9 +32,9 @@ public class MainMenu implements Menu {
 		boolean mouseDown = gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		if(mouseDown) {
 			if(isPlayButtonHovered())
-				ClientMain.menu = ClientMain.serverManagerMenu;
+				ClientMain.menu = new TransitionMenu(this, ClientMain.serverManagerMenu);
 			else if(isSettingsButtonHovered())
-				ClientMain.menu = ClientMain.settingsMenu;
+				ClientMain.menu = new TransitionMenu(this, ClientMain.settingsMenu);
 		}
 	}
 	
