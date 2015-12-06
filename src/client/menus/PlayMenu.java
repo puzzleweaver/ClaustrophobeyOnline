@@ -2,21 +2,22 @@ package client.menus;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Keyboard;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.geom.Rectangle;
-
-import client.ClientMain;
-import client.MenuBackground;
 import main.Menu;
 import net.GameClient;
 import net.GameSocket;
 import net.InputData;
 import net.OutputData;
 import net.Serializer;
+
+import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 import world.World;
+import client.ClientMain;
+import client.Colors;
+import client.MenuBackground;
 
 public class PlayMenu implements Menu {
 	
@@ -119,7 +120,7 @@ public class PlayMenu implements Menu {
 			}
 		} else { // when not connected yet, draw something other than a black screen
 			MenuBackground.render(gc, g);
-			g.setColor(Menu.TEXT_COLOR);
+			g.setColor(Colors.textColor);
 			g.drawString("Connecting...", rfw/2-ClientMain.font.getWidth("Connecting...")/2, rfh/2-ClientMain.font.getHeight()/2);
 		}
 	}

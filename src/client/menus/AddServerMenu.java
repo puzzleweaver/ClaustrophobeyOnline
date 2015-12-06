@@ -2,14 +2,15 @@ package client.menus;
 
 import main.Menu;
 
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.gui.TextField;
 
+import client.Button;
 import client.ClientMain;
+import client.Colors;
 import client.MenuBackground;
 import client.Settings;
 
@@ -17,10 +18,14 @@ public class AddServerMenu implements Menu {
 	
 	public TextField nameTextField, ipTextField;
 	
+	private Button okButton, cancelButton;
+	
 	public boolean editing = false;
 	public int selectedServer = -1;
 	
 	public void init(GameContainer gc) {
+		okButton = new Button(gc.getWidth()/2, gc.getHeight()/2 + ClientMain.font.getHeight()*2, "OK", ClientMain.font);
+		cancelButton = new Button(gc.getWidth()/2, gc.getHeight()/2 + ClientMain.font.getHeight()*3, "Cancel", ClientMain.font);
 		nameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/4, gc.getHeight()/2-ClientMain.fontSmall.getHeight()/2, gc.getWidth()/2, ClientMain.fontSmall.getHeight());
 		ipTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/2 + ClientMain.font.getWidth("Name: ")/2 - gc.getWidth()/4, gc.getHeight()/2+ClientMain.fontSmall.getHeight()/2, gc.getWidth()/2, ClientMain.fontSmall.getHeight());
 	}
@@ -29,21 +34,18 @@ public class AddServerMenu implements Menu {
 		MenuBackground.render(gc, g);
 		//labels for name and ip
 		g.setFont(ClientMain.font);
-		g.setColor(Menu.TITLE_COLOR);
+		g.setColor(Colors.titleColor);
 		g.drawString("Name: ", gc.getWidth()/2 - ClientMain.font.getWidth("Name: ")/2 - nameTextField.getWidth()/2, gc.getHeight()/2-ClientMain.fontSmall.getHeight()/2);
 		g.drawString("IP: ", gc.getWidth()/2 - ClientMain.font.getWidth("IP: ")/2 - ipTextField.getWidth()/2, gc.getHeight()/2+ClientMain.fontSmall.getHeight()/2);
 		//text fields
-		g.setColor(Menu.TYPE_COLOR);
+		g.setColor(Colors.typeColor);
 		nameTextField.setBorderColor(Color.black);
 		nameTextField.render(gc, g);
 		ipTextField.setBorderColor(Color.black);
 		ipTextField.render(gc, g);
-		//ok button
-		g.setColor(isOkButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-		g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+ClientMain.font.getHeight()*2);
-		//cancel button
-		g.setColor(isCancelButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-		g.drawString("Cancel", gc.getWidth()/2 - ClientMain.font.getWidth("Cancel")/2, gc.getHeight()/2+ClientMain.font.getHeight()*3);
+		//buttons
+		okButton.render(g);
+		cancelButton.render(g);
 	}
 	
 	public void update(GameContainer gc) {
@@ -66,7 +68,7 @@ public class AddServerMenu implements Menu {
 				ipTextField.setFocus(false);
 			}
 		}
-		if((isOkButtonHovered() && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
+		if((okButton.isHovered() && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
 			if(nameTextField.getText().length() > 0 && ipTextField.getText().length() > 0) {
 				if(editing) {
 					Settings.name.set(selectedServer, nameTextField.getText());
@@ -81,27 +83,12 @@ public class AddServerMenu implements Menu {
 			ipTextField.setText("");
 			selectedServer = -1;
 		}
-		if(isCancelButtonHovered() && mousePressed) {
+		if(cancelButton.isHovered() && mousePressed) {
 			ClientMain.menu = ClientMain.serverManagerMenu;
 			nameTextField.setText("");
 			ipTextField.setText("");
 			selectedServer = -1;
 		}
-	}
-	
-	private boolean isOkButtonHovered() {
-		int mx = Mouse.getX();
-		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("OK")/2;
-		int by = ClientMain.HEIGHT/2+ClientMain.font.getHeight()*2;
-		return mx > bx && mx < bx+ClientMain.font.getWidth("OK") && my > by && my < by+ClientMain.font.getHeight("OK");
-	}
-	private boolean isCancelButtonHovered() {
-		int mx = Mouse.getX();
-		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Cancel")/2;
-		int by = ClientMain.HEIGHT/2+ClientMain.font.getHeight()*3;
-		return mx > bx && mx < bx+ClientMain.font.getWidth("Cancel") && my > by && my < by+ClientMain.font.getHeight("Cancel");
 	}
 	
 }

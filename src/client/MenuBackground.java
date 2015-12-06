@@ -28,7 +28,7 @@ public class MenuBackground {
 	}
 	
 	public static Color get(double t) {
-		return new Color((int) (65*t+64), 0, 0);
+		return Colors.backgroundColor.darker(1-(65*(float) t+64)/256);
 	}
 	
 	public static double getRf(int i, int j) {

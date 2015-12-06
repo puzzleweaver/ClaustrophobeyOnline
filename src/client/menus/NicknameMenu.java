@@ -6,14 +6,15 @@ import java.net.UnknownHostException;
 import main.Menu;
 import net.GameSocket;
 
-import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.gui.TextField;
 
+import client.Button;
 import client.ClientMain;
+import client.Colors;
 import client.MenuBackground;
 import client.Settings;
 
@@ -23,22 +24,24 @@ public class NicknameMenu implements Menu {
 	
 	public int selectedServer = -1;
 	
+	private Button okButton, cancelButton;
+	
 	public void init(GameContainer gc) {
+		okButton = new Button(gc.getWidth()/2, gc.getHeight()/2 + ClientMain.font.getHeight()*2, "OK", ClientMain.font);
+		cancelButton = new Button(gc.getWidth()/2, gc.getHeight()/2 + ClientMain.font.getHeight()*3, "Cancel", ClientMain.font);
 		nicknameTextField = new TextField(gc, ClientMain.fontSmall, gc.getWidth()/4, gc.getHeight()/2, gc.getWidth()/2, ClientMain.fontSmall.getHeight());
 	}
 	public void render(GameContainer gc, Graphics g) {
 		MenuBackground.render(gc, g);
 		g.setFont(ClientMain.font);
-		g.setColor(Menu.TITLE_COLOR);
+		g.setColor(Colors.titleColor);
 		g.drawString("Nickname:", gc.getWidth()/2 - ClientMain.font.getWidth("Nickname:")/2, gc.getHeight()/2-ClientMain.font.getHeight());
+		g.setColor(Colors.typeColor);
 		nicknameTextField.setBorderColor(Color.black);
 		nicknameTextField.render(gc, g);
-		//ok button
-		g.setColor(isOkButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-		g.drawString("OK", gc.getWidth()/2 - ClientMain.font.getWidth("OK")/2, gc.getHeight()/2+ClientMain.font.getHeight()*2);
-		//cancel button
-		g.setColor(isCancelButtonHovered() ? Menu.SELECTED_COLOR : Menu.TEXT_COLOR);
-		g.drawString("Cancel", gc.getWidth()/2 - ClientMain.font.getWidth("Cancel")/2, gc.getHeight()/2+ClientMain.font.getHeight()*3);
+		//buttons
+		okButton.render(g);
+		cancelButton.render(g);
 	}
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
@@ -47,7 +50,7 @@ public class NicknameMenu implements Menu {
 		//enforce text limit
 		if(nicknameTextField.getText().length() > 20)
 			nicknameTextField.setText(nicknameTextField.getText().substring(0, 20));
-		if(isOkButtonHovered() && mousePressed) {
+		if((okButton.isHovered() && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
 			try {
 				GameSocket.serverIP = InetAddress.getByName(Settings.ip.get(selectedServer));
 				PlayMenu.clientData.nickname = nicknameTextField.getText();
@@ -57,24 +60,9 @@ public class NicknameMenu implements Menu {
 				e.printStackTrace();
 			}
 		}
-		if(isCancelButtonHovered() && mousePressed) {
+		if(cancelButton.isHovered() && mousePressed) {
 			ClientMain.menu = ClientMain.serverManagerMenu;
 		}
-	}
-	
-	private boolean isOkButtonHovered() {
-		int mx = Mouse.getX();
-		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("OK")/2;
-		int by = ClientMain.HEIGHT/2+ClientMain.font.getHeight()*2;
-		return mx > bx && mx < bx+ClientMain.font.getWidth("OK") && my > by && my < by+ClientMain.font.getHeight("OK");
-	}
-	private boolean isCancelButtonHovered() {
-		int mx = Mouse.getX();
-		int my = ClientMain.HEIGHT - Mouse.getY();
-		int bx = ClientMain.WIDTH/2 - ClientMain.font.getWidth("Cancel")/2;
-		int by = ClientMain.HEIGHT/2+ClientMain.font.getHeight()*3;
-		return mx > bx && mx < bx+ClientMain.font.getWidth("Cancel") && my > by && my < by+ClientMain.font.getHeight("Cancel");
 	}
 	
 }

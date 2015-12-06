@@ -9,6 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import client.ClientMain;
+import client.Colors;
 import main.Main;
 import main.Menu;
 
@@ -87,7 +88,8 @@ public class TransitionMenu implements Menu {
 			if(filling) {
 				g1.drawImage(a.getSubImage(x*ClientMain.pixW, y*ClientMain.pixW, ClientMain.pixW, ClientMain.pixW), x*ClientMain.pixW, y*ClientMain.pixW);
 			}else {
-				g1.setColor(new Color(Main.r.nextInt(55)+200, 0, 0));
+				System.out.println(1f-(Main.r.nextInt(55)+200f)/256f);
+				g1.setColor(Colors.backgroundColor.darker(1f-(Main.r.nextInt(55)+200f)/256f));
 				g1.fillRect(x*ClientMain.pixW, y*ClientMain.pixW, ClientMain.pixW, ClientMain.pixW);
 			}
 			add(x+1, y);
