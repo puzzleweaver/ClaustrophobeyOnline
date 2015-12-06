@@ -24,6 +24,13 @@ public class SettingsMenu implements Menu {
 		classicButton = new Button(gc.getWidth()/4, gc.getHeight()/2+ClientMain.fontSmall.getHeight(), "Classic", ClientMain.fontSmall);
 		darkButton = new Button(gc.getWidth()/2, gc.getHeight()/2+ClientMain.fontSmall.getHeight(), "Dark", ClientMain.fontSmall);
 		blueButton = new Button(3*gc.getWidth()/4, gc.getHeight()/2+ClientMain.fontSmall.getHeight(), "Blue", ClientMain.fontSmall);
+		if(Colors.scheme.equals("Blue")) {
+			blueButton.selected = true;
+		}else if(Colors.scheme.equals("Dark")) {
+			darkButton.selected = true;
+		}else {
+			classicButton.selected = true;
+		}
 	}
 	public void render(GameContainer gc, Graphics g) {
 		//background
