@@ -9,6 +9,7 @@ public class Colors {
 			titleColor = Color.gray,
 			typeColor = Color.gray,
 			backgroundColor = Color.red;
+	public static String scheme = "Classic";
 	
 	public static void setClassic() {
 		textColor = Color.green.darker();
@@ -16,6 +17,7 @@ public class Colors {
 		titleColor = Color.gray;
 		typeColor = Color.gray;
 		backgroundColor = Color.red;
+		scheme = "Classic";
 	}
 	public static void setDark() {
 		textColor = Color.green.darker();
@@ -23,6 +25,7 @@ public class Colors {
 		titleColor = Color.white;
 		typeColor = Color.red;
 		backgroundColor = Color.darkGray;
+		scheme = "Dark";
 	}
 	public static void setBlue() {
 		textColor = Color.green.darker();
@@ -30,6 +33,17 @@ public class Colors {
 		titleColor = Color.gray;
 		typeColor = Color.gray;
 		backgroundColor = Color.blue;
+		scheme = "Blue";
+	}
+	
+	public static void setScheme(String scheme) {
+		if(scheme.equals("Blue")) {
+			setBlue();
+		}else if(scheme.equals("Dark")) {
+			setDark();
+		}else {
+			setClassic();
+		}
 	}
 	
 }

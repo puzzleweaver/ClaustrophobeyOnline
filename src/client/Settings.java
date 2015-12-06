@@ -15,6 +15,7 @@ public class Settings {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(new File("settings.txt")));
 			String line;
+			Colors.setScheme(reader.readLine());
 			musicVolume = Float.parseFloat(reader.readLine());
 			int num = 0;
 			while((line = reader.readLine()) != null) {
@@ -33,6 +34,7 @@ public class Settings {
 	public static void write() {
 		try {
 			PrintWriter writer = new PrintWriter(new File("settings.txt"));
+			writer.println(Colors.scheme);
 			writer.println(Sounds.music.getVolume());
 			for(int i = 0; i < name.size(); i++) {
 				writer.println(name.get(i));
