@@ -40,7 +40,7 @@ public class SettingsMenu implements Menu {
 		g.setFont(ClientMain.font);
 		g.drawString("Settings", gc.getWidth()/2 - ClientMain.font.getWidth("Settings")/2, gc.getHeight()/8);
 		//back button
-		backButton.render(g);
+		backButton.render(gc, g);
 		//music volume
 		g.setColor(Colors.titleColor);
 		g.setFont(ClientMain.fontSmall);
@@ -53,30 +53,30 @@ public class SettingsMenu implements Menu {
 		//color scheme
 		g.setColor(Colors.titleColor);
 		g.drawString("Color Scheme", gc.getWidth()/2 - ClientMain.fontSmall.getWidth("Color Scheme")/2, gc.getHeight()/2);
-		classicButton.render(g);
-		darkButton.render(g);
-		blueButton.render(g);
+		classicButton.render(gc, g);
+		darkButton.render(gc, g);
+		blueButton.render(gc, g);
 	}
 	public void update(GameContainer gc) {
 		boolean mouseDown = Mouse.isButtonDown(Input.MOUSE_LEFT_BUTTON);
 		if(mouseDown) {
 			if(isMusicHovered())
 				isMusicSelected = true;
-			if(backButton.isHovered())
+			if(backButton.isHovered(gc))
 				ClientMain.menu = new TransitionMenu(this, ClientMain.mainMenu);
-			if(classicButton.isHovered()) {
+			if(classicButton.isHovered(gc)) {
 				classicButton.selected = true;
 				darkButton.selected = false;
 				blueButton.selected = false;
 				Colors.setClassic();
 			}
-			if(darkButton.isHovered()) {
+			if(darkButton.isHovered(gc)) {
 				darkButton.selected = true;
 				classicButton.selected = false;
 				blueButton.selected = false;
 				Colors.setDark();
 			}
-			if(blueButton.isHovered()) {
+			if(blueButton.isHovered(gc)) {
 				blueButton.selected = true;
 				classicButton.selected = false;
 				darkButton.selected = false;

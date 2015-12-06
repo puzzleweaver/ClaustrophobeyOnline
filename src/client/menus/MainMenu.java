@@ -26,16 +26,16 @@ public class MainMenu implements Menu {
 		g.setFont(ClientMain.font);
 		g.drawString("Claustrophobey", gc.getWidth()/2 - ClientMain.font.getWidth("Claustrophobey")/2, gc.getHeight()/4);
 		//play button
-		playButton.render(g);
-		settingsButton.render(g);
+		playButton.render(gc, g);
+		settingsButton.render(gc, g);
 	}
 	
 	public void update(GameContainer gc) {
 		boolean mouseDown = gc.getInput().isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		if(mouseDown) {
-			if(playButton.isHovered())
+			if(playButton.isHovered(gc))
 				ClientMain.menu = new TransitionMenu(this, ClientMain.serverManagerMenu);
-			else if(settingsButton.isHovered())
+			else if(settingsButton.isHovered(gc))
 				ClientMain.menu = new TransitionMenu(this, ClientMain.settingsMenu);
 		}
 	}

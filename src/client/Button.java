@@ -1,7 +1,9 @@
 package client;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.TrueTypeFont;
 
 public class Button {
@@ -10,7 +12,7 @@ public class Button {
 	private String text;
 	private TrueTypeFont font;
 	
-	public boolean selected = false;
+	public boolean selected = false, enabled = true;
 	
 	public Button(int x, int y, String text, TrueTypeFont font) {
 		this.text = text;
@@ -21,15 +23,16 @@ public class Button {
 		h = font.getHeight();
 	}
 	
-	public void render(Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		g.setFont(font);
-		g.setColor(isHovered() || selected ? Colors.selectedColor : Colors.textColor);
+		g.setColor(enabled ? (isHovered(gc) || selected ? Colors.selectedColor : Colors.textColor) : Colors.titleColor);
 		g.drawString(text, x, y);
 	}
 	
-	public boolean isHovered() {
-		int mx = Mouse.getX();
-		int my = ClientMain.HEIGHT - Mouse.getY();
+	public boolean isHovered(GameContainer gc) {
+		Input input = gc.getInput();
+		int mx = input.getMouseX();
+		int my = input.getMouseY();
 		return mx > x && mx < x+w && my > y && my < y+h;
 	}
 	

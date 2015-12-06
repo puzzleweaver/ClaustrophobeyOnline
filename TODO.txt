@@ -3,14 +3,15 @@
 
 + RALLLLAAAAAAAH!
 - add HUD
-- more settings
-  - color scheme something in settings
+- special abilities framework
 - fix pie chart scaling
 - play tutorial maybe
 - better music (atmospheric maybe?)
 - framework for different game modes (the menu crap for that)   <-- DO THIS SO THAT I (OSTIN?!?) CAN DO GAME MODE STUFF
 
 + OSTIN?!?
+- eject mindless amoebas
+- special abilities
 - color scheme framework
 - game modes
   - rounds

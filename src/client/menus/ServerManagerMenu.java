@@ -50,7 +50,7 @@ public class ServerManagerMenu implements Menu {
 		g.setColor(Colors.titleColor);
 		g.drawString("Select Server", gc.getWidth()/2 - ClientMain.font.getWidth("Select Server")/2, gc.getHeight()/8);
 		//back button
-		backButton.render(g);
+		backButton.render(gc, g);
 		//server list
 		g2.clear();
 		g2.setFont(ClientMain.fontSmall);
@@ -61,11 +61,11 @@ public class ServerManagerMenu implements Menu {
 		g.drawImage(image, 0, gc.getHeight()/4);
 		//botton buttons
 		if(selectedServer == -1) {
-			addButton.render(g);
+			addButton.render(gc, g);
 		}else {
-			playButton.render(g);
-			editButton.render(g);
-			removeButton.render(g);
+			playButton.render(gc, g);
+			editButton.render(gc, g);
+			removeButton.render(gc, g);
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class ServerManagerMenu implements Menu {
 		boolean mousePressed = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		if(mousePressed) {
 			if(selectedServer == -1) {
-				if(addButton.isHovered()) {
+				if(addButton.isHovered(gc)) {
 					AddServerMenu menu = (AddServerMenu) ClientMain.addServerMenu;
 					menu.editing = false;
 					menu.nameTextField.setFocus(true);
@@ -82,7 +82,7 @@ public class ServerManagerMenu implements Menu {
 					ClientMain.menu = menu;
 				}
 			}else {
-				if(editButton.isHovered()) {
+				if(editButton.isHovered(gc)) {
 					AddServerMenu menu = (AddServerMenu) ClientMain.addServerMenu;
 					menu.editing = true;
 					menu.nameTextField.setFocus(true);
@@ -95,16 +95,16 @@ public class ServerManagerMenu implements Menu {
 					ClientMain.menu = menu;
 				}
 			}
-			if(backButton.isHovered()) {
+			if(backButton.isHovered(gc)) {
 				ClientMain.menu = new TransitionMenu(ClientMain.serverManagerMenu, ClientMain.mainMenu);
 			}
 			if(selectedServer >= 0) {
-				if(removeButton.isHovered()) {
+				if(removeButton.isHovered(gc)) {
 					Settings.name.remove(selectedServer);
 					Settings.ip.remove(selectedServer);
 					selectedServer = -1;
 				}
-				if(playButton.isHovered()) {
+				if(playButton.isHovered(gc)) {
 					NicknameMenu menu = (NicknameMenu) ClientMain.nicknameMenu;
 					menu.nicknameTextField.setText("");
 					menu.selectedServer = selectedServer;

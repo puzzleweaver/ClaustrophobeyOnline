@@ -40,8 +40,8 @@ public class NicknameMenu implements Menu {
 		nicknameTextField.setBorderColor(Color.black);
 		nicknameTextField.render(gc, g);
 		//buttons
-		okButton.render(g);
-		cancelButton.render(g);
+		okButton.render(gc, g);
+		cancelButton.render(gc, g);
 	}
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
@@ -50,7 +50,7 @@ public class NicknameMenu implements Menu {
 		//enforce text limit
 		if(nicknameTextField.getText().length() > 20)
 			nicknameTextField.setText(nicknameTextField.getText().substring(0, 20));
-		if((okButton.isHovered() && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
+		if((okButton.isHovered(gc) && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
 			try {
 				GameSocket.serverIP = InetAddress.getByName(Settings.ip.get(selectedServer));
 				PlayMenu.clientData.nickname = nicknameTextField.getText();
@@ -60,7 +60,7 @@ public class NicknameMenu implements Menu {
 				e.printStackTrace();
 			}
 		}
-		if(cancelButton.isHovered() && mousePressed) {
+		if(cancelButton.isHovered(gc) && mousePressed) {
 			ClientMain.menu = ClientMain.serverManagerMenu;
 		}
 	}

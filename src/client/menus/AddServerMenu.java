@@ -44,8 +44,8 @@ public class AddServerMenu implements Menu {
 		ipTextField.setBorderColor(Color.black);
 		ipTextField.render(gc, g);
 		//buttons
-		okButton.render(g);
-		cancelButton.render(g);
+		okButton.render(gc,g);
+		cancelButton.render(gc, g);
 	}
 	
 	public void update(GameContainer gc) {
@@ -68,7 +68,7 @@ public class AddServerMenu implements Menu {
 				ipTextField.setFocus(false);
 			}
 		}
-		if((okButton.isHovered() && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
+		if((okButton.isHovered(gc) && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
 			if(nameTextField.getText().length() > 0 && ipTextField.getText().length() > 0) {
 				if(editing) {
 					Settings.name.set(selectedServer, nameTextField.getText());
@@ -83,7 +83,7 @@ public class AddServerMenu implements Menu {
 			ipTextField.setText("");
 			selectedServer = -1;
 		}
-		if(cancelButton.isHovered() && mousePressed) {
+		if(cancelButton.isHovered(gc) && mousePressed) {
 			ClientMain.menu = ClientMain.serverManagerMenu;
 			nameTextField.setText("");
 			ipTextField.setText("");
