@@ -3,19 +3,26 @@ package main.game;
 import java.util.ArrayList;
 
 import main.Main;
+import net.GameClient;
 import net.IndividualData;
 import net.InputData;
 import world.World;
 
 public class Player {
 
-	public static final int MAX_SIZE = 300, MIN_SIZE = 20;
-	public short PID;
+	// statics
+	public static final int MAX_SIZE = 300, SIZE_BUFF_BONUS = 100, MIN_SIZE = 20;
+	public static final int BUFF_DRONES = 0, BUFF_GHOST = 1, BUFF_MAXUP = 2, BUFF_FOODUP = 3, BUFF_ATTSPEED = 4;
+
+	// identity vars
 	public ArrayList<Integer> x = new ArrayList<Integer>(),
 			y = new ArrayList<Integer>();
-	public boolean preference;
-	public int ldx, ldy, cost = 0;
+	public short PID;
+
+	// movement vars
+	public int ldx, ldy;
 	public boolean att;
+	public boolean preference;
 
 	public Player(int ix, int iy, short PID) {
 		for(int i = 0; i < MIN_SIZE; i++)
@@ -24,32 +31,43 @@ public class Player {
 	}
 
 	public void update(InputData d) {
-		
+
 		// maximize mass if dev key is used
 		if(d.greedShortcut) {
 			for(int i = MAX_SIZE-x.size(); i > 0; i--) {
 				moveTo(-1, x.get(0), y.get(0));
 			}
 		}
-		
+
 		// move player and use off/def mechanics
 		double l = (d.slothShortcut ? 3:1)*Math.max(1, 0.4*Math.sqrt(x.size()));
 		att = x.size() > MIN_SIZE && d.attack; // attack if large enough
 		if(x.size() > MIN_SIZE) {
 			if(!att && d.defend) { // defend if not attacking
 				for(int i = 0; i < l; i++)
-					hardenID(getFurthestID(ldx, ldy, false));
+					hardenID(getFurthestID(ldx, ldy));
+			}
+		}
+		int rid = 0;
+		if(att) {
+			delete(getFurthestID(ldx, ldy));
+			for(int i = 0; i < 4; i++) {
+				rid = Main.r.nextInt(x.size());
+				Main.data.state[x.get(rid)][y.get(rid)] = (short) (PID+8192);
+			}
+		}else {
+			for(int i = 0; i < 4; i++) {
+				rid = Main.r.nextInt(x.size());
+				Main.data.state[x.get(rid)][y.get(rid)] = (short) (PID-8192);
 			}
 		}
 		if(d.dx != 0 || d.dy != 0) {
-			if(att)
-				delete(getFurthestID(ldx, ldy, true));
 			for(int i = 0; i < l; i++)
 				move(d);
 			ldx = d.dx;
 			ldy = d.dy;
 		}
-		
+
 		// scroll
 		IndividualData data = Main.data.indieData.get(PID-1);
 		int nsX = 0, nsY = 0;
@@ -81,7 +99,7 @@ public class Player {
 			}
 		}
 		if(fx.size() == 0) return;
-		int id = getFurthestID(dx, dy, true), rid = Main.r.nextInt(fx.size()), s = Main.data.state[fx.get(rid)][fy.get(rid)];
+		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size()), s = Main.data.state[fx.get(rid)][fy.get(rid)];
 		if(s < 0 && s > -8192) {
 			Main.data.indieData.get(s+8191).player.remove(fx.get(rid), fy.get(rid));
 		}
@@ -130,7 +148,7 @@ public class Player {
 		x.remove(id);
 		y.remove(id);
 	}
-	
+
 	public void remove(int nx, int ny) {
 		for(int i = 0; i < x.size(); i++) {
 			if(x.get(i) == nx && y.get(i) == ny) {
@@ -142,12 +160,11 @@ public class Player {
 		}
 	}
 
-	public int getFurthestID(double dx, double dy, boolean curved) {
+	public int getFurthestID(double dx, double dy) {
 		int minID = 0;
 		double minDot = Double.MAX_VALUE, dot;
-		if(curved)
-			if(dx != 0) dy = Main.r.nextDouble()*2-1;
-			else dx = Main.r.nextDouble()*2-1;
+		if(dx != 0) dy = Main.r.nextDouble()*2-1;
+		else dx = Main.r.nextDouble()*2-1;
 		for(int i = 0; i < x.size(); i++) {
 			dot = x.get(i)*dx+y.get(i)*dy;
 			if(minDot > dot) {

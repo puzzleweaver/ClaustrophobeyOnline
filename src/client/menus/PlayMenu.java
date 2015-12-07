@@ -26,6 +26,7 @@ public class PlayMenu implements Menu {
 	public static OutputData data = new OutputData();
 	public static InputData clientData = new InputData();
 	
+	public int gameMode;
 	private int pw;
 	private int rfw = ClientMain.WIDTH, rfh = ClientMain.HEIGHT;
 	private double rf[][] = new double[rfw][rfh];

@@ -8,6 +8,7 @@ public class InputData implements Serializable {
 
 	public int dx, dy, w, h, pixW;
 	public boolean attack, defend, slothShortcut, greedShortcut, exited;
+	public boolean[] buffs;
 	
 	public String nickname;
 	

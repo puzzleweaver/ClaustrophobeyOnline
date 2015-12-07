@@ -8,20 +8,25 @@
 - play tutorial maybe
 - better music (atmospheric maybe?)
 - framework for different game modes (the menu crap for that)   <-- DO THIS SO THAT I (OSTIN?!?) CAN DO GAME MODE STUFF
+- making the server actually display information (more than just IPs)
 
 + OSTIN?!?
-- eject mindless amoebas
 - special abilities
-- color scheme framework
+  - more mass gained from eating amoebas
+  - speed buff while attacking
+  - create drones
+  - ghost mode
+  - higher maximum mass
+  - stronger walls (maybe...)
 - game modes
-  - rounds
-  - single player
+  - capture the flag
   - sudden death
-  - capture the flag / find something
-  - race?
+  - territorial
+- teams and team-based rendering (in PlayMenu)
+  - FFA
+  - 2 teams
+  - 3 teams
 
-- menu transitions
 - optimize playmenu rendering
 - more ideas for TODOs
 - comment all the code / organize it
-- something about names or idetifyers for you/other players (like agario?)

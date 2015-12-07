@@ -38,9 +38,9 @@ public class Main extends GameSocket {
 	
 	private static String str1, str2;
 	
-	public static final int TERRITORIAL = 0, SUDDEN_DEATH = 1;
-	public static int gameType = TERRITORIAL;
-	public static int numTeams = 0; //0 teams is free for all
+	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
+	public static int gameType = MODE_TERR;
+	public static int numTeams = 0; //1 team is free for all
 	
 	private static boolean started = false;
 	
@@ -182,7 +182,7 @@ public class Main extends GameSocket {
 						threeButton.selected = true;
 					}if(startButton.isHovered(gc) && startButton.enabled) {
 						started = true;
-						gameType = suddenDeathButton.selected ? SUDDEN_DEATH : TERRITORIAL;
+						gameType = suddenDeathButton.selected ? MODE_SD : MODE_TERR;
 						numTeams = ffaButton.selected ? 0 : (twoButton.selected ? 2 : 3);
 						new Main().start();
 					}
