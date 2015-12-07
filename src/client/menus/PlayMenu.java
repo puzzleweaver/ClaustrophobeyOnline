@@ -2,22 +2,22 @@ package client.menus;
 
 import java.util.ArrayList;
 
-import main.Menu;
-import net.GameClient;
-import net.GameSocket;
-import net.InputData;
-import net.OutputData;
-import net.Serializer;
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import world.World;
 import client.ClientMain;
 import client.Colors;
 import client.MenuBackground;
+import main.Menu;
+import main.game.Player;
+import net.GameClient;
+import net.GameSocket;
+import net.InputData;
+import net.OutputData;
+import net.Serializer;
+import world.World;
 
 public class PlayMenu implements Menu {
 	
@@ -141,10 +141,13 @@ public class PlayMenu implements Menu {
 		clientData.dy = (Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S) ? 1 : 0) -
 				(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W) ? 1 : 0);
 		clientData.pixW = ClientMain.pixW;
-		clientData.attack = Keyboard.isKeyDown(Keyboard.KEY_X);
-		clientData.defend = Keyboard.isKeyDown(Keyboard.KEY_Z);
-		clientData.slothShortcut = Keyboard.isKeyDown(Keyboard.KEY_1);
-		clientData.greedShortcut = Keyboard.isKeyDown(Keyboard.KEY_2);
+		clientData.keys = new boolean[Player.NUM_KEYS];
+		clientData.keys[Player.KEY_ATT] = Keyboard.isKeyDown(Keyboard.KEY_X);
+		clientData.keys[Player.KEY_DEF] = Keyboard.isKeyDown(Keyboard.KEY_Z);
+		clientData.keys[Player.KEY_GHOST] = Keyboard.isKeyDown(Keyboard.KEY_C);
+		clientData.keys[Player.KEY_DRONE] = Keyboard.isKeyDown(Keyboard.KEY_V);
+		clientData.keys[Player.KEY_FF] = Keyboard.isKeyDown(Keyboard.KEY_1);
+		clientData.keys[Player.KEY_MAXIMIZE_MASS] = Keyboard.isKeyDown(Keyboard.KEY_2);
 		try {
 			gameClient.sendData(Serializer.serialize(clientData), GameSocket.serverIP, GameSocket.PORT);
 		} catch(Exception e) {

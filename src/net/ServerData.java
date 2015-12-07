@@ -18,7 +18,7 @@ public class ServerData implements Serializable {
 	private static final long serialVersionUID = 584460438362147743L;
 
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
-	AmoebaHandler amoebas = new AmoebaHandler();
+	public AmoebaHandler amoebas = new AmoebaHandler();
 	
 	public int index;
 	

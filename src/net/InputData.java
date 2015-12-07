@@ -7,8 +7,9 @@ public class InputData implements Serializable {
 	private static final long serialVersionUID = -2642169204067399606L;
 
 	public int dx, dy, w, h, pixW;
-	public boolean attack, defend, slothShortcut, greedShortcut, exited;
+	public boolean exited;
 	public boolean[] buffs;
+	public boolean[] keys;
 	
 	public String nickname;
 	
