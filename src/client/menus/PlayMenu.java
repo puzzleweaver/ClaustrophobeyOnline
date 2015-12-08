@@ -100,24 +100,33 @@ public class PlayMenu implements Menu {
 			}
 			
 			// draw pie chart
-			int sum = 0;
-			int lastSum = 0;
-			int total = 0;
-			int size = rfw/10;
-			for(int i = 1; i < data.territory.length; i++)
-				total += data.territory[i];
-			for(int i = 1; i < data.territory.length; i++) {
-				if(i >= R.size()) {
-					do {
-						R.add(Math.cos(R.size())*127+128);
-						G.add(Math.cos(G.size()+2.09439510239)*127+128);
-						B.add(Math.cos(B.size()+4.18879020479)*127+128);
-					} while(i >= R.size());
+//			int sum = 0;
+//			int lastSum = 0;
+//			int total = 0;
+//			int size = rfw/10;
+//			for(int i = 1; i < data.territory.length; i++)
+//				total += data.territory[i];
+//			for(int i = 1; i < data.territory.length; i++) {
+//				if(i >= R.size()) {
+//					do {
+//						R.add(Math.cos(R.size())*127+128);
+//						G.add(Math.cos(G.size()+2.09439510239)*127+128);
+//						B.add(Math.cos(B.size()+4.18879020479)*127+128);
+//					} while(i >= R.size());
+//				}
+//				sum += data.territory[i];
+//				g.setColor(new Color((int) (double) R.get(i), (int) (double) G.get(i), (int) (double) B.get(i)));
+//				g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
+//				lastSum = sum;
+//			}
+			
+			//draw leaderboard
+			g.setFont(ClientMain.fontSmall);
+			g.drawString("Leaderboard", 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth("Leaderboards")/2, ClientMain.fontSmall.getHeight());
+			if(data.leaderboard != null) {
+				for(int i = 0; i < data.leaderboard.length; i++) {
+					g.drawString((i+1) + ". " + data.leaderboard[i], 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth((i+1) + ". " + data.leaderboard[i])/2, ClientMain.fontSmall.getHeight()*(2+i));
 				}
-				sum += data.territory[i];
-				g.setColor(new Color((int) (double) R.get(i), (int) (double) G.get(i), (int) (double) B.get(i)));
-				g.fillArc(gc.getWidth()-size-pw, pw, size, size, (float) lastSum / (float) total * 360.0f, (float) sum/ (float) total * 360.0f);
-				lastSum = sum;
 			}
 		} else { // when not connected yet, draw something other than a black screen
 			MenuBackground.render(gc, g);

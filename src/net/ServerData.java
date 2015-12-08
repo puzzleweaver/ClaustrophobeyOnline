@@ -20,9 +20,11 @@ public class ServerData implements Serializable {
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
 	public AmoebaHandler amoebas = new AmoebaHandler();
 	
-	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
+	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2,
+			WORLD_ROUND = 0, WORLD_NET = 1;
 	public int gameType = MODE_TERR;
 	public int numTeams = 0; //1 team is free for all
+	public int worldType = WORLD_ROUND;
 	public boolean[] buffs = new boolean[7];
 	
 	public int index;
