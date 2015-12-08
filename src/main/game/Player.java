@@ -209,7 +209,7 @@ public class Player {
 		if(!ghost)
 			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 		else if(Main.data.state[x.get(id)][y.get(id)] == PID-8192)
-			Main.data.state[x.get(id)][y.get(id)] = World.STATE_SPACE;
+			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 		x.remove(id);
 		y.remove(id);
 		

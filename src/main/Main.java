@@ -26,6 +26,7 @@ import net.GameSocket;
 import net.InputData;
 import net.Serializer;
 import net.ServerData;
+import world.World;
 
 public class Main extends GameSocket {
 	
@@ -233,12 +234,14 @@ public class Main extends GameSocket {
 					}
 					if(startButton.isHovered(gc) && startButton.enabled) {
 						started = true;
+						data = new ServerData();
 						data.gameType = suddenDeathButton.selected ? ServerData.MODE_SD : ServerData.MODE_TERR;
 						data.numTeams = ffaButton.selected ? 0 : (twoButton.selected ? 2 : 3);
 						for(int i = 0; i < data.buffs.length; i++) {
 							data.buffs[i] = buffButtons[1][i].selected;
 						}
-						data.worldType = roundButton.selected ? ServerData.WORLD_ROUND : ServerData.WORLD_NET;
+						data.worldType = roundButton.selected ? World.TYPE_CIRCLE : World.TYPE_NETWORK;
+						data.init();
 						server = new Main();
 						server.start();
 					}

@@ -20,11 +20,10 @@ public class ServerData implements Serializable {
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
 	public AmoebaHandler amoebas = new AmoebaHandler();
 	
-	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2,
-			WORLD_ROUND = 0, WORLD_NET = 1;
+	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
 	public int gameType = MODE_TERR;
 	public int numTeams = 1; //1 team is free for all
-	public int worldType = WORLD_ROUND;
+	public int worldType = World.TYPE_CIRCLE;
 	public boolean[] buffs = new boolean[7];
 	
 	public int index;
@@ -34,9 +33,10 @@ public class ServerData implements Serializable {
 	
 	public ArrayList<Integer> terr = new ArrayList<>();
 	
-	public ServerData() {
-		state = World.generateWorld(World.TYPE_CIRCLE);
+	public void init() {
+		state = World.generateWorld(worldType);
 		w = state.length; h = state[0].length;
+		terr = new ArrayList<>();
 		terr.add(0); // because PIDs are shifted over (player.get(0).PID = 1)
 	}
 	
