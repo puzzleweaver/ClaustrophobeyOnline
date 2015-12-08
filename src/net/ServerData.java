@@ -16,9 +16,14 @@ import world.World;
 public class ServerData implements Serializable {
 	
 	private static final long serialVersionUID = 584460438362147743L;
-
+	
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
 	public AmoebaHandler amoebas = new AmoebaHandler();
+	
+	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
+	public int gameType = MODE_TERR;
+	public int numTeams = 0; //1 team is free for all
+	public boolean[] buffs = new boolean[7];
 	
 	public int index;
 	

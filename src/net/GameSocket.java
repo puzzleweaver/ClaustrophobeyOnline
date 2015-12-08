@@ -6,7 +6,7 @@ import java.net.InetAddress;
 
 public abstract class GameSocket extends Thread {
 	
-	protected DatagramSocket socket;
+	public DatagramSocket socket;
 	
 	public static InetAddress serverIP;
 	

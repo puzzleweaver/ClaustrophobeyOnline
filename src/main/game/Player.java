@@ -11,7 +11,7 @@ public class Player {
 
 	// statics
 	private static final int MAX_SIZE = 300, DRONE_SIZE = 30, SIZE_BUFF_BONUS = 100, MIN_SIZE = 20;
-	public static final int BUFF_DRONES = 0, BUFF_GHOST = 1, BUFF_MAXUP = 2, BUFF_FOODUP = 3, BUFF_ATTSPEED = 4;
+	public static final int BUFF_DRONES = 0, BUFF_GHOST = 1, BUFF_MAXUP = 2, BUFF_FOODUP = 3, BUFF_ATTSPEED = 4, BUFF_ATTACK = 5, BUFF_DEFENSE = 6;
 	public static final int KEY_ATT = 0, KEY_DEF = 1, KEY_GHOST = 2, KEY_DRONE = 3, KEY_MAXIMIZE_MASS = 4, KEY_FF = 5;
 	public static final int NUM_KEYS = 6;
 	

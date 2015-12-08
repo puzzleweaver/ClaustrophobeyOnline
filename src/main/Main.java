@@ -38,10 +38,6 @@ public class Main extends GameSocket {
 	
 	private static String str1, str2;
 	
-	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
-	public static int gameType = MODE_TERR;
-	public static int numTeams = 0; //1 team is free for all
-	
 	private static boolean started = false;
 	
 	public static void main(String[] args) {
@@ -81,7 +77,11 @@ public class Main extends GameSocket {
 		
 		public TrueTypeFont font, fontSmall;
 		
-		private Button suddenDeathButton, territorialButton, ffaButton, twoButton, threeButton, startButton;
+		private Button suddenDeathButton, territorialButton, ffaButton, twoButton, threeButton, startButton, exitButton;
+		private Button[][] buffButtons = new Button[2][7];
+		private String[] buffNames = {"Drones", "Ghost", "Max Up", "Food Up", "Attack Speed", "Attack", "Defense"};
+		
+		private Main server;
 		
 		public ServerScreen() {
 			super("CLASTERFOOBRY");
@@ -101,7 +101,7 @@ public class Main extends GameSocket {
 				}
 			}
 		}
-
+		
 		public void init(GameContainer gc) throws SlickException {
 			InputStream inputStream = ResourceLoader.getResourceAsStream("res/half_bold_pixel-7.ttf");
 			Font awtFont;
@@ -112,11 +112,19 @@ public class Main extends GameSocket {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			exitButton = new Button(gc.getWidth()/2, 3*gc.getHeight()/4, "Exit", font);
+			
 			suddenDeathButton = new Button(gc.getWidth()/4, gc.getHeight()/8+font.getHeight(), "Sudden Death", fontSmall);
 			territorialButton = new Button(3*gc.getWidth()/4, gc.getHeight()/8+font.getHeight(), "Territorial", fontSmall);
 			ffaButton = new Button(gc.getWidth()/4, gc.getHeight()/4+font.getHeight(), "FFA", fontSmall);
 			twoButton = new Button(gc.getWidth()/2, gc.getHeight()/4+font.getHeight(), "2", fontSmall);
 			threeButton = new Button(3*gc.getWidth()/4, gc.getHeight()/4+font.getHeight(), "3", fontSmall);
+			
+			for(int i = 0; i < buffButtons[0].length; i++) {
+				buffButtons[0][i] = new Button(gc.getWidth()/2, 3*gc.getHeight()/8+fontSmall.getHeight()*i, "Disable", fontSmall);
+				buffButtons[1][i] = new Button(13*gc.getWidth()/16, 3*gc.getHeight()/8+fontSmall.getHeight()*i, "Enable", fontSmall);
+				buffButtons[0][i].selected = true; //disabled by default
+			}
 			
 			startButton = new Button(gc.getWidth()/2, 7*gc.getHeight()/8, "Start", font);
 			startButton.enabled = false;
@@ -124,10 +132,13 @@ public class Main extends GameSocket {
 		}
 		public void render(GameContainer gc, Graphics g) throws SlickException {
 			if(started) {
+				//draw ips
 				g.setColor(Colors.titleColor);
 				g.setFont(font);
 				g.drawString(str1, gc.getWidth()/2 - font.getWidth(str1)/2, gc.getHeight()/2-font.getHeight());
 				g.drawString(str2, gc.getWidth()/2 - font.getWidth(str2)/2, gc.getHeight()/2+font.getHeight());
+				//exit button
+				exitButton.render(gc, g);
 			}else {
 				MenuBackground.render(gc, g);
 				//game mode
@@ -143,6 +154,17 @@ public class Main extends GameSocket {
 				ffaButton.render(gc, g);
 				twoButton.render(gc, g);
 				threeButton.render(gc, g);
+				//buffs
+				g.setColor(Colors.titleColor);
+				g.setFont(fontSmall);
+				for(int i = 0; i < buffNames.length; i++) {
+					g.drawString(buffNames[i], 3*gc.getWidth()/16 - fontSmall.getWidth(buffNames[i])/2, 3*gc.getHeight()/8 + fontSmall.getHeight()*i);
+				}
+				for(int i = 0; i < buffButtons.length; i++) {
+					for(int j = 0; j < buffButtons[0].length; j++) {
+						buffButtons[i][j].render(gc, g);
+					}
+				}
 				//start button
 				startButton.render(gc, g);
 			}
@@ -155,6 +177,10 @@ public class Main extends GameSocket {
 					data.saveLocalImage();
 					System.exit(1);
 				}
+				if(mousePressed && exitButton.isHovered(gc)) {
+					started = false;
+					server.socket.close();
+				}
 				data.update((double) delta / 1000.0);
 			}else {
 				if((suddenDeathButton.selected || territorialButton.selected) &&
@@ -162,6 +188,7 @@ public class Main extends GameSocket {
 					startButton.enabled = true;
 				}
 				if(mousePressed) {
+					//if one mode is clicked, select it and deselect the others
 					if(suddenDeathButton.isHovered(gc)) {
 						suddenDeathButton.selected = true;
 						territorialButton.selected = false;
@@ -180,11 +207,26 @@ public class Main extends GameSocket {
 						ffaButton.selected = false;
 						twoButton.selected = false;
 						threeButton.selected = true;
-					}if(startButton.isHovered(gc) && startButton.enabled) {
+					}
+					//check buff buttons for selection
+					for(int i = 0; i < buffButtons[0].length; i++) {
+						if(buffButtons[0][i].isHovered(gc)) {
+							buffButtons[0][i].selected = true;
+							buffButtons[1][i].selected = false;
+						}if(buffButtons[1][i].isHovered(gc)) {
+							buffButtons[0][i].selected = false;
+							buffButtons[1][i].selected = true;
+						}
+					}
+					if(startButton.isHovered(gc) && startButton.enabled) {
 						started = true;
-						gameType = suddenDeathButton.selected ? MODE_SD : MODE_TERR;
-						numTeams = ffaButton.selected ? 0 : (twoButton.selected ? 2 : 3);
-						new Main().start();
+						data.gameType = suddenDeathButton.selected ? ServerData.MODE_SD : ServerData.MODE_TERR;
+						data.numTeams = ffaButton.selected ? 0 : (twoButton.selected ? 2 : 3);
+						for(int i = 0; i < data.buffs.length; i++) {
+							data.buffs[i] = buffButtons[1][i].selected;
+						}
+						server = new Main();
+						server.start();
 					}
 				}
 			}
