@@ -3,8 +3,8 @@ package net;
 import java.io.Serializable;
 import java.net.InetAddress;
 
-import main.Main;
-import main.game.Player;
+import server.ServerMain;
+import server.game.Player;
 
 public class IndividualData implements Serializable {
 	
@@ -21,13 +21,13 @@ public class IndividualData implements Serializable {
 		//PIDs can be {x | 0 < x < 8192}
 		int x, y;
 		do {
-			x = Main.r.nextInt(Main.data.w);
-			y = Main.r.nextInt(Main.data.h);
-		}while(Main.data.state[x][y] >= -8192);
+			x = ServerMain.r.nextInt(ServerMain.data.w);
+			y = ServerMain.r.nextInt(ServerMain.data.h);
+		}while(ServerMain.data.state[x][y] >= -8192);
 		player = new Player(x, y, (short) (index));
 	}
 	
-	public void update(double dt) {
+	public void update() {
 		player.update(clientData);
 	}
 	

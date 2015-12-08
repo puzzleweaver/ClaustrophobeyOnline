@@ -1,10 +1,10 @@
-package main.game;
+package server.game;
 
 import java.util.ArrayList;
 
-import main.Main;
 import net.IndividualData;
 import net.InputData;
+import server.ServerMain;
 import world.World;
 
 public class Player {
@@ -37,10 +37,10 @@ public class Player {
 		
 		input = d;
 
-		d.keys[KEY_ATT] &= Main.data.buffs[BUFF_ATT];
-		d.keys[KEY_DEF] &= Main.data.buffs[BUFF_DEF];
-		d.keys[KEY_DRONE] &= Main.data.buffs[KEY_DRONE];
-		d.keys[KEY_GHOST] &= Main.data.buffs[KEY_GHOST];
+		d.keys[KEY_ATT] &= ServerMain.data.buffs[BUFF_ATT];
+		d.keys[KEY_DEF] &= ServerMain.data.buffs[BUFF_DEF];
+		d.keys[KEY_DRONE] &= ServerMain.data.buffs[KEY_DRONE];
+		d.keys[KEY_GHOST] &= ServerMain.data.buffs[KEY_GHOST];
 		
 		// maximize mass if dev key is used
 		if(d.keys[KEY_MAXIMIZE_MASS]) {
@@ -61,7 +61,7 @@ public class Player {
 				x.remove(rid);
 				y.remove(rid);
 			}
-			Main.data.amoebas.add(nx, ny, ldx, ldy, PID);
+			ServerMain.data.amoebas.add(nx, ny, ldx, ldy, PID);
 		}
 		if(!d.keys[KEY_DRONE]) dronePressed = false;
 		
@@ -87,7 +87,7 @@ public class Player {
 			else if(d.keys[KEY_DEF]) { // defend if not attacking
 				for(int i = 0; i < l; i++) {
 					rid = getFurthestID(ldx, ldy);
-					Main.data.state[x.get(rid)][y.get(rid)] = PID;
+					ServerMain.data.state[x.get(rid)][y.get(rid)] = PID;
 					x.remove(rid);
 					y.remove(rid);
 				}
@@ -98,8 +98,8 @@ public class Player {
 		int rid = 0;
 		for(int i = 0; i < 4; i++) {
 			if(!ghost) {
-				rid = Main.r.nextInt(x.size());
-				Main.data.state[x.get(rid)][y.get(rid)] = defState;
+				rid = ServerMain.r.nextInt(x.size());
+				ServerMain.data.state[x.get(rid)][y.get(rid)] = defState;
 			}
 		}
 		
@@ -111,7 +111,7 @@ public class Player {
 		}
 
 		// scroll
-		IndividualData data = Main.data.indieData.get(PID-1);
+		IndividualData data = ServerMain.data.indieData.get(PID-1);
 		int nsX = 0, nsY = 0;
 		for(int i = 0; i < x.size(); i++) {
 			nsX += x.get(i);
@@ -135,11 +135,11 @@ public class Player {
 		
 		// determine free spaces in front of cells
 		for(int i = 0; i < x.size(); i++) {
-			pred = Main.r.nextInt(3)-1;
+			pred = ServerMain.r.nextInt(3)-1;
 			if(freeAt(x.get(i)+dx, y.get(i)+dy)) {
 				fx.add(x.get(i)+dx);
 				fy.add(y.get(i)+dy);
-			}else if(Main.r.nextInt(3)==0 && freeAt(x.get(i)+(dx == 0 ? pred:dx), y.get(i)+(dy == 0 ? pred:dy))) {
+			}else if(ServerMain.r.nextInt(3)==0 && freeAt(x.get(i)+(dx == 0 ? pred:dx), y.get(i)+(dy == 0 ? pred:dy))) {
 				fx.add(x.get(i)+(dx == 0 ? pred:dx));
 				fy.add(y.get(i)+(dy == 0 ? pred:dy));
 			}
@@ -149,16 +149,16 @@ public class Player {
 		if(fx.size() == 0) return;
 		
 		// else move to a random free space, removing it from another player if necessary
-		int id = getFurthestID(dx, dy), rid = Main.r.nextInt(fx.size()), s = Main.data.state[fx.get(rid)][fy.get(rid)];
+		int id = getFurthestID(dx, dy), rid = ServerMain.r.nextInt(fx.size()), s = ServerMain.data.state[fx.get(rid)][fy.get(rid)];
 		if(s < 0 && s > -8192) {
-			Main.data.indieData.get(s+8191).player.remove(fx.get(rid), fy.get(rid));
+			ServerMain.data.indieData.get(s+8191).player.remove(fx.get(rid), fy.get(rid));
 		}
 		moveTo(id, fx.get(rid), fy.get(rid));
 	}
 
 	public boolean freeAt(int nx, int ny) {
 		
-		short state = Main.data.state[nx][ny];
+		short state = ServerMain.data.state[nx][ny];
 		
 		// return false if the player is invisible and is intersecting itself
 		if(ghost) 
@@ -167,17 +167,17 @@ public class Player {
 					return false;
 		
 		// return false if the coord is outside of the world
-		if(nx < 0 || ny < 0 || nx >= Main.data.w || ny >= Main.data.h)
+		if(nx < 0 || ny < 0 || nx >= ServerMain.data.w || ny >= ServerMain.data.h)
 			return false;
 		// return true if the coord is food
 		else if(state == World.STATE_FOOD)
 			return true;
 		// return true if attacking and it is owned by another player
-		else if(defState == PID+8192 && Main.r.nextBoolean() && state != PID-8192 && state >= -8192 && state < 0 &&
-				Main.data.indieData.get(state+8191).player.x.size() > MIN_SIZE)
+		else if(defState == PID+8192 && ServerMain.r.nextBoolean() && state != PID-8192 && state >= -8192 && state < 0 &&
+				ServerMain.data.indieData.get(state+8191).player.x.size() > MIN_SIZE)
 			return true;
 		// return true if you are attacking and it is a wall
-		else if(defState == PID+8192 && Main.r.nextInt(50) == 0 && state >= 0 && state < 8192)
+		else if(defState == PID+8192 && ServerMain.r.nextInt(50) == 0 && state >= 0 && state < 8192)
 			return true;
 		// return true if it is a free space
 		else
@@ -187,19 +187,19 @@ public class Player {
 	public void moveTo(int id, int nx, int ny) {
 		
 		// if moving onto food, id = -1 (so that you gain mass)
-		id = (Main.data.state[nx][ny] == World.STATE_FOOD && x.size() < MAX_SIZE) ? -1:id;
+		id = (ServerMain.data.state[nx][ny] == World.STATE_FOOD && x.size() < MAX_SIZE) ? -1:id;
 
 		// add territorial changes to territory list
 		changeTerr(nx, ny, PID);
 		
 		// set the new position to default state on the state array
 		if(!ghost)
-			Main.data.state[nx][ny] = defState;
+			ServerMain.data.state[nx][ny] = defState;
 		
 		if(id != -1) {
 			// capture trailing territories
-			if(!ghost || (Main.data.state[x.get(id)][y.get(id)]%8192+8192)%8192 == PID)
-				Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
+			if(!ghost || (ServerMain.data.state[x.get(id)][y.get(id)]%8192+8192)%8192 == PID)
+				ServerMain.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 			x.set(id, nx);
 			y.set(id, ny);
 		} else {
@@ -211,20 +211,19 @@ public class Player {
 
 	public void changeTerr(int nx, int ny, short nID) {
 
-		int oID = (Main.data.state[nx][ny]%8192+8192)%8192;
-		if(Main.data.state[nx][ny] != World.STATE_FOOD) {
-			Main.data.terr.set(oID, Main.data.terr.get(oID)-1);
+		int oID = (ServerMain.data.state[nx][ny]%8192+8192)%8192;
+		if(ServerMain.data.state[nx][ny] != World.STATE_FOOD) {
+			ServerMain.data.terr.set(oID, ServerMain.data.terr.get(oID)-1);
 			if(nID != 0)
-				Main.data.terr.set(nID, Main.data.terr.get(nID)+1);
+				ServerMain.data.terr.set(nID, ServerMain.data.terr.get(nID)+1);
 		}
 			
 	}
 	
 	public void delete(int id) {
-
-		if(!ghost || Main.data.state[x.get(id)][y.get(id)] == PID-8192) {
+		if(!ghost || ServerMain.data.state[x.get(id)][y.get(id)] == PID-8192) {
 			changeTerr(x.get(id), y.get(id), PID);
-			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
+			ServerMain.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 		}
 		x.remove(id);
 		y.remove(id);
@@ -247,8 +246,8 @@ public class Player {
 	public int getFurthestID(double dx, double dy) {
 		int minID = 0;
 		double minDot = Double.MAX_VALUE, dot;
-		if(dx != 0) dy = Main.r.nextDouble()*2-1;
-		else dx = Main.r.nextDouble()*2-1;
+		if(dx != 0) dy = ServerMain.r.nextDouble()*2-1;
+		else dx = ServerMain.r.nextDouble()*2-1;
 		for(int i = 0; i < x.size(); i++) {
 			dot = x.get(i)*dx+y.get(i)*dy;
 			if(minDot > dot) {

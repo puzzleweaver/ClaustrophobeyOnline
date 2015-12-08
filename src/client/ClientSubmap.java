@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import main.Main;
+import server.ServerMain;
 
 public class ClientSubmap {
 	
@@ -50,7 +50,7 @@ public class ClientSubmap {
 	public Color getColor(int i, int j) {
 		if(i < 0 || j < 0 || i >= world.length || j >= world[0].length)
 			return Color.black;
-		return world[i][j] == UNKNOWN ? new Color(Main.r.nextInt(50)+205) : (world[i][j] == EMPTY ? Color.red:world[i][j] == YOU ? Color.blue:new Color(128, 0, 0));
+		return world[i][j] == UNKNOWN ? new Color(ServerMain.r.nextInt(50)+205) : (world[i][j] == EMPTY ? Color.red:world[i][j] == YOU ? Color.blue:new Color(128, 0, 0));
 	}
 	
 	public void render(Graphics g1, int sX, int sY) {

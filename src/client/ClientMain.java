@@ -4,8 +4,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.io.InputStream;
 
-import main.Menu;
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -15,12 +13,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
-import client.menus.AddServerMenu;
-import client.menus.MainMenu;
-import client.menus.NicknameMenu;
-import client.menus.PlayMenu;
-import client.menus.ServerManagerMenu;
-import client.menus.SettingsMenu;
+import server.Menu;
+import client.menu.AddServerMenu;
+import client.menu.MainMenu;
+import client.menu.NicknameMenu;
+import client.menu.PlayMenu;
+import client.menu.ServerManagerMenu;
+import client.menu.SettingsMenu;
 
 public class ClientMain extends BasicGame {
 	

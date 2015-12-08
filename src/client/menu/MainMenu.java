@@ -1,11 +1,10 @@
-package client.menus;
-
-import main.Menu;
+package client.menu;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
+import server.Menu;
 import client.Button;
 import client.ClientMain;
 import client.Colors;

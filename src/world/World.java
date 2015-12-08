@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import main.Main;
+import server.ServerMain;
 
 public class World {
 
@@ -94,7 +94,7 @@ public class World {
 	}
 
 	private static void startDendrite(ArrayList<Circ> c, double x, double y) {
-		double r0 = 5, t0 = (Main.r.nextDouble()*2.0-1.0)*6.28;
+		double r0 = 5, t0 = (ServerMain.r.nextDouble()*2.0-1.0)*6.28;
 		for(int i = 0; i < branches; i++) {
 			dendrite(c, x, y, r0, t0+6.282*i/branches, 5);
 		}
@@ -105,17 +105,17 @@ public class World {
 		boolean node = false;
 		for(double r = r0; r > 1; r *= taper) {
 			if(recurs >= 0) {
-				if(Main.r.nextDouble() < splitProb) {
-					double diff = Main.r.nextDouble()*branchAngle;
+				if(ServerMain.r.nextDouble() < splitProb) {
+					double diff = ServerMain.r.nextDouble()*branchAngle;
 					dendrite(c, x, y, r, t+diff, recurs);
 					dendrite(c, x, y, r, t-diff, recurs);
 					break;
-				}if(Main.r.nextDouble() < branchProb) {
-					dendrite(c, x, y, r, t+3.1415926*(Main.r.nextDouble()-0.5), recurs-1);
+				}if(ServerMain.r.nextDouble() < branchProb) {
+					dendrite(c, x, y, r, t+3.1415926*(ServerMain.r.nextDouble()-0.5), recurs-1);
 				}
 			}
-			c.add(new Circ(x, y, r*(Main.r.nextDouble() < nodeProb ? 4:1)));
-			t += (Main.r.nextDouble()-0.5)*turnAngle;
+			c.add(new Circ(x, y, r*(ServerMain.r.nextDouble() < nodeProb ? 4:1)));
+			t += (ServerMain.r.nextDouble()-0.5)*turnAngle;
 			x += Math.cos(t)*r*0.5;
 			y += Math.sin(t)*r*0.5;
 		}
@@ -134,20 +134,20 @@ public class World {
 		// to implement
 		for(int i = 0; i < world.length; i++) {
 			for(int j = 0; j < border; j++) {
-				if(Main.r.nextInt(j+1)/2 == 0) {
+				if(ServerMain.r.nextInt(j+1)/2 == 0) {
 					world[i][j] = STATE_BEDROCK;
 				}
-				if(Main.r.nextInt(j+1)/2 == 0) {
+				if(ServerMain.r.nextInt(j+1)/2 == 0) {
 					world[i][world[0].length-1-j] = STATE_BEDROCK;
 				}
 			}
 		}
 		for(int j = 0; j < world[0].length; j++) {
 			for(int i = 0; i < border; i++) {
-				if(Main.r.nextInt(i+1)/3 == 0) {
+				if(ServerMain.r.nextInt(i+1)/3 == 0) {
 					world[i][j] = STATE_BEDROCK;
 				}
-				if(Main.r.nextInt(i+1)/3 == 0) {
+				if(ServerMain.r.nextInt(i+1)/3 == 0) {
 					world[world.length-1-i][j] = STATE_BEDROCK;
 				}
 			}

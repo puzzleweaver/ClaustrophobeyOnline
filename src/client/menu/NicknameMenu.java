@@ -1,9 +1,8 @@
-package client.menus;
+package client.menu;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import main.Menu;
 import net.GameSocket;
 
 import org.newdawn.slick.Color;
@@ -12,6 +11,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.gui.TextField;
 
+import server.Menu;
 import client.Button;
 import client.ClientMain;
 import client.Colors;
