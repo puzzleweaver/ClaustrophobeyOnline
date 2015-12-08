@@ -123,6 +123,10 @@ public class PlayMenu implements Menu {
 			//draw leaderboard
 			g.setFont(ClientMain.fontSmall);
 			g.drawString("Leaderboard", 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth("Leaderboards")/2, ClientMain.fontSmall.getHeight());
+			data.leaderboard = new String[data.territory.length];
+			for(int i = 0; i < data.leaderboard.length; i++) {
+				data.leaderboard[i] = "TERRITORY: " + data.territory[i];
+			}
 			if(data.leaderboard != null) {
 				for(int i = 0; i < data.leaderboard.length; i++) {
 					g.drawString((i+1) + ". " + data.leaderboard[i], 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth((i+1) + ". " + data.leaderboard[i])/2, ClientMain.fontSmall.getHeight()*(2+i));

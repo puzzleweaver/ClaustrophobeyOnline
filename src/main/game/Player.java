@@ -185,15 +185,19 @@ public class Player {
 	}
 
 	public void moveTo(int id, int nx, int ny) {
+		
 		// if moving onto food, id = -1 (so that you gain mass)
 		id = (Main.data.state[nx][ny] == World.STATE_FOOD && x.size() < MAX_SIZE) ? -1:id;
+
+		// add territorial changes to territory list
+		changeTerr(nx, ny, PID);
 		
-		int oID = (Main.data.state[nx][ny]%8192+8192)%8192;
+		// set the new position to default state on the state array
 		if(!ghost)
 			Main.data.state[nx][ny] = defState;
-		if(oID != 0) Main.data.terr.set(oID, Main.data.terr.get(oID)-1);
-		Main.data.terr.set(PID, Main.data.terr.get(PID)+1);
+		
 		if(id != -1) {
+			// capture trailing territories
 			if(!ghost || (Main.data.state[x.get(id)][y.get(id)]%8192+8192)%8192 == PID)
 				Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 			x.set(id, nx);
@@ -205,14 +209,26 @@ public class Player {
 		
 	}
 
+	public void changeTerr(int nx, int ny, short nID) {
+
+		int oID = (Main.data.state[nx][ny]%8192+8192)%8192;
+		if(Main.data.state[nx][ny] != World.STATE_FOOD) {
+			Main.data.terr.set(oID, Main.data.terr.get(oID)-1);
+			if(nID != 0)
+				Main.data.terr.set(nID, Main.data.terr.get(nID)+1);
+		}
+			
+	}
+	
 	public void delete(int id) {
-		if(!ghost)
+
+		if(!ghost || Main.data.state[x.get(id)][y.get(id)] == PID-8192) {
+			changeTerr(x.get(id), y.get(id), PID);
 			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
-		else if(Main.data.state[x.get(id)][y.get(id)] == PID-8192)
-			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
+		}
 		x.remove(id);
 		y.remove(id);
-		
+	
 	}
 
 	public void remove(int nx, int ny) {
