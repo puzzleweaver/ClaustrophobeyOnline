@@ -22,7 +22,7 @@ public class ServerData implements Serializable {
 	
 	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
 	public int gameType = MODE_TERR;
-	public int numTeams = 0; //1 team is free for all
+	public int numTeams = 1; //1 team is free for all
 	public boolean[] buffs = new boolean[7];
 	
 	public int index;

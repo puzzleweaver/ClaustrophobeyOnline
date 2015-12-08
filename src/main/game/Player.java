@@ -11,8 +11,8 @@ public class Player {
 
 	// statics
 	private static final int MAX_SIZE = 300, DRONE_SIZE = 30, SIZE_BUFF_BONUS = 100, MIN_SIZE = 20;
-	public static final int BUFF_ATT = 0, BUFF_DEF = 1, BUFF_DRONES = 2, BUFF_GHOST = 3, BUFF_MAXUP = 4, BUFF_FOODUP = 5, BUFF_ATTSPEED = 6;
-	public static final int KEY_ATT = 0, KEY_DEF = 1, KEY_GHOST = 2, KEY_DRONE = 3, KEY_MAXIMIZE_MASS = 4, KEY_FF = 5;
+	public static final int BUFF_ATT = 0, BUFF_DEF = 1, BUFF_DRONE = 2, BUFF_GHOST = 3, BUFF_MAXUP = 4, BUFF_FOODUP = 5, BUFF_ATTSPEED = 6;
+	public static final int KEY_ATT = 0, KEY_DEF = 1, KEY_DRONE = 2, KEY_GHOST = 3, KEY_MAXIMIZE_MASS = 4, KEY_FF = 5;
 	public static final int NUM_KEYS = 6;
 	
 	// identity vars
@@ -36,6 +36,11 @@ public class Player {
 	public void update(InputData d) {
 		
 		input = d;
+
+		d.keys[KEY_ATT] &= Main.data.buffs[BUFF_ATT];
+		d.keys[KEY_DEF] &= Main.data.buffs[BUFF_DEF];
+		d.keys[KEY_DRONE] &= Main.data.buffs[KEY_DRONE];
+		d.keys[KEY_GHOST] &= Main.data.buffs[KEY_GHOST];
 		
 		// maximize mass if dev key is used
 		if(d.keys[KEY_MAXIMIZE_MASS]) {
