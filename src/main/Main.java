@@ -74,7 +74,7 @@ public class Main extends GameSocket {
 		
 		public TrueTypeFont font, fontSmall;
 		
-		private Button suddenDeathButton, territorialButton, ffaButton, twoButton, threeButton, startButton, exitButton;
+		private Button suddenDeathButton, territorialButton, ffaButton, twoButton, threeButton, roundButton, networkButton, startButton, exitButton;
 		private Button[][] buffButtons = new Button[2][7];
 		private String[] buffNames = {"Attack", "Defense", "Drones", "Ghost", "Max Up", "Food Up", "Attack Speed"};
 		
@@ -117,10 +117,13 @@ public class Main extends GameSocket {
 			twoButton = new Button(gc.getWidth()/2, gc.getHeight()/4+font.getHeight(), "2", fontSmall);
 			threeButton = new Button(3*gc.getWidth()/4, gc.getHeight()/4+font.getHeight(), "3", fontSmall);
 			
+			roundButton = new Button(gc.getWidth()/4, 3*gc.getHeight()/4+font.getHeight(), "Round", fontSmall);
+			networkButton = new Button(3*gc.getWidth()/4, 3*gc.getHeight()/4+font.getHeight(), "Network", fontSmall);
+			
 			for(int i = 0; i < buffButtons[0].length; i++) {
 				buffButtons[0][i] = new Button(gc.getWidth()/2, 3*gc.getHeight()/8+fontSmall.getHeight()*i, "Disable", fontSmall);
 				buffButtons[1][i] = new Button(13*gc.getWidth()/16, 3*gc.getHeight()/8+fontSmall.getHeight()*i, "Enable", fontSmall);
-				buffButtons[0][i].selected = true; //disabled by default
+				buffButtons[1][i].selected = true; //disabled by default
 			}
 			
 			startButton = new Button(gc.getWidth()/2, 7*gc.getHeight()/8, "Start", font);
@@ -162,6 +165,12 @@ public class Main extends GameSocket {
 						buffButtons[i][j].render(gc, g);
 					}
 				}
+				//world type
+				g.setColor(Colors.titleColor);
+				g.setFont(font);
+				g.drawString("World", gc.getWidth()/2 - font.getWidth("World")/2, 3*gc.getHeight()/4);
+				roundButton.render(gc, g);
+				networkButton.render(gc, g);
 				//start button
 				startButton.render(gc, g);
 			}
@@ -181,7 +190,8 @@ public class Main extends GameSocket {
 				data.update((double) delta / 1000.0);
 			}else {
 				if((suddenDeathButton.selected || territorialButton.selected) &&
-						(ffaButton.selected || twoButton.selected || threeButton.selected)) {
+						(ffaButton.selected || twoButton.selected || threeButton.selected) &&
+						(roundButton.selected || networkButton.selected)) {
 					startButton.enabled = true;
 				}
 				if(mousePressed) {
@@ -204,6 +214,12 @@ public class Main extends GameSocket {
 						ffaButton.selected = false;
 						twoButton.selected = false;
 						threeButton.selected = true;
+					}if(roundButton.isHovered(gc)) {
+						roundButton.selected = true;
+						networkButton.selected = false;
+					}if(networkButton.isHovered(gc)) {
+						roundButton.selected = false;
+						networkButton.selected = true;
 					}
 					//check buff buttons for selection
 					for(int i = 0; i < buffButtons[0].length; i++) {
@@ -222,6 +238,7 @@ public class Main extends GameSocket {
 						for(int i = 0; i < data.buffs.length; i++) {
 							data.buffs[i] = buffButtons[1][i].selected;
 						}
+						data.worldType = roundButton.selected ? ServerData.WORLD_ROUND : ServerData.WORLD_NET;
 						server = new Main();
 						server.start();
 					}
