@@ -3,7 +3,7 @@ package net;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-import client.menus.PlayMenu;
+import client.menu.PlayMenu;
 
 public class GameClient extends GameSocket {
 	

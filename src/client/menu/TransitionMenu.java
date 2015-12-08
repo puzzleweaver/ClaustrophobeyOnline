@@ -1,4 +1,4 @@
-package client.menus;
+package client.menu;
 
 import java.util.ArrayList;
 
@@ -8,10 +8,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import server.ServerMain;
+import server.Menu;
 import client.ClientMain;
 import client.Colors;
-import main.Main;
-import main.Menu;
 
 public class TransitionMenu implements Menu {
 	
@@ -79,7 +79,7 @@ public class TransitionMenu implements Menu {
 				filling = true;
 				initialize();
 			}
-			rid = Main.r.nextInt(fpx.size());
+			rid = ServerMain.r.nextInt(fpx.size());
 			x = fpx.get(rid);
 			y = fpy.get(rid);
 			fpx.remove(rid);
@@ -88,7 +88,7 @@ public class TransitionMenu implements Menu {
 			if(filling) {
 				g1.drawImage(a.getSubImage(x*ClientMain.pixW, y*ClientMain.pixW, ClientMain.pixW, ClientMain.pixW), x*ClientMain.pixW, y*ClientMain.pixW);
 			}else {
-				g1.setColor(Colors.backgroundColor.darker(1f-(Main.r.nextInt(55)+200f)/256f));
+				g1.setColor(Colors.backgroundColor.darker(1f-(ServerMain.r.nextInt(55)+200f)/256f));
 				g1.fillRect(x*ClientMain.pixW, y*ClientMain.pixW, ClientMain.pixW, ClientMain.pixW);
 			}
 			add(x+1, y);

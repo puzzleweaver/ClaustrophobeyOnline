@@ -1,4 +1,4 @@
-package client.menus;
+package client.menu;
 
 import java.util.ArrayList;
 
@@ -7,11 +7,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
+import server.Menu;
+import server.game.Player;
 import client.ClientMain;
 import client.Colors;
 import client.MenuBackground;
-import main.Menu;
-import main.game.Player;
 import net.GameClient;
 import net.GameSocket;
 import net.InputData;

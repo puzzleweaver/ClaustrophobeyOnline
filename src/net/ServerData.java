@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import main.game.AmoebaHandler;
+import server.game.AmoebaHandler;
 import world.World;
 
 public class ServerData implements Serializable {
@@ -114,11 +114,11 @@ public class ServerData implements Serializable {
 		return state[(int) Math.max(Math.min(x, state.length-1),0)][(int) Math.max(Math.min(y, state[0].length-1),0)];
 	}
 	
-	public void update(double dt) {
+	public void update() {
 		amoebas.spawn();
 		amoebas.update();
 		for(int i = 0; i < indieData.size(); i++) {
-			indieData.get(i).update(dt);
+			indieData.get(i).update();
 		}
 	}
 	
