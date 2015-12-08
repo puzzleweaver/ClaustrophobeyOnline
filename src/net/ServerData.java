@@ -77,8 +77,10 @@ public class ServerData implements Serializable {
 		
 		// d.state
 		int pw = id.clientData.pixW;
-		int i0 = ((int)(id.sX*id.clientData.pixW)-id.clientData.w/2)/pw-1, j0 = ((int)(id.sY*id.clientData.pixW)-id.clientData.h/2)/pw-1;
-		int ie = ((int)(id.sX*id.clientData.pixW)+id.clientData.w/2)/pw+1, je = ((int)(id.sY*id.clientData.pixW)+id.clientData.h/2)/pw+1;
+		int i0 = ((int)(id.sX*id.clientData.pixW)-id.clientData.w/2)/pw-1,
+				j0 = ((int)(id.sY*id.clientData.pixW)-id.clientData.h/2)/pw-1;
+		int ie = ((int)(id.sX*id.clientData.pixW)+id.clientData.w/2)/pw+1,
+				je = ((int)(id.sY*id.clientData.pixW)+id.clientData.h/2)/pw+1;
 		d.state = new short[ie-i0][je-j0];
 		for(int i = i0; i < ie; i++) {
 			for(int j = j0; j < je; j++) {
@@ -91,7 +93,7 @@ public class ServerData implements Serializable {
 		d.nameX = new int[indieData.size()];
 		d.nameY = new int[indieData.size()];
 		for(int i = 0; i < d.names.length; i++) {
-			d.names[i] = indieData.get(i).clientData.nickname;
+			d.names[i] = indieData.get(i).player.ghost ? "" : indieData.get(i).clientData.nickname;
 			if(i == index) {
 				d.nameX[i] = id.clientData.w/2;
 				d.nameY[i] = id.clientData.h/2;

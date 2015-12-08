@@ -79,7 +79,7 @@ public class Main extends GameSocket {
 		
 		private Button suddenDeathButton, territorialButton, ffaButton, twoButton, threeButton, startButton, exitButton;
 		private Button[][] buffButtons = new Button[2][7];
-		private String[] buffNames = {"Drones", "Ghost", "Max Up", "Food Up", "Attack Speed", "Attack", "Defense"};
+		private String[] buffNames = {"Attack", "Defense", "Drones", "Ghost", "Max Up", "Food Up", "Attack Speed"};
 		
 		private Main server;
 		
