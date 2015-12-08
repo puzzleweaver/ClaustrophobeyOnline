@@ -11,7 +11,7 @@ public class Player {
 
 	// statics
 	private static final int MAX_SIZE = 300, DRONE_SIZE = 30, SIZE_BUFF_BONUS = 100, MIN_SIZE = 20;
-	public static final int BUFF_DRONES = 0, BUFF_GHOST = 1, BUFF_MAXUP = 2, BUFF_FOODUP = 3, BUFF_ATTSPEED = 4;
+	public static final int BUFF_ATT = 0, BUFF_DEF = 1, BUFF_DRONES = 2, BUFF_GHOST = 3, BUFF_MAXUP = 4, BUFF_FOODUP = 5, BUFF_ATTSPEED = 6;
 	public static final int KEY_ATT = 0, KEY_DEF = 1, KEY_GHOST = 2, KEY_DRONE = 3, KEY_MAXIMIZE_MASS = 4, KEY_FF = 5;
 	public static final int NUM_KEYS = 6;
 	
@@ -21,9 +21,9 @@ public class Player {
 	public short PID;
 
 	// movement vars
+	public boolean ghost;
 	public int ldx, ldy;
-	public boolean dronePressed;
-	public boolean preference;
+	public boolean dronePressed, preference;
 	public short defState;
 	InputData input;
 	
@@ -60,9 +60,16 @@ public class Player {
 		}
 		if(!d.keys[KEY_DRONE]) dronePressed = false;
 		
+		// set ghost boolean
+		// this is necessary so that the ghost players' names cannot be
+		//   seen from other players' screens
+		ghost = x.size() > MIN_SIZE && d.keys[KEY_GHOST];
+		
 		// determine defState
 		if(x.size() > MIN_SIZE && d.keys[KEY_ATT])
 			defState = (short) (PID+8192);
+		else if(ghost)
+			defState = World.STATE_SPACE;
 		else
 			defState = (short) (PID-8192);
 		
@@ -70,13 +77,9 @@ public class Player {
 		double l = (d.keys[KEY_FF] ? 3:1)*Math.max(1, 0.4*Math.sqrt(x.size()));
 		if(x.size() > MIN_SIZE) {
 			int rid;
-			if(d.keys[KEY_ATT]) { // lose mass if attacking
+			if(d.keys[KEY_ATT] || d.keys[KEY_GHOST]) // lose mass if attacking
 				delete(getFurthestID(ldx, ldy));
-				for(int i = 0; i < l; i++) { // gradually set all constituent states to attacking
-					rid = Main.r.nextInt(x.size());
-					Main.data.state[x.get(rid)][y.get(rid)] = (short) (PID+8192);
-				}
-			}else if(d.keys[KEY_DEF]) { // defend if not attacking
+			else if(d.keys[KEY_DEF]) { // defend if not attacking
 				for(int i = 0; i < l; i++) {
 					rid = getFurthestID(ldx, ldy);
 					Main.data.state[x.get(rid)][y.get(rid)] = PID;
@@ -86,14 +89,15 @@ public class Player {
 			}
 		}
 		
-		//set player back to normal states if not attacking
-		if(!d.keys[KEY_ATT]) {
-			for(int i = 0; i < 4; i++) {
-				int rid = 0;
+		//set player gradually to default state
+		int rid = 0;
+		for(int i = 0; i < 4; i++) {
+			if(!ghost) {
 				rid = Main.r.nextInt(x.size());
-				Main.data.state[x.get(rid)][y.get(rid)] = (short) (PID-8192);
+				Main.data.state[x.get(rid)][y.get(rid)] = defState;
 			}
 		}
+		
 		if(d.dx != 0 || d.dy != 0) {
 			for(int i = 0; i < l; i++)
 				move(d);
@@ -150,6 +154,13 @@ public class Player {
 	public boolean freeAt(int nx, int ny) {
 		
 		short state = Main.data.state[nx][ny];
+		
+		// return false if the player is invisible and is intersecting itself
+		if(ghost) 
+			for(int i = 0; i < x.size(); i++)
+				if(x.get(i) == nx && y.get(i) == ny)
+					return false;
+		
 		// return false if the coord is outside of the world
 		if(nx < 0 || ny < 0 || nx >= Main.data.w || ny >= Main.data.h)
 			return false;
@@ -169,24 +180,31 @@ public class Player {
 	}
 
 	public void moveTo(int id, int nx, int ny) {
+		// if moving onto food, id = -1 (so that you gain mass)
 		id = (Main.data.state[nx][ny] == World.STATE_FOOD && x.size() < MAX_SIZE) ? -1:id;
+		
 		int oID = (Main.data.state[nx][ny]%8192+8192)%8192;
-		Main.data.state[nx][ny] = defState;
+		if(!ghost)
+			Main.data.state[nx][ny] = defState;
 		if(oID != 0) Main.data.terr.set(oID, Main.data.terr.get(oID)-1);
 		Main.data.terr.set(PID, Main.data.terr.get(PID)+1);
 		if(id != -1) {
-			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
+			if(!ghost || (Main.data.state[x.get(id)][y.get(id)]%8192+8192)%8192 == PID)
+				Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 			x.set(id, nx);
 			y.set(id, ny);
 		} else {
 			x.add(nx);
 			y.add(ny);
 		}
+		
 	}
 
 	public void delete(int id) {
-		
-		Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
+		if(!ghost)
+			Main.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
+		else if(Main.data.state[x.get(id)][y.get(id)] == PID-8192)
+			Main.data.state[x.get(id)][y.get(id)] = World.STATE_SPACE;
 		x.remove(id);
 		y.remove(id);
 		

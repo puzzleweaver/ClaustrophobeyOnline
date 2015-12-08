@@ -11,6 +11,7 @@
 - making the server actually display information (more than just IPs)
 
 + OSTIN?!?
+- STOP PROCRASTINATING ON YOUR STUPID PHYSICS HOMEWORK
 - special abilities
   - more mass gained from eating amoebas
   - speed buff while attacking
