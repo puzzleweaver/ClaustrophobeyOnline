@@ -121,7 +121,7 @@ public class ServerSetupMenu implements Menu {
 			if(startButton.isHovered(gc) && startButton.enabled) {
 				ServerMain.menu = ServerMain.serverPlayMenu;
 				ServerMain.data = new ServerData();
-				ServerMain.data.gameType = suddenDeathButton.selected ? ServerData.MODE_SD : ServerData.MODE_TERR;
+				ServerMain.data.gameMode = suddenDeathButton.selected ? ServerData.MODE_SD : ServerData.MODE_TERR;
 				ServerMain.data.numTeams = ffaButton.selected ? 0 : (twoButton.selected ? 2 : 3);
 				for(int i = 0; i < ServerMain.data.buffs.length; i++) {
 					ServerMain.data.buffs[i] = buffButtons[1][i].selected;

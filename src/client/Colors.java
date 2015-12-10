@@ -8,7 +8,10 @@ public class Colors {
 			selectedColor = Color.green,
 			titleColor = Color.gray,
 			typeColor = Color.gray,
-			backgroundColor = Color.red;
+			backgroundColor = Color.red,
+			worldSpace = new Color(200, 50, 50),
+			worldWall = worldSpace.darker(),
+			worldBedrock = worldWall.darker();
 	public static String scheme = "Classic";
 	
 	public static void setClassic() {
@@ -17,6 +20,9 @@ public class Colors {
 		titleColor = Color.gray;
 		typeColor = Color.gray;
 		backgroundColor = Color.red;
+		worldSpace = new Color(200, 0, 0);
+		worldWall = worldSpace.darker();
+		worldBedrock = worldWall.darker();
 		scheme = "Classic";
 	}
 	public static void setDark() {
@@ -25,6 +31,9 @@ public class Colors {
 		titleColor = Color.white;
 		typeColor = Color.red;
 		backgroundColor = Color.darkGray;
+		worldSpace = new Color(130, 130, 130);
+		worldWall = worldSpace.darker();
+		worldBedrock = worldWall.darker();
 		scheme = "Dark";
 	}
 	public static void setBlue() {
@@ -33,6 +42,9 @@ public class Colors {
 		titleColor = Color.gray;
 		typeColor = Color.gray;
 		backgroundColor = Color.blue;
+		worldSpace = new Color(0, 0, 200);
+		worldWall = worldSpace.darker();
+		worldBedrock = worldWall.darker();
 		scheme = "Blue";
 	}
 	

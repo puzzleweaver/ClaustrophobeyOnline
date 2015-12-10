@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.IndividualData;
 import net.InputData;
+import net.ServerData;
 import server.ServerMain;
 import world.World;
 
@@ -99,6 +100,7 @@ public class Player {
 		for(int i = 0; i < 4; i++) {
 			if(!ghost) {
 				rid = ServerMain.r.nextInt(x.size());
+				changeTerr(x.get(rid), y.get(rid), PID);
 				ServerMain.data.state[x.get(rid)][y.get(rid)] = defState;
 			}
 		}
@@ -211,18 +213,22 @@ public class Player {
 
 	public void changeTerr(int nx, int ny, short nID) {
 
-		int oID = (ServerMain.data.state[nx][ny]%8192+8192)%8192;
-		if(ServerMain.data.state[nx][ny] != World.STATE_FOOD) {
-			ServerMain.data.terr.set(oID, ServerMain.data.terr.get(oID)-1);
-			if(nID != 0)
-				ServerMain.data.terr.set(nID, ServerMain.data.terr.get(nID)+1);
+		if(!ghost) { // only change territory stuff if the 
+			int oID = (ServerMain.data.state[nx][ny]%8192+8192)%8192;
+			if(ServerMain.data.state[nx][ny] != World.STATE_FOOD) {
+				ServerMain.data.terr.set(oID, ServerMain.data.terr.get(oID)-1);
+				
+				if(nID != 0)
+					ServerMain.data.terr.set(nID, ServerMain.data.terr.get(nID)+1);
+			}
 		}
 			
 	}
 	
 	public void delete(int id) {
-		if(!ghost || ServerMain.data.state[x.get(id)][y.get(id)] == PID-8192) {
-			changeTerr(x.get(id), y.get(id), PID);
+		if(!ghost || ServerMain.data.state[x.get(id)][y.get(id)] == PID-8192 || ServerMain.data.state[x.get(id)][y.get(id)] == PID+8192) {
+			if(!ghost)
+				changeTerr(x.get(id), y.get(id), PID);
 			ServerMain.data.state[x.get(id)][y.get(id)] = (short) (PID-16384);
 		}
 		x.remove(id);

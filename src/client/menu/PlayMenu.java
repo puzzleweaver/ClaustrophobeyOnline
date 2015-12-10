@@ -7,8 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import server.Menu;
-import server.game.Player;
 import client.ClientMain;
 import client.Colors;
 import client.MenuBackground;
@@ -17,6 +15,8 @@ import net.GameSocket;
 import net.InputData;
 import net.OutputData;
 import net.Serializer;
+import server.Menu;
+import server.game.Player;
 import world.World;
 
 public class PlayMenu implements Menu {
@@ -49,35 +49,43 @@ public class PlayMenu implements Menu {
 	}
 	
 	public Color get(short s, double t) {
-		if(s == World.STATE_BEDROCK) return new Color((int) (32*t+32), 0, 0);
-		int rs = (short) (((s+8192)%8192 + 8192)%8192);
-		if(rs >= R.size()) {
+		
+		// return set colors
+		if(s == World.STATE_BEDROCK) return Colors.worldBedrock.darker(1-(65*(float) t+64)/256);
+		else if(s == World.STATE_WALL) return Colors.worldWall.darker(1-(65*(float) t+64)/256);
+		else if(s == World.STATE_SPACE) return Colors.worldSpace.darker(1-(65*(float) t+64)/256);
+		// 
+		
+		// initialize colors if they don't already exist
+		int pid = (short) (((s+8192)%8192 + 8192)%8192);
+		if(pid >= R.size()) {
 			do {
 				R.add(Math.cos(R.size())*127+128);
 				G.add(Math.cos(G.size()+2.09439510239)*127+128);
 				B.add(Math.cos(B.size()+4.18879020479)*127+128);
-			} while(rs >= R.size());
+			} while(pid >= R.size());
 		}
+		
 		if(s < -8192) {
 			// conquered
-			return new Color((int) (R.get(rs)*0.5*t),
-					(int) (G.get(rs)*0.5*t),
-					(int) (B.get(rs)*0.5*t));
+			return new Color((int) (R.get(pid)*0.5*t),
+					(int) (G.get(pid)*0.5*t),
+					(int) (B.get(pid)*0.5*t));
 		}else if(s < 0) {
 			// normal
-			return new Color((int) (R.get(rs)*t),
-					(int) (G.get(rs)*t),
-					(int) (B.get(rs)*t));
+			return new Color((int) (R.get(pid)*t),
+					(int) (G.get(pid)*t),
+					(int) (B.get(pid)*t));
 		}else if(s < 8192) {
 			// defensive
-			return new Color((int) (R.get(rs)*t*0.25),
-					(int) (G.get(rs)*t*0.25),
-					(int) (B.get(rs)*t*0.25));
+			return new Color((int) (R.get(pid)*t*0.25),
+					(int) (G.get(pid)*t*0.25),
+					(int) (B.get(pid)*t*0.25));
 		}else {
 			// offensive
-			return new Color((int) (R.get(rs)*t*1.5),
-					(int) (G.get(rs)*t*1.5),
-					(int) (B.get(rs)*t*1.5));
+			return new Color((int) (R.get(pid)*t*1.5),
+					(int) (G.get(pid)*t*1.5),
+					(int) (B.get(pid)*t*1.5));
 		}
 	}
 	
@@ -123,10 +131,10 @@ public class PlayMenu implements Menu {
 			//draw leaderboard
 			g.setFont(ClientMain.fontSmall);
 			g.drawString("Leaderboard", 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth("Leaderboards")/2, ClientMain.fontSmall.getHeight());
-			data.leaderboard = new String[data.territory.length];
-			for(int i = 0; i < data.leaderboard.length; i++) {
-				data.leaderboard[i] = "TERRITORY: " + data.territory[i];
-			}
+//			data.leaderboard = new String[data.territory.length];
+//			for(int i = 0; i < data.leaderboard.length; i++) {
+//				data.leaderboard[i] = "TERRITORY: " + data.territory[i];
+//			}
 			if(data.leaderboard != null) {
 				for(int i = 0; i < data.leaderboard.length; i++) {
 					g.drawString((i+1) + ". " + data.leaderboard[i], 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth((i+1) + ". " + data.leaderboard[i])/2, ClientMain.fontSmall.getHeight()*(2+i));

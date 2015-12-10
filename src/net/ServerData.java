@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import server.game.AmoebaHandler;
+import server.game.Leaderboard;
 import world.World;
 
 public class ServerData implements Serializable {
@@ -20,11 +21,12 @@ public class ServerData implements Serializable {
 	public ArrayList<IndividualData> indieData = new ArrayList<>();
 	public AmoebaHandler amoebas = new AmoebaHandler();
 	
-	public static final int MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
-	public int gameType = MODE_TERR;
+	public static final short MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
+	public short gameMode = MODE_TERR;
 	public int numTeams = 1; //1 team is free for all
 	public int worldType = World.TYPE_CIRCLE;
 	public boolean[] buffs = new boolean[7];
+	public Leaderboard leaderboard;
 	
 	public int index;
 	
@@ -34,6 +36,7 @@ public class ServerData implements Serializable {
 	public ArrayList<Integer> terr = new ArrayList<>();
 	
 	public void init() {
+		leaderboard = new Leaderboard();
 		state = World.generateWorld(worldType);
 		w = state.length; h = state[0].length;
 		terr = new ArrayList<>();
@@ -53,6 +56,7 @@ public class ServerData implements Serializable {
 		//create space for new data if this is a new client
 		if(index == -1) {
 			index = indieData.size();
+			leaderboard.add(index+1);
 			terr.add(0);
 			IndividualData iData = new IndividualData(index+1);
 			iData.address = address;
@@ -90,6 +94,12 @@ public class ServerData implements Serializable {
 			}
 		}
 		
+		// d.leaderboard
+		d.leaderboard = leaderboard.getTopTen();
+
+		// d.gameMode
+		d.gameMode = gameMode;
+		
 		// d.name, d.nameX/Y
 		d.names = new String[indieData.size()];
 		d.nameX = new int[indieData.size()];
@@ -120,8 +130,10 @@ public class ServerData implements Serializable {
 		for(int i = 0; i < indieData.size(); i++) {
 			indieData.get(i).update();
 		}
+		leaderboard.sort();
 	}
-	
+
+	// the following two methods are temporary and for debugging purposes. they will be gone later.
 	public Color get(short s) {
 		double t = 1.0;
 		if(s == World.STATE_SPACE) return new Color((int) (140+65*t), 0, 0);

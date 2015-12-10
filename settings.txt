@@ -1,4 +1,4 @@
-Classic
+Blue
 0.0
 This Computer
 localhost

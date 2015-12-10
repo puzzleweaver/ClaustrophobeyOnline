@@ -12,5 +12,6 @@ public class OutputData implements Serializable {
 	public int[] territory;
 	public String[] names, leaderboard;
 	public int[] nameX, nameY;
+	public short gameMode;
 	
 }
