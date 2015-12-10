@@ -21,6 +21,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import client.MenuBackground;
 import server.menu.ServerPlayMenu;
+import server.menu.ServerRoomMenu;
 import server.menu.ServerSetupMenu;
 
 public class ServerMain extends GameSocket {
@@ -32,7 +33,7 @@ public class ServerMain extends GameSocket {
 	public static TrueTypeFont font, fontSmall;
 	
 	public static Menu menu;
-	public static Menu serverSetupMenu, serverPlayMenu;
+	public static Menu serverSetupMenu, serverPlayMenu, serverRoomMenu;
 	
 	public static ServerMain server;
 	
@@ -75,6 +76,7 @@ public class ServerMain extends GameSocket {
 			super("CLASTERFOOBRY");
 			serverSetupMenu = new ServerSetupMenu();
 			serverPlayMenu = new ServerPlayMenu();
+			serverRoomMenu = new ServerRoomMenu();
 		}
 		
 		public void init(GameContainer gc) throws SlickException {
@@ -89,6 +91,7 @@ public class ServerMain extends GameSocket {
 			}
 			serverSetupMenu.init(gc);
 			serverPlayMenu.init(gc);
+			serverRoomMenu.init(gc);
 			menu = serverSetupMenu;
 			MenuBackground.init();
 		}
