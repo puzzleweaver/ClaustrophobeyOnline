@@ -24,7 +24,7 @@ public class ServerData implements Serializable {
 	public static final short MODE_TERR = 0, MODE_SD = 1, MODE_CTF = 2;
 	public short gameMode = MODE_TERR;
 	public int numTeams = 1; //1 team is free for all
-	public int worldType = World.TYPE_CIRCLE;
+	public int worldType = World.TYPE_NETWORK;
 	public boolean[] buffs = new boolean[7];
 	public Leaderboard leaderboard;
 	
