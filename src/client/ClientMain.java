@@ -1,7 +1,6 @@
 package client;
 
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.io.InputStream;
 
 import org.lwjgl.input.Keyboard;
