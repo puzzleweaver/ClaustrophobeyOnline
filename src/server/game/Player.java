@@ -37,7 +37,7 @@ public class Player {
 	public void update(InputData d) {
 		
 		input = d;
-
+		
 		d.keys[KEY_ATT] &= ServerMain.data.buffs[BUFF_ATT];
 		d.keys[KEY_DEF] &= ServerMain.data.buffs[BUFF_DEF];
 		d.keys[KEY_DRONE] &= ServerMain.data.buffs[KEY_DRONE];

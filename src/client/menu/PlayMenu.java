@@ -2,29 +2,24 @@ package client.menu;
 
 import java.util.ArrayList;
 
+import net.GameClient;
+import net.GameSocket;
+import net.OutputData;
+import net.Serializer;
+
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import client.ClientMain;
-import client.Colors;
-import client.MenuBackground;
-import net.GameClient;
-import net.GameSocket;
-import net.InputData;
-import net.OutputData;
-import net.Serializer;
 import server.Menu;
 import server.game.Player;
 import world.World;
+import client.ClientMain;
+import client.Colors;
+import client.MenuBackground;
 
 public class PlayMenu implements Menu {
-	
-	private static GameClient gameClient;
-	
-	public static OutputData data = new OutputData();
-	public static InputData clientData = new InputData();
 	
 	public int gameMode;
 	private int pw;
@@ -36,10 +31,6 @@ public class PlayMenu implements Menu {
 			B = new ArrayList<Double>();
 	
 	public void init(GameContainer gc) {
-		gameClient = new GameClient();
-		gameClient.start();
-		clientData.w = rfw;
-		clientData.h = rfh;
 		for(int i = 0; i < rfw; i++) {
 			for(int j = 0; j < rfh; j++) {
 				rf[i][j] = Math.random()*0.25+0.75;
@@ -91,9 +82,9 @@ public class PlayMenu implements Menu {
 	
 	public void render(GameContainer gc, Graphics g) {
 		g.setFont(ClientMain.font);
-		if(gameClient.loaded) {
+		if(ClientMain.gameClient.loaded && ClientMain.data.started) {
 			
-			OutputData d = data;
+			OutputData d = ClientMain.data;
 			for(int i = 0; i < d.state.length; i++) {
 				for(int j = 0; j < d.state[0].length; j++) {
 					g.setColor(get(d.state[i][j], getRf(i, j, d)));
@@ -135,9 +126,9 @@ public class PlayMenu implements Menu {
 //			for(int i = 0; i < data.leaderboard.length; i++) {
 //				data.leaderboard[i] = "TERRITORY: " + data.territory[i];
 //			}
-			if(data.leaderboard != null) {
-				for(int i = 0; i < data.leaderboard.length; i++) {
-					g.drawString((i+1) + ". " + data.leaderboard[i], 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth((i+1) + ". " + data.leaderboard[i])/2, ClientMain.fontSmall.getHeight()*(2+i));
+			if(ClientMain.data.leaderboard != null) {
+				for(int i = 0; i < ClientMain.data.leaderboard.length; i++) {
+					g.drawString((i+1) + ". " + ClientMain.data.leaderboard[i], 3*gc.getWidth()/4 - ClientMain.fontSmall.getWidth((i+1) + ". " + ClientMain.data.leaderboard[i])/2, ClientMain.fontSmall.getHeight()*(2+i));
 				}
 			}
 		} else { // when not connected yet, draw something other than a black screen
@@ -156,21 +147,21 @@ public class PlayMenu implements Menu {
 	}
 	
 	public void update(GameContainer gc) {
-		clientData.exited = ClientMain.exited;
-		clientData.dx = (Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D) ? 1 : 0) -
+		ClientMain.clientData.exited = ClientMain.exited;
+		ClientMain.clientData.dx = (Keyboard.isKeyDown(Keyboard.KEY_RIGHT) || Keyboard.isKeyDown(Keyboard.KEY_D) ? 1 : 0) -
 				(Keyboard.isKeyDown(Keyboard.KEY_LEFT) || Keyboard.isKeyDown(Keyboard.KEY_A) ? 1 : 0);
-		clientData.dy = (Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S) ? 1 : 0) -
+		ClientMain.clientData.dy = (Keyboard.isKeyDown(Keyboard.KEY_DOWN) || Keyboard.isKeyDown(Keyboard.KEY_S) ? 1 : 0) -
 				(Keyboard.isKeyDown(Keyboard.KEY_UP) || Keyboard.isKeyDown(Keyboard.KEY_W) ? 1 : 0);
-		clientData.pixW = ClientMain.pixW;
-		clientData.keys = new boolean[Player.NUM_KEYS];
-		clientData.keys[Player.KEY_ATT] = Keyboard.isKeyDown(Keyboard.KEY_X);
-		clientData.keys[Player.KEY_DEF] = Keyboard.isKeyDown(Keyboard.KEY_Z);
-		clientData.keys[Player.KEY_GHOST] = Keyboard.isKeyDown(Keyboard.KEY_C);
-		clientData.keys[Player.KEY_DRONE] = Keyboard.isKeyDown(Keyboard.KEY_V);
-		clientData.keys[Player.KEY_FF] = Keyboard.isKeyDown(Keyboard.KEY_1);
-		clientData.keys[Player.KEY_MAXIMIZE_MASS] = Keyboard.isKeyDown(Keyboard.KEY_2);
+		ClientMain.clientData.pixW = ClientMain.pixW;
+		ClientMain.clientData.keys = new boolean[Player.NUM_KEYS];
+		ClientMain.clientData.keys[Player.KEY_ATT] = Keyboard.isKeyDown(Keyboard.KEY_X);
+		ClientMain.clientData.keys[Player.KEY_DEF] = Keyboard.isKeyDown(Keyboard.KEY_Z);
+		ClientMain.clientData.keys[Player.KEY_GHOST] = Keyboard.isKeyDown(Keyboard.KEY_C);
+		ClientMain.clientData.keys[Player.KEY_DRONE] = Keyboard.isKeyDown(Keyboard.KEY_V);
+		ClientMain.clientData.keys[Player.KEY_FF] = Keyboard.isKeyDown(Keyboard.KEY_1);
+		ClientMain.clientData.keys[Player.KEY_MAXIMIZE_MASS] = Keyboard.isKeyDown(Keyboard.KEY_2);
 		try {
-			gameClient.sendData(Serializer.serialize(clientData), GameSocket.serverIP, GameSocket.PORT);
+			ClientMain.gameClient.sendData(Serializer.serialize(ClientMain.clientData), GameSocket.serverIP, GameSocket.PORT);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

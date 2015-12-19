@@ -3,6 +3,10 @@ package client;
 import java.awt.Font;
 import java.io.InputStream;
 
+import net.GameClient;
+import net.InputData;
+import net.OutputData;
+
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -14,9 +18,11 @@ import org.newdawn.slick.util.ResourceLoader;
 
 import server.Menu;
 import client.menu.AddServerMenu;
+import client.menu.GameOverMenu;
 import client.menu.MainMenu;
 import client.menu.NicknameMenu;
 import client.menu.PlayMenu;
+import client.menu.RoomMenu;
 import client.menu.ServerManagerMenu;
 import client.menu.SettingsMenu;
 
@@ -24,13 +30,17 @@ public class ClientMain extends BasicGame {
 	
 	public static Menu menu;
 	
+	public static GameClient gameClient;
+	public static OutputData data = new OutputData();
+	public static InputData clientData = new InputData();
+	
 //	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 //			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 //	public static final boolean FS = true;
 	public static final int WIDTH = 400, HEIGHT = 400;
 	public static final boolean FS = false;
 	public static final int pixW = (int) Math.ceil(WIDTH/(6.0*Math.sqrt(1.0+3512.0*HEIGHT/WIDTH)))+3;
-	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu, addServerMenu, nicknameMenu;
+	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu, addServerMenu, nicknameMenu, roomMenu, gameOverMenu;
 	public static GameContainer defaultGC;
 	
 	public static boolean exited = false;
@@ -52,6 +62,8 @@ public class ClientMain extends BasicGame {
 		settingsMenu = new SettingsMenu();
 		addServerMenu = new AddServerMenu();
 		nicknameMenu = new NicknameMenu();
+		roomMenu = new RoomMenu();
+		gameOverMenu = new GameOverMenu();
 		menu = mainMenu;
 		AppGameContainer app;
 		try {
@@ -84,7 +96,7 @@ public class ClientMain extends BasicGame {
 		settingsMenu.init(gc);
 		addServerMenu.init(gc);
 		nicknameMenu.init(gc);
-		menu = mainMenu;
+		gameOverMenu.init(gc);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);

@@ -46,6 +46,7 @@ public class ServerRoomMenu implements Menu {
 		Input input = gc.getInput();
 		boolean mousePressed = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		if(mousePressed && startButton.isHovered(gc)) {
+			ServerMain.data.started = true;
 			ServerMain.menu = ServerMain.serverPlayMenu;
 		}
 		sy += Mouse.getDWheel()/4;

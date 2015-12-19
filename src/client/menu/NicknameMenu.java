@@ -53,8 +53,8 @@ public class NicknameMenu implements Menu {
 		if((okButton.isHovered(gc) && mousePressed) || input.isKeyPressed(Input.KEY_ENTER)) {
 			try {
 				GameSocket.serverIP = InetAddress.getByName(Settings.ip.get(selectedServer));
-				PlayMenu.clientData.nickname = nicknameTextField.getText();
-				ClientMain.menu = ClientMain.playMenu;
+				ClientMain.clientData.nickname = nicknameTextField.getText();
+				ClientMain.menu = ClientMain.roomMenu;
 				ClientMain.menu.init(gc);
 			} catch (UnknownHostException e) {
 				e.printStackTrace();

@@ -27,6 +27,7 @@ public class ServerData implements Serializable {
 	public int worldType = World.TYPE_NETWORK;
 	public boolean[] buffs = new boolean[7];
 	public Leaderboard leaderboard;
+	public boolean started = false;
 	
 	public int index;
 	
@@ -72,6 +73,9 @@ public class ServerData implements Serializable {
 		IndividualData id = indieData.get(index);
 		OutputData d = new OutputData();
 		
+		//d.started
+		d.started = started;
+		
 		// d.sX/Y
 		d.sX = (int) (id.sX*id.clientData.pixW)-id.clientData.w/2;
 		d.sY = (int) (id.sY*id.clientData.pixW)-id.clientData.h/2;
@@ -84,10 +88,10 @@ public class ServerData implements Serializable {
 		
 		// d.state
 		int pw = id.clientData.pixW;
-		int i0 = ((int)(id.sX*id.clientData.pixW)-id.clientData.w/2)/pw-1,
-				j0 = ((int)(id.sY*id.clientData.pixW)-id.clientData.h/2)/pw-1;
-		int ie = ((int)(id.sX*id.clientData.pixW)+id.clientData.w/2)/pw+1,
-				je = ((int)(id.sY*id.clientData.pixW)+id.clientData.h/2)/pw+1;
+		int i0 = ((int)(id.sX*pw)-id.clientData.w/2)/pw-1,
+				j0 = ((int)(id.sY*pw)-id.clientData.h/2)/pw-1;
+		int ie = ((int)(id.sX*pw)+id.clientData.w/2)/pw+1,
+				je = ((int)(id.sY*pw)+id.clientData.h/2)/pw+1;
 		d.state = new short[ie-i0][je-j0];
 		for(int i = i0; i < ie; i++) {
 			for(int j = j0; j < je; j++) {
