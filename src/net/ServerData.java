@@ -40,6 +40,7 @@ public class ServerData implements Serializable {
 		state = World.generateWorld(worldType);
 		w = state.length; h = state[0].length;
 		terr = new ArrayList<>();
+		indieData = new ArrayList<>();
 		terr.add(0); // because PIDs are shifted over (player.get(0).PID = 1)
 	}
 	
