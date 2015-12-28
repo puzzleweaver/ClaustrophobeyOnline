@@ -16,9 +16,16 @@ public class Leaderboard {
 	public void add(int index) {
 		items.add(new LBItem(index));
 	}
+	public void remove(int index) {
+		for(int i = 0; i < items.size(); i++) {
+			if(items.get(i).id-1 == index) {
+				items.remove(i);
+				i--;
+			}
+		}
+	}
 	
 	public String[] getTopTen() {
-		
 		String[] names = new String[10];
 		for(int i = 0; i < 10; i++) {
 			if(i >= items.size())
@@ -27,7 +34,6 @@ public class Leaderboard {
 				names[i] = ServerMain.data.indieData.get(items.get(i).id-1).clientData.nickname + ": " + ServerMain.data.terr.get(items.get(i).id);
 		}
 		return names;
-	
 	}
 	
 	private class LBItem implements Comparable<LBItem> {

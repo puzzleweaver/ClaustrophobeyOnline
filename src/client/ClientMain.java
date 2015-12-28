@@ -37,7 +37,7 @@ public class ClientMain extends BasicGame {
 //	public static final int WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 //			HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 //	public static final boolean FS = true;
-	public static final int WIDTH = 400, HEIGHT = 400;
+	public static final int WIDTH = 600, HEIGHT = 600;
 	public static final boolean FS = false;
 	public static final int pixW = (int) Math.ceil(WIDTH/(6.0*Math.sqrt(1.0+3512.0*HEIGHT/WIDTH)))+3;
 	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu, addServerMenu, nicknameMenu, roomMenu, gameOverMenu;
@@ -45,7 +45,7 @@ public class ClientMain extends BasicGame {
 	
 	public static boolean exited = false;
 	
-	public static TrueTypeFont font, fontSmall;
+	public static TrueTypeFont font, fontSmall, leaderboardFont;
 	
 	public ClientMain() {
 		super("CLOOSTERFOOBEY");
@@ -86,6 +86,7 @@ public class ClientMain extends BasicGame {
 			awtFont = Font.createFont(Font.TRUETYPE_FONT, inputStream); //16, 24
 			font = new TrueTypeFont(awtFont.deriveFont((float) Math.min(48, ClientMain.WIDTH/20)), false);
 			fontSmall = new TrueTypeFont(awtFont.deriveFont((float) Math.min(48, ClientMain.WIDTH/24)), false);
+			leaderboardFont = new TrueTypeFont(awtFont.deriveFont((float) Math.min(48, ClientMain.WIDTH/36)), false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
