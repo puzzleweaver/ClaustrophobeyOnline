@@ -33,6 +33,11 @@ public class ServerRoomMenu implements Menu {
 	}
 	public void render(GameContainer gc, Graphics g) {
 		MenuBackground.render(gc, g);
+		//open room
+		g.setColor(Colors.titleColor);
+		g.setFont(ServerMain.font);
+		g.drawString("Open Room", gc.getWidth()/2 - ServerMain.font.getWidth("Open Room")/2, gc.getHeight()/8);
+		g2.clear();
 		g2.setColor(Colors.titleColor);
 		g2.setFont(ServerMain.fontSmall);
 		for(int i = 0; i < ServerMain.data.indieData.size(); i++) {
@@ -46,9 +51,12 @@ public class ServerRoomMenu implements Menu {
 		Input input = gc.getInput();
 		boolean mousePressed = input.isMousePressed(Input.MOUSE_LEFT_BUTTON);
 		if(mousePressed && startButton.isHovered(gc)) {
-			ServerMain.data.started = true;
+			ServerMain.data.startGame();
 			ServerMain.menu = ServerMain.serverPlayMenu;
 		}
+		//remove users who exited
+		ServerMain.data.removeExitedUsers();
+		//update scrolling
 		sy += Mouse.getDWheel()/4;
 		if(image.getHeight() < Settings.name.size()*(ServerMain.fontSmall.getHeight()+1) && sy < image.getHeight()-Settings.name.size()*46)
 			sy = image.getHeight()-Settings.name.size()*(ServerMain.fontSmall.getHeight()+1);

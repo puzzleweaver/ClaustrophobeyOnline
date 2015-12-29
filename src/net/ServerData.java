@@ -45,6 +45,15 @@ public class ServerData implements Serializable {
 		terr.add(0); // because PIDs are shifted over (player.get(0).PID = 1)
 	}
 	
+	public void startGame() {
+		started = true;
+		for(int i = 0; i < indieData.size(); i++) {
+			indieData.get(i).startGame(i);
+			leaderboard.add(i+1);
+			terr.add(0);
+		}
+	}
+	
 	public boolean processData(InputData data, InetAddress address, int port) {
 		//check if we have received data from this client before
 		index = -1;
@@ -52,19 +61,21 @@ public class ServerData implements Serializable {
 			if(address.equals(indieData.get(i).address) && port == indieData.get(i).port) {
 				index = i;
 				indieData.get(i).clientData = data;
+				if(indieData.get(i).clientData.exited)
+					return false;
 				break;
 			}
 		}
 		//create space for new data if this is a new client
 		if(index == -1) {
 			index = indieData.size();
-			leaderboard.add(index+1);
-			terr.add(0);
-			IndividualData iData = new IndividualData(index+1);
+			IndividualData iData = new IndividualData();
 			iData.address = address;
 			iData.port = port;
 			iData.clientData = data;
 			indieData.add(iData);
+			if(iData.clientData.exited)
+				return false;
 		}
 		return true;
 	}
@@ -105,12 +116,15 @@ public class ServerData implements Serializable {
 		// d.gameMode
 		d.gameMode = gameMode;
 		
-		// d.name, d.nameX/Y
+		// d.name
 		d.names = new String[indieData.size()];
+		
+		//d.nameX/Y
+		//players aren't instantiated until game starts
 		d.nameX = new int[indieData.size()];
 		d.nameY = new int[indieData.size()];
 		for(int i = 0; i < d.names.length; i++) {
-			d.names[i] = indieData.get(i).player.ghost ? "" : indieData.get(i).clientData.nickname;
+			d.names[i] = (started && indieData.get(i).player.ghost) ? "" : indieData.get(i).clientData.nickname;
 			if(i == index) {
 				d.nameX[i] = id.clientData.w/2;
 				d.nameY[i] = id.clientData.h/2;
@@ -137,7 +151,16 @@ public class ServerData implements Serializable {
 		}
 		leaderboard.sort();
 	}
-
+	
+	public void removeExitedUsers() {
+		for(int i = 0; i < indieData.size(); i++) {
+			if(indieData.get(i).clientData.exited) {
+				indieData.remove(i);
+				i--;
+			}
+		}
+	}
+	
 	// the following two methods are temporary and for debugging purposes. they will be gone later.
 	public Color get(short s) {
 		double t = 1.0;

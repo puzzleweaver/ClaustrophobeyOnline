@@ -17,14 +17,14 @@ public class IndividualData implements Serializable {
 	
 	public double sX, sY;
 	
-	public IndividualData(int index) {
+	public void startGame(int index) {
 		//PIDs can be {x | 0 < x < 8192}
 		int x, y;
 		do {
 			x = ServerMain.r.nextInt(ServerMain.data.w);
 			y = ServerMain.r.nextInt(ServerMain.data.h);
 		}while(ServerMain.data.state[x][y] >= -8192);
-		player = new Player(x, y, (short) (index));
+		player = new Player(x, y, (short) (index+1)); //PIDs are shifted over (player.get(0).PID = 1)
 	}
 	
 	public void update() {
