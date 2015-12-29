@@ -24,7 +24,7 @@ public class Leaderboard {
 			if(i >= items.size())
 				names[i] = "?";
 			else
-				names[i] = ServerMain.data.indieData.get(items.get(i).id-1).clientData.nickname + ": " + ServerMain.data.terr.get(items.get(i).id);
+				names[i] = ServerMain.data.indieData.get(items.get(i).id-1).clientData.nickname;
 		}
 		return names;
 	
