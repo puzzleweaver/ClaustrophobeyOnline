@@ -3,10 +3,6 @@ package client;
 import java.awt.Font;
 import java.io.InputStream;
 
-import net.GameClient;
-import net.InputData;
-import net.OutputData;
-
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -16,15 +12,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.util.ResourceLoader;
 
-import server.Menu;
 import client.menu.AddServerMenu;
 import client.menu.GameOverMenu;
+import client.menu.IntroMenu;
 import client.menu.MainMenu;
 import client.menu.NicknameMenu;
 import client.menu.PlayMenu;
 import client.menu.RoomMenu;
 import client.menu.ServerManagerMenu;
 import client.menu.SettingsMenu;
+import net.GameClient;
+import net.InputData;
+import net.OutputData;
+import server.Menu;
 
 public class ClientMain extends BasicGame {
 	
@@ -40,7 +40,8 @@ public class ClientMain extends BasicGame {
 	public static final int WIDTH = 600, HEIGHT = 600;
 	public static final boolean FS = false;
 	public static final int pixW = (int) Math.ceil(WIDTH/(6.0*Math.sqrt(1.0+3512.0*HEIGHT/WIDTH)))+3;
-	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu, addServerMenu, nicknameMenu, roomMenu, gameOverMenu;
+	public static Menu mainMenu, serverManagerMenu, playMenu, settingsMenu,
+			addServerMenu, nicknameMenu, roomMenu, gameOverMenu, introMenu;
 	public static GameContainer defaultGC;
 	
 	public static boolean exited = false;
@@ -64,7 +65,8 @@ public class ClientMain extends BasicGame {
 		nicknameMenu = new NicknameMenu();
 		roomMenu = new RoomMenu();
 		gameOverMenu = new GameOverMenu();
-		menu = mainMenu;
+		introMenu = new IntroMenu();
+		menu = introMenu;
 		AppGameContainer app;
 		try {
 			app = new AppGameContainer(new ClientMain());
@@ -98,6 +100,7 @@ public class ClientMain extends BasicGame {
 		addServerMenu.init(gc);
 		nicknameMenu.init(gc);
 		gameOverMenu.init(gc);
+		introMenu.init(gc);
 	}
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		menu.render(gc, g);
